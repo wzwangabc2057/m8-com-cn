@@ -1,0 +1,10 @@
+<section>
+  <h1 class="text-2xl font-bold text-gray-900 mb-1">{{site.name}}</h1>
+  <p class="text-gray-500 mb-8">{{site.description}}</p>
+  <div class="divide-y divide-gray-100">
+    {{#each posts}}
+      {{> post-card}}
+    {{/each}}
+  </div>
+  {{> pagination}}
+</section>

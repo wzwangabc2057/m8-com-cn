@@ -1,0 +1,29 @@
+{{#if schema}}
+{{#if schema.website}}
+<!-- WebSite schema -->
+<script type="application/ld+json">
+{{{jsonLdSafe schema.website}}}
+</script>
+{{/if}}
+
+{{#if schema.blogPosting}}
+<!-- BlogPosting schema -->
+<script type="application/ld+json">
+{{{jsonLdSafe schema.blogPosting}}}
+</script>
+{{/if}}
+
+{{#if schema.breadcrumbList}}
+<!-- BreadcrumbList schema -->
+<script type="application/ld+json">
+{{{jsonLdSafe schema.breadcrumbList}}}
+</script>
+{{/if}}
+
+{{#if schema.organization}}
+<!-- Organization schema -->
+<script type="application/ld+json">
+{{{jsonLdSafe schema.organization}}}
+</script>
+{{/if}}
+{{/if}}

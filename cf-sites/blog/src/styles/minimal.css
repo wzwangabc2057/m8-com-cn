@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@source "../../templates/minimal";
+@source "../../pages";
+
+/* ─── Full Width Container ─────────────────────────────────── */
+
+.full-width-container {
+  @apply w-full;
+}

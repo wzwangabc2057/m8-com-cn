@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "cloudflare-cms": {
+      "command": "node",
+      "args": ["${PWD}/dist/index.js"],
+      "env": {
+        "CMS_API_URL": "https://cloudflare-sites-cms.pages.dev",
+        "CMS_API_KEY": "461731d3473d9c768894ee07b73faba3",
+        "DEFAULT_SITE_ID": "aiball.world"
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+node_modules/
+dist/
+.wrangler/
+.dev.vars
+.env
+.env.local
+package-lock.json
+example/
+
+# Blog build outputs
+blog/public/css/
+blog/src/generated/
+
+# Store build outputs
+store/.next/
+store/.vercel/
+store/out/
+
+# CMS build outputs
+cms/.next/
+cms/.vercel/
+cms/out/
+
+# Migrate build outputs
+migrate/sites/
+
+.cursor/
+.DS_Store
+
+# GSC service account key (use env GSC_SERVICE_ACCOUNT_JSON in production)
+cms/config/*.json
+
+# Playwright GSC 脚本用的本地浏览器配置（含登录态，勿提交）
+scripts/.playwright-gsc-profile/

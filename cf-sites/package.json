@@ -1,0 +1,31 @@
+{
+  "name": "cloudflare-sites",
+  "private": true,
+  "workspaces": [
+    "blog",
+    "store",
+    "cms",
+    "workers/*",
+    "site-dev"
+  ],
+  "scripts": {
+    "deploy": "bash scripts/deploy.sh",
+    "migrate:uncategorized": "npx tsx migrate/scripts/migrate-uncategorized-slug.ts",
+    "deploy:edge-services": "cd workers/edge-services && wrangler deploy",
+    "deploy:blog": "cd blog && npm run deploy",
+    "deploy:store": "cd store && npm run pages:deploy",
+    "deploy:router": "cd workers/router && wrangler deploy",
+    "deploy:cms": "cd cms && npm run deploy",
+    "deploy:cron": "cd cron && npm run deploy",
+    "deploy:cron-publish": "cd cron-publish && npm run deploy",
+    "deploy:site-dev": "cd site-dev && npm run deploy",
+    "gsc:secret": "cd cms && npm run gsc:secret"
+  },
+  "devDependencies": {
+    "playwright": "^1.58.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "shadcn": "^3.8.4",
+    "wrangler": "^4.65.0"
+  }
+}

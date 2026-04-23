@@ -1,0 +1,84 @@
+{{!-- Layout: full_width — no title, no container, pure content --}}
+{{#if (eq layout "full_width")}}
+<article class="page-full-width">
+  {{{page.content}}}
+</article>
+
+{{!-- Layout: withheader — full width with title+description banner --}}
+{{else if (eq layout "withheader")}}
+<article class="page-full-width">
+  <header class="page-hero relative mb-12">
+    {{#if page.featuredImage}}
+    <div class="page-hero-bg h-96 w-full bg-cover bg-center relative" style="background-image:url('{{cfImg page.featuredImage 1920}}')">
+      <div class="page-hero-overlay absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-center px-4">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4 tracking-tight shadow-sm">{{page.title}}</h1>
+        {{#if page.description}}<p class="text-lg sm:text-xl text-white/90 max-w-2xl font-light">{{page.description}}</p>{{/if}}
+      </div>
+    </div>
+    {{else}}
+    <div class="page-hero-simple bg-surface-raised border-b border-border py-20 text-center px-4">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-heading mb-4 tracking-tight">{{page.title}}</h1>
+      {{#if page.description}}<p class="text-lg text-text-muted max-w-2xl mx-auto font-light">{{page.description}}</p>{{/if}}
+    </div>
+    {{/if}}
+  </header>
+  <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+    <div class="page-content prose prose-lg prose-slate max-w-none">{{{page.content}}}</div>
+  </div>
+</article>
+
+{{!-- Layout: wide — wider container with title --}}
+{{else if (eq layout "wide")}}
+<article class="page-wide {{page.containerClass}} max-w-7xl mx-auto px-4 sm:px-6 py-12">
+  {{#if showTitle}}
+  <header class="page-header mb-10 pb-6 border-b border-border">
+    <h1 class="text-4xl font-extrabold text-heading tracking-tight">{{page.title}}</h1>
+    {{#if page.description}}<p class="text-xl text-text-muted mt-3 font-light">{{page.description}}</p>{{/if}}
+  </header>
+  {{/if}}
+  <div class="page-content prose prose-lg prose-slate max-w-none">{{{page.content}}}</div>
+</article>
+
+{{!-- Layout: sidebar — content + sidebar --}}
+{{else if (eq layout "sidebar")}}
+<div class="page-with-sidebar {{page.containerClass}} max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12">
+  <article class="page-main min-w-0">
+    {{#if showTitle}}
+    <header class="page-header mb-10 pb-6 border-b border-border">
+      <h1 class="text-4xl font-extrabold text-heading tracking-tight">{{page.title}}</h1>
+      {{#if page.description}}<p class="text-xl text-text-muted mt-3 font-light">{{page.description}}</p>{{/if}}
+    </header>
+    {{/if}}
+    <div class="page-content prose prose-lg prose-slate max-w-none">{{{page.content}}}</div>
+  </article>
+  <aside class="page-sidebar">
+    {{> sidebar}}
+  </aside>
+</div>
+
+{{!-- Layout: blank — raw content, no wrapper --}}
+{{else if (eq layout "blank")}}
+{{{page.content}}}
+
+{{!-- Layout: default — standard container with title --}}
+{{else}}
+<article class="page {{page.containerClass}} max-w-4xl mx-auto px-4 sm:px-6 py-12">
+  {{#if showTitle}}
+  <header class="page-header text-center mb-12">
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-heading mb-6 tracking-tight leading-tight">{{page.title}}</h1>
+    {{#if page.description}}<p class="text-xl text-text-muted max-w-2xl mx-auto font-light leading-relaxed">{{page.description}}</p>{{/if}}
+  </header>
+  {{/if}}
+  
+  {{#if page.featuredImage}}
+  <div class="page-featured-image mb-12 rounded-2xl overflow-hidden shadow-lg ring-1 ring-black/5">
+    <img src="{{cfImg page.featuredImage 1200}}" 
+         srcset="{{cfImg page.featuredImage 800}} 800w, {{cfImg page.featuredImage 1200}} 1200w, {{cfImg page.featuredImage 1920}} 1920w"
+         sizes="(max-width: 1200px) 100vw, 1200px"
+         alt="{{page.title}}" width="1200" height="630" class="w-full h-auto object-cover" loading="eager" fetchpriority="high">
+  </div>
+  {{/if}}
+
+  <div class="page-content prose prose-lg prose-slate max-w-none mx-auto">{{{page.content}}}</div>
+</article>
+{{/if}}

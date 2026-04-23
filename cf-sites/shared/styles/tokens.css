@@ -1,0 +1,43 @@
+/* ═══════════════════════════════════════════════════════════
+   Shared Design Tokens
+   Used by both Blog (Handlebars) and Store (Next.js) services
+   to maintain visual consistency across the platform.
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* Primary */
+  --color-primary: #4361ee;
+  --color-primary-dark: #3a0ca3;
+  --color-primary-light: #6b82f7;
+
+  /* Surfaces */
+  --color-surface: #f8fafc;
+  --color-surface-raised: #ffffff;
+
+  /* Text */
+  --color-heading: #0f172a;
+  --color-text: #334155;
+  --color-text-muted: #586a80;
+  --color-text-faint: #71839b;
+
+  /* Borders */
+  --color-border: #e2e8f0;
+  --color-border-light: #f1f5f9;
+
+  /* Tags & Categories */
+  --color-tag-bg: #ede9fe;
+  --color-tag-text: #6d28d9;
+  --color-cat-bg: #dbeafe;
+  --color-cat-text: #2563eb;
+
+  /* Navigation */
+  --color-nav-bg: #0f172a;
+  --color-code-bg: #1e293b;
+
+  /* Gradients */
+  --color-accent-gradient: linear-gradient(135deg, #4361ee, #7c3aed);
+
+  /* Typography */
+  --font-family-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}

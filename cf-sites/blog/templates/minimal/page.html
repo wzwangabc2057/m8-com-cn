@@ -1,0 +1,43 @@
+{{!-- Layout: full_width --}}
+{{#if (eq layout "full_width")}}
+<article class="page-full-width">
+  {{{page.content}}}
+</article>
+
+{{!-- Layout: withheader --}}
+{{else if (eq layout "withheader")}}
+<article class="page-full-width">
+  <header class="mb-10 pb-8 border-b border-gray-200">
+    {{#if page.featuredImage}}
+    <img src="{{page.featuredImage}}" alt="{{page.title}}" width="1200" height="300" class="w-full h-48 object-cover rounded-lg mb-6" loading="eager" fetchpriority="high">
+    {{/if}}
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">{{page.title}}</h1>
+    {{#if page.description}}<p class="text-lg text-gray-500">{{page.description}}</p>{{/if}}
+  </header>
+  <div class="max-w-2xl mx-auto px-4">
+    <div class="prose prose-gray max-w-none">{{{page.content}}}</div>
+  </div>
+</article>
+
+{{!-- Layout: wide --}}
+{{else if (eq layout "wide")}}
+<article class="max-w-4xl mx-auto px-4 {{page.containerClass}}">
+  {{#if showTitle}}
+  <h1 class="text-2xl font-bold text-gray-900 mb-6">{{page.title}}</h1>
+  {{/if}}
+  <div class="prose prose-gray max-w-none">{{{page.content}}}</div>
+</article>
+
+{{!-- Layout: blank --}}
+{{else if (eq layout "blank")}}
+{{{page.content}}}
+
+{{!-- Layout: default --}}
+{{else}}
+<article class="{{page.containerClass}}">
+  {{#if showTitle}}
+  <h1 class="text-2xl font-bold text-gray-900 mb-6">{{page.title}}</h1>
+  {{/if}}
+  <div class="prose prose-gray max-w-none">{{{page.content}}}</div>
+</article>
+{{/if}}

@@ -1,0 +1,11 @@
+name = "site-router"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+# Routes are managed dynamically via CMS (Cloudflare API).
+# No static routes declaration needed here.
+# To add a new domain, use the CMS Sites management page.
+
+[vars]
+BLOG_ORIGIN = "https://cloudflare-sites-bth.pages.dev"
+STORE_ORIGIN = "https://cloudflare-store.pages.dev"

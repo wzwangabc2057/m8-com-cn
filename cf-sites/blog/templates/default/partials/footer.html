@@ -1,0 +1,52 @@
+{{#if showFooter}}
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      {{!-- Brand --}}
+      <div class="footer-brand">
+        <span class="footer-brand-name">{{site.name}}</span>
+        {{#if site.description}}<p class="footer-brand-desc">{{site.description}}</p>{{/if}}
+      </div>
+
+      {{!-- Footer nav links --}}
+      {{#if site.footer.links}}
+      <nav class="footer-nav" aria-label="页脚导航">
+        {{#each site.footer.links}}
+          <a href="{{this.href}}" class="footer-link">{{this.label}}</a>
+        {{/each}}
+      </nav>
+      {{/if}}
+    </div>
+
+    <div class="footer-bottom">
+      {{!-- Social links --}}
+      {{#if site.footer.social}}
+      <div class="footer-social">
+        {{#each site.footer.social}}
+        <a href="{{this.url}}" class="social-link" title="{{fallback this.label this.platform}}" target="_blank" rel="noopener">{{this.platform}}</a>
+        {{/each}}
+      </div>
+      {{else if site.social}}
+      <div class="footer-social">
+        {{#each site.social}}
+        <a href="{{this.url}}" class="social-link" title="{{fallback this.label this.platform}}" target="_blank" rel="noopener">{{this.platform}}</a>
+        {{/each}}
+      </div>
+      {{/if}}
+
+      {{!-- Copyright --}}
+      <p class="footer-copyright">
+        {{#if site.footer.copyright}}
+          {{{site.footer.copyright}}}
+        {{else}}
+          &copy; {{currentYear}} {{site.name}}
+        {{/if}}
+      </p>
+
+      {{#if site.footer.showPoweredBy}}
+      <p class="footer-powered">Powered by Cloudflare Pages + R2</p>
+      {{/if}}
+    </div>
+  </div>
+</footer>
+{{/if}}

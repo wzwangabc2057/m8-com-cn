@@ -1,0 +1,15 @@
+{{#if pagination}}
+<nav class="flex items-center justify-between mt-8 pt-6 border-t border-gray-200 text-sm">
+  {{#if pagination.hasPrev}}
+    <a href="{{pagination.prevUrl}}" class="text-gray-600 hover:text-gray-900">&larr; Prev</a>
+  {{else}}
+    <span></span>
+  {{/if}}
+  <span class="text-gray-400">{{pagination.current}} / {{pagination.totalPages}}</span>
+  {{#if pagination.hasNext}}
+    <a href="{{pagination.nextUrl}}" class="text-gray-600 hover:text-gray-900">Next &rarr;</a>
+  {{else}}
+    <span></span>
+  {{/if}}
+</nav>
+{{/if}}

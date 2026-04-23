@@ -1,0 +1,49 @@
+{{#if showHeader}}
+<header class="site-header{{#if site.header.sticky}} sticky top-0 z-50{{/if}}{{#if site.header.transparent}} site-header-transparent{{/if}}">
+  <div class="header-inner">
+    <a href="/" class="site-logo">
+      {{#if site.header.logo}}
+      <img src="{{site.header.logo}}" alt="{{site.name}}" class="site-logo-img" height="32" style="height: 32px; width: auto;">
+      {{/if}}
+      <span class="site-logo-text">{{fallback site.header.logoText site.name}}</span>
+    </a>
+
+    {{#if (not (eq site.header.showNav false))}}
+    <nav class="site-nav" aria-label="主导航">
+      {{#each site.nav}}
+        <a href="{{this.href}}" class="nav-link">{{this.label}}</a>
+      {{/each}}
+    </nav>
+    <button class="nav-toggle" aria-label="切换菜单" aria-expanded="false">
+      <svg class="nav-toggle-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <svg class="nav-toggle-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    {{/if}}
+
+    {{#if site.social}}
+    <div class="header-social" role="list" aria-label="社交链接">
+      {{#each site.social}}
+      <a href="{{this.url}}" class="social-link" title="{{fallback this.label this.platform}}" target="_blank" rel="noopener noreferrer" role="listitem" aria-label="{{fallback this.label this.platform}}">{{this.platform}}</a>
+      {{/each}}
+    </div>
+    {{/if}}
+
+    {{#if storeEnabled}}
+    <!-- Cart icon (synced with store via cookie) -->
+    <a href="/store" class="cart-link" aria-label="购物车" title="购物车" style="display:inline-flex;align-items:center;gap:4px;color:#94a3b8;margin-left:12px;position:relative;transition:color .2s;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span id="cart-badge" style="display:none;position:absolute;top:-6px;right:-8px;background:#4361ee;color:#fff;font-size:11px;font-weight:700;min-width:18px;height:18px;border-radius:9px;text-align:center;line-height:18px;padding:0 4px;"></span>
+    </a>
+    {{/if}}
+  </div>
+
+  <!-- Mobile nav drawer -->
+  {{#if (not (eq site.header.showNav false))}}
+  <nav class="mobile-nav" aria-label="移动端导航">
+    {{#each site.nav}}
+      <a href="{{this.href}}" class="mobile-nav-link">{{this.label}}</a>
+    {{/each}}
+  </nav>
+  {{/if}}
+</header>
+{{/if}}

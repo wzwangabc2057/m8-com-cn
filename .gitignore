@@ -1,0 +1,20 @@
+# Site data (users create their own with /init-site)
+sites/
+
+# CF Sites secrets (use .env.example as template)
+cf-sites/.env
+cf-sites/cms/.env.local
+cf-sites/cron/.env
+cf-sites/cms/mcp-server/.env
+
+# Obsidian
+.obsidian/
+
+# Temp files
+btc-78k-preview-full.png
+
+# MCP
+.playwright-mcp/
+
+# OS
+.DS_Store

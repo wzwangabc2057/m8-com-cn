@@ -1,0 +1,29 @@
+{{#if showFooter}}
+<footer class="max-w-2xl mx-auto px-4 py-8 mt-12 border-t border-gray-200 text-center text-sm text-gray-400">
+  {{#if site.footer.social}}
+  <div class="flex justify-center gap-4 mb-4">
+    {{#each site.footer.social}}
+    <a href="{{this.url}}" class="text-gray-400 hover:text-gray-600 no-underline" target="_blank" rel="noopener">{{fallback this.label this.platform}}</a>
+    {{/each}}
+  </div>
+  {{else if site.social}}
+  <div class="flex justify-center gap-4 mb-4">
+    {{#each site.social}}
+    <a href="{{this.url}}" class="text-gray-400 hover:text-gray-600 no-underline" target="_blank" rel="noopener">{{fallback this.label this.platform}}</a>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  <p>
+    {{#if site.footer.copyright}}
+      {{{site.footer.copyright}}}
+    {{else}}
+      &copy; {{currentYear}} {{site.name}}
+    {{/if}}
+  </p>
+
+  {{#if site.footer.showPoweredBy}}
+  <p class="mt-1 text-gray-300">Powered by Cloudflare Pages</p>
+  {{/if}}
+</footer>
+{{/if}}

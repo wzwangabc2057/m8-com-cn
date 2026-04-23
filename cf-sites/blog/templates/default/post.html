@@ -1,0 +1,42 @@
+<article class="post max-w-4xl mx-auto">
+  <header class="post-header text-center">
+    {{#if post.categories.length}}
+    <div class="post-header-meta justify-center">
+      {{#each post.categories}}
+      <a href="{{categoryUrl this}}" class="category-link">{{#if ../post.categoryDisplayNames}}{{lookup ../post.categoryDisplayNames @index}}{{else}}{{this}}{{/if}}</a>
+      {{/each}}
+    </div>
+    {{/if}}
+    <h1 class="post-title">{{post.title}}</h1>
+    <div class="post-meta justify-center">
+      {{#if authorName}}
+      <a href="{{authorUrl post.author}}" class="post-author">{{authorName}}</a>
+      <span class="post-meta-sep">&middot;</span>
+      {{/if}}
+      <time datetime="{{post.publishedAt}}">{{formatDate post.publishedAt}}</time>
+    </div>
+  </header>
+
+  {{#if post.coverImage}}
+  <div class="post-cover">
+    <img src="{{cfImg post.coverImage 1200}}" 
+         srcset="{{cfImg post.coverImage 800}} 800w, {{cfImg post.coverImage 1200}} 1200w, {{cfImg post.coverImage 1920}} 1920w"
+         sizes="(max-width: 1200px) 100vw, 1200px"
+         alt="{{post.title}}" width="1200" height="630" loading="eager" fetchpriority="high" decoding="async">
+  </div>
+  {{/if}}
+
+  <div class="post-content">
+    {{{post.content}}}
+  </div>
+
+  {{#if post.tags.length}}
+  <footer class="post-footer">
+    <div class="post-tags">
+      {{#each post.tags}}
+        <a href="{{tagUrl this}}" class="tag">{{this}}</a>
+      {{/each}}
+    </div>
+  </footer>
+  {{/if}}
+</article>

@@ -1,0 +1,124 @@
+<!-- Hero -->
+<section class="hero{{#if heroImage}} hero--has-image{{/if}}">
+  {{#if heroImage}}
+    <img 
+      src="{{cfImg heroImage 1920}}" 
+      srcset="{{cfImg heroImage 400}} 400w, {{cfImg heroImage 800}} 800w, {{cfImg heroImage 1200}} 1200w, {{cfImg heroImage 1920}} 1920w"
+      sizes="100vw"
+      alt="" class="hero-bg" width="1920" height="1080" loading="eager" fetchpriority="high">
+  {{/if}}
+  <div class="hero-content">
+    <h1 class="hero-title">{{heroTitle}}</h1>
+    <p class="hero-desc">{{heroSubtitle}}</p>
+    {{#if showStats}}
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num">{{totalPosts}}</span>
+        <span class="hero-stat-label">{{t "statPosts"}}</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">{{categories.length}}</span>
+        <span class="hero-stat-label">{{t "statCategories"}}</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">{{tags.length}}</span>
+        <span class="hero-stat-label">{{t "statTags"}}</span>
+      </div>
+    </div>
+    {{/if}}
+  </div>
+</section>
+
+<!-- Featured Posts -->
+{{#if showFeatured}}
+{{#if featured.length}}
+<section class="section home-featured">
+  <h2 class="section-title">{{t "featured"}}</h2>
+  <div class="featured-grid">
+    {{#each featured}}
+    <a href="{{postUrl this.slug}}" class="featured-card">
+      <div class="featured-card-image">
+        {{#if this.coverImage}}
+        <img src="{{cfImg this.coverImage 800}}" 
+             srcset="{{cfImg this.coverImage 400}} 400w, {{cfImg this.coverImage 800}} 800w"
+             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+             alt="{{this.title}}" width="800" height="450"
+             loading="{{#if (eq @index 0)}}eager{{else}}lazy{{/if}}"
+             {{#if (eq @index 0)}}fetchpriority="high"{{/if}}
+             decoding="async" onerror="this.remove()">
+        {{else if ../defaultPostImage}}
+        <img src="{{cfImg ../defaultPostImage 800}}" 
+             srcset="{{cfImg ../defaultPostImage 400}} 400w, {{cfImg ../defaultPostImage 800}} 800w"
+             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+             alt="{{this.title}}" width="800" height="450"
+             loading="{{#if (eq @index 0)}}eager{{else}}lazy{{/if}}"
+             {{#if (eq @index 0)}}fetchpriority="high"{{/if}}
+             decoding="async" onerror="this.remove()">
+        {{else}}
+        <div class="featured-card-placeholder"></div>
+        {{/if}}
+        <div class="featured-card-overlay">
+          <span class="featured-card-collection">{{this.collection}}</span>
+        </div>
+      </div>
+      <div class="featured-card-body">
+        <h3 class="featured-card-title">{{this.title}}</h3>
+        <p class="featured-card-excerpt">{{this.excerpt}}</p>
+        <div class="featured-card-meta">
+          <span class="featured-card-author">{{#if this.authorDisplayName}}{{this.authorDisplayName}}{{else}}{{this.author}}{{/if}}</span>
+          <time>{{formatDate this.publishedAt}}</time>
+        </div>
+      </div>
+    </a>
+    {{/each}}
+  </div>
+</section>
+{{/if}}
+{{/if}}
+
+<!-- Categories -->
+{{#if showCategories}}
+{{#if categories.length}}
+<section class="section home-categories">
+  <h2 class="section-title">{{t "browseCategories"}}</h2>
+  <div class="category-grid">
+    {{#each categories}}
+    <a href="{{categoryUrl this.slug}}" class="category-card">
+      {{#if this.featuredImage}}
+      <img src="{{cfImg this.featuredImage 400}}" alt="{{this.name}}" class="category-card-bg" loading="lazy" decoding="async" onerror="this.remove()">
+      {{/if}}
+      <div class="category-card-content">
+        <span class="category-card-name">{{this.name}}</span>
+        <span class="category-card-count">{{this.count}} {{t "postsCount"}}</span>
+      </div>
+    </a>
+    {{/each}}
+  </div>
+</section>
+{{/if}}
+{{/if}}
+
+<!-- Latest Posts -->
+<section class="section latest-posts">
+  <h2 class="section-title">{{t "latestPosts"}}</h2>
+  <div class="{{#if (eq postsLayout 'list')}}post-list{{else}}post-grid{{/if}}">
+    {{#each posts}}
+      {{> post-card}}
+    {{/each}}
+  </div>
+  {{> pagination}}
+</section>
+
+<!-- Tags Cloud -->
+{{#if showTags}}
+{{#if tags.length}}
+<section class="section home-tags">
+  <h2 class="section-title">{{t "popularTags"}}</h2>
+  <div class="tag-cloud-home">
+    {{#each tags}}
+      <a href="{{tagUrl this.slug}}" class="tag">{{this.name}}<span class="tag-count">{{this.count}}</span></a>
+    {{/each}}
+  </div>
+</section>
+{{/if}}
+{{/if}}

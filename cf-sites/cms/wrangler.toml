@@ -1,0 +1,23 @@
+name = "cloudflare-sites-cms"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
+
+[[r2_buckets]]
+binding = "CONTENT_BUCKET"
+bucket_name = "blog-content"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cloudflare-sites-db"
+database_id = "13c1c212-306e-4ee1-9a28-6d89ce303555"
+
+# Queue producer for cache invalidation
+[[queues.producers]]
+queue = "storefront-events"
+binding = "EVENTS_QUEUE"
+
+[vars]
+MEDUSA_BACKEND_URL = "https://backend-production-eff2.up.railway.app"
+# MEDUSA_ADMIN_API_TOKEN is set via .dev.vars (local) or Secrets (production)
+# API_KEY is now set via secret for security

@@ -1,0 +1,12 @@
+<section>
+  <header class="mb-8">
+    <h1 class="text-xl font-bold text-gray-900">{{author.name}}</h1>
+    {{#if author.bio}}<p class="text-gray-500 text-sm mt-1">{{author.bio}}</p>{{/if}}
+  </header>
+  <div class="divide-y divide-gray-100">
+    {{#each posts}}
+      {{> post-card}}
+    {{/each}}
+  </div>
+  {{> pagination}}
+</section>

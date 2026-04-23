@@ -1,0 +1,31 @@
+name = "cloudflare-edge-services"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+# Durable Object classes
+[durable_objects]
+bindings = [
+  { name = "CART_SESSION", class_name = "CartSessionDO" },
+  { name = "INVENTORY_HOLD", class_name = "InventoryHoldDO" },
+  { name = "RATE_LIMITER", class_name = "RateLimiterDO" },
+]
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["CartSessionDO", "InventoryHoldDO", "RateLimiterDO"]
+
+# KV Cache (shared)
+[[kv_namespaces]]
+binding = "CACHE"
+id = "091bec5ff7e945e180ccc68eaf83a088"
+
+# Analytics Engine (uncomment after enabling at Dashboard)
+# [[analytics_engine_datasets]]
+# binding = "ANALYTICS"
+# dataset = "storefront_analytics"
+
+# Queue consumer
+[[queues.consumers]]
+queue = "storefront-events"
+max_batch_size = 10
+max_batch_timeout = 30

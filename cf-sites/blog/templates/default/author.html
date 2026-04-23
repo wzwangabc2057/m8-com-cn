@@ -1,0 +1,31 @@
+<section class="author-page">
+  <header class="author-hero">
+    <div class="author-hero-inner">
+      {{#if author.avatar}}
+      <img src="{{author.avatar}}" alt="{{author.name}}" class="author-avatar">
+      {{else}}
+      <div class="author-avatar-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+      </div>
+      {{/if}}
+      <div class="author-hero-info">
+        <h1>{{author.name}}</h1>
+        {{#if author.bio}}<p class="author-bio">{{author.bio}}</p>{{/if}}
+        {{#if author.social}}
+        <div class="author-social">
+          {{#each author.social}}
+          <a href="{{this.url}}" class="social-link" target="_blank" rel="noopener noreferrer" title="{{fallback this.label this.platform}}">{{this.platform}}</a>
+          {{/each}}
+        </div>
+        {{/if}}
+      </div>
+    </div>
+  </header>
+
+  <div class="post-grid">
+    {{#each posts}}
+      {{> post-card}}
+    {{/each}}
+  </div>
+  {{> pagination}}
+</section>

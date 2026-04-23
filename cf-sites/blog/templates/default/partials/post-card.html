@@ -1,0 +1,50 @@
+<article class="post-card{{#unless this.coverImage}}{{#unless ../defaultPostImage}} post-card--no-image{{/unless}}{{/unless}}">
+  <a href="{{postUrl this.slug}}" class="post-card-link">
+    <div class="post-card-image">
+      {{#if this.coverImage}}
+      <img src="{{cfImg this.coverImage 800}}" 
+           srcset="{{cfImg this.coverImage 400}} 400w, {{cfImg this.coverImage 800}} 800w"
+           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+           alt="{{this.title}}" width="800" height="450" 
+           loading="lazy" decoding="async" onerror="this.parentNode.innerHTML='<div class=\'post-card-placeholder\'><svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><path d=\'M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25\'/></svg></div>'">
+      {{else if ../defaultPostImage}}
+      <img src="{{cfImg ../defaultPostImage 800}}" 
+           srcset="{{cfImg ../defaultPostImage 400}} 400w, {{cfImg ../defaultPostImage 800}} 800w"
+           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+           alt="{{this.title}}" width="800" height="450" 
+           loading="lazy" decoding="async" onerror="this.parentNode.innerHTML='<div class=\'post-card-placeholder\'><svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><path d=\'M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25\'/></svg></div>'">
+      {{else}}
+      <div class="post-card-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
+      </div>
+      {{/if}}
+    </div>
+  </a>
+  <div class="post-card-body">
+    <div class="post-card-meta">
+      {{#if this.categories.length}}
+      <a href="{{categoryUrl (first this.categories)}}" class="post-card-category">{{#if this.categoryDisplayNames}}{{first this.categoryDisplayNames}}{{else}}{{first this.categories}}{{/if}}</a>
+      <span class="post-card-meta-sep">&middot;</span>
+      {{/if}}
+      <time datetime="{{this.publishedAt}}">{{formatDate this.publishedAt}}</time>
+    </div>
+    <h2 class="post-card-title">
+      <a href="{{postUrl this.slug}}">{{this.title}}</a>
+    </h2>
+    {{#if this.excerpt}}
+    <p class="post-card-excerpt">{{this.excerpt}}</p>
+    {{/if}}
+    <div class="post-card-footer">
+      <a href="{{authorUrl this.author}}" class="post-card-author">
+        <span class="post-card-author-name">{{#if this.authorDisplayName}}{{this.authorDisplayName}}{{else}}{{this.author}}{{/if}}</span>
+      </a>
+      {{#if this.tags.length}}
+      <div class="post-card-tags">
+        {{#each (take this.tags 2)}}
+        <a href="{{tagUrl this}}" class="tag-sm">{{this}}</a>
+        {{/each}}
+      </div>
+      {{/if}}
+    </div>
+  </div>
+</article>

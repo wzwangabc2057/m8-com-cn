@@ -1,0 +1,38 @@
+{
+  "name": "cloudflare-sites",
+  "version": "2.0.0",
+  "description": "Cloudflare Pages + R2 multi-theme rendering engine",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:assets": "tsx tools/build-assets.ts",
+    "build:css:default": "tailwindcss -i src/styles/default.css -o public/css/default.css --minify",
+    "build:css:minimal": "tailwindcss -i src/styles/minimal.css -o public/css/minimal.css --minify",
+    "build:css": "npm run build:css:default && npm run build:css:minimal",
+    "build": "npm run build:assets && npm run build:css",
+    "dev": "npm run build:assets && wrangler pages dev",
+    "deploy": "npm run build && wrangler pages deploy ./public"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "glob": "^13.0.1",
+    "handlebars": "^4.7.8",
+    "sharp": "^0.34.5",
+    "swagger-ui-react": "^5.31.0",
+    "zod": "^3.25.76",
+    "zod-to-json-schema": "^3.25.1"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-s3": "^3.985.0",
+    "@cloudflare/workers-types": "^4.20250129.0",
+    "@tailwindcss/cli": "^4.1.18",
+    "@tailwindcss/typography": "^0.5.19",
+    "@types/node": "^25.2.2",
+    "@types/swagger-ui-react": "^5.18.0",
+    "dotenv": "^17.2.4",
+    "tailwindcss": "^4.1.18",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.3",
+    "wrangler": "^3.109.2"
+  }
+}

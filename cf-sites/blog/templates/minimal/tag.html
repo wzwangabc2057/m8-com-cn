@@ -1,0 +1,9 @@
+<section>
+  <h1 class="text-xl font-bold text-gray-900 mb-6">Tag: {{listTitle}}</h1>
+  <div class="divide-y divide-gray-100">
+    {{#each posts}}
+      {{> post-card}}
+    {{/each}}
+  </div>
+  {{> pagination}}
+</section>

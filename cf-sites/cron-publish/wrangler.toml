@@ -1,0 +1,12 @@
+# 定时发布 Cron：每天 8:00 UTC 调用 CMS 的 scheduled-publish
+name = "scheduled-publish-cron"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+[triggers]
+crons = ["0 8 * * *"]
+
+# CMS_URL、CRON_SECRET 通过 wrangler secret 或 .dev.vars 配置
+[vars]
+# CMS_URL =
+# CRON_SECRET =

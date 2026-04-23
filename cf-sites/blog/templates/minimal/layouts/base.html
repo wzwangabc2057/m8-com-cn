@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="{{fallback site.language 'en'}}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light">
+  {{#if hasCustomTitle}}
+  <title>{{pageTitle}}</title>
+  {{else if (eq handler 'home')}}
+  <title>{{pageTitle}}</title>
+  {{else}}
+  <title>{{pageTitle}}{{fallback site.seo.titleSeparator ' - '}}{{site.name}}</title>
+  {{/if}}
+  <meta name="description" content="{{pageDescription}}">
+  {{> seo-head}}
+  {{> schema}}
+  {{#if preloadImage}}
+  <link rel="preload" as="image" href="{{cfImg preloadImage 800}}" fetchpriority="high"
+    imagesrcset="{{cfImg preloadImage 400}} 400w, {{cfImg preloadImage 800}} 800w, {{cfImg preloadImage 1200}} 1200w, {{cfImg preloadImage 1920}} 1920w"
+    imagesizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px">
+  {{/if}}
+  {{#if site.favicon}}<link rel="icon" href="{{site.favicon}}">{{/if}}
+  {{#if site.url}}<link rel="alternate" type="application/rss+xml" title="{{site.name}}" href="{{site.url}}/feed.xml">{{/if}}
+  <link rel="preload" href="/css/minimal.css" as="style">
+  <link rel="stylesheet" href="/css/minimal.css">
+  {{#if site.customCss}}
+  <link rel="stylesheet" href="{{site.customCss}}">
+  {{/if}}
+  {{#if pageCss}}
+  <link rel="stylesheet" href="{{pageCss}}">
+  {{/if}}
+</head>
+<body class="{{#if (eq layout 'blank')}}page-blank{{/if}}">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded focus:shadow">跳至主要内容</a>
+  {{#if showHeader}}{{> header}}{{/if}}
+  {{#if fullWidth}}
+  <main id="main-content" class="full-width-container">{{{body}}}</main>
+  {{else}}
+  <main id="main-content" class="max-w-2xl mx-auto px-4 py-12">{{{body}}}</main>
+  {{/if}}
+  {{#if showFooter}}{{> footer}}{{/if}}
+  {{#if site.customJs}}<script src="{{site.customJs}}" defer></script>{{/if}}
+  {{#if pageJs}}<script src="{{pageJs}}" defer></script>{{/if}}
+</body>
+</html>

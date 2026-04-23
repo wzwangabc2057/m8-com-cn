@@ -1,0 +1,72 @@
+{{#if seo}}
+<!-- Canonical URL -->
+<link rel="canonical" href="{{seo.canonicalUrl}}">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="{{seo.ogType}}">
+<meta property="og:url" content="{{seo.canonicalUrl}}">
+<meta property="og:title" content="{{pageTitle}}{{fallback site.seo.titleSeparator ' - '}}{{site.name}}">
+<meta property="og:description" content="{{pageDescription}}">
+<meta property="og:site_name" content="{{site.name}}">
+<meta property="og:locale" content="{{site.language}}">
+{{#if seo.ogImage}}
+<meta property="og:image" content="{{absoluteUrl seo.ogImage}}">
+<meta property="og:image:alt" content="{{pageTitle}}">
+{{else if site.seo.defaultOgImage}}
+<meta property="og:image" content="{{absoluteUrl site.seo.defaultOgImage}}">
+<meta property="og:image:alt" content="{{site.name}}">
+{{/if}}
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{pageTitle}}{{fallback site.seo.titleSeparator ' - '}}{{site.name}}">
+<meta name="twitter:description" content="{{pageDescription}}">
+{{#if seo.ogImage}}
+<meta name="twitter:image" content="{{absoluteUrl seo.ogImage}}">
+{{else if site.seo.defaultOgImage}}
+<meta name="twitter:image" content="{{absoluteUrl site.seo.defaultOgImage}}">
+{{/if}}
+{{#if site.seo.twitterHandle}}
+<meta name="twitter:site" content="{{site.seo.twitterHandle}}">
+{{/if}}
+
+<!-- Article meta tags (for posts) -->
+{{#if (eq seo.ogType 'article')}}
+{{#if seo.articlePublishedTime}}
+<meta property="article:published_time" content="{{isoDate seo.articlePublishedTime}}">
+{{/if}}
+{{#if seo.articleModifiedTime}}
+<meta property="article:modified_time" content="{{isoDate seo.articleModifiedTime}}">
+{{/if}}
+{{#if seo.articleAuthor}}
+<meta property="article:author" content="{{seo.articleAuthor}}">
+{{/if}}
+{{#if seo.articleSection}}
+<meta property="article:section" content="{{seo.articleSection}}">
+{{/if}}
+{{#each seo.articleTags}}
+<meta property="article:tag" content="{{this}}">
+{{/each}}
+{{/if}}
+
+<!-- Pagination -->
+{{#if seo.prevUrl}}
+<link rel="prev" href="{{seo.prevUrl}}">
+{{/if}}
+{{#if seo.nextUrl}}
+<link rel="next" href="{{seo.nextUrl}}">
+{{/if}}
+
+<!-- Meta robots -->
+{{#if seo.noindex}}
+<meta name="robots" content="noindex,follow">
+{{/if}}
+{{/if}}
+
+<!-- Search engine verification (always output when set, so HTML-tag verification works) -->
+{{#if site.seo.googleVerification}}
+<meta name="google-site-verification" content="{{site.seo.googleVerification}}">
+{{/if}}
+{{#if site.seo.bingVerification}}
+<meta name="msvalidate.01" content="{{site.seo.bingVerification}}">
+{{/if}}

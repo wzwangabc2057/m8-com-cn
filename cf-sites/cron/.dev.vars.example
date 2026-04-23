@@ -1,0 +1,3 @@
+# Copy to .dev.vars and fill in values
+CMS_URL=https://your-cms.pages.dev
+CRON_SECRET=your-secret-for-cron-auth

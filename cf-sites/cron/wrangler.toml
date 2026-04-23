@@ -1,0 +1,14 @@
+name = "writing-sync-cron"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[triggers]
+crons = ["*/10 * * * *"]
+
+[vars]
+# CMS_URL set via wrangler secret or .dev.vars
+# CRON_SECRET set via wrangler secret or .dev.vars

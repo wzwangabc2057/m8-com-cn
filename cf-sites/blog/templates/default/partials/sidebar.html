@@ -1,0 +1,23 @@
+<aside class="sidebar">
+  {{#if categories}}
+  <div class="sidebar-section">
+    <h3>{{t "sidebarCategories"}}</h3>
+    <ul>
+      {{#each categories}}
+        <li><a href="{{categoryUrl this.slug}}">{{this.name}} ({{this.count}})</a></li>
+      {{/each}}
+    </ul>
+  </div>
+  {{/if}}
+
+  {{#if tags}}
+  <div class="sidebar-section">
+    <h3>{{t "sidebarTags"}}</h3>
+    <div class="tag-cloud">
+      {{#each tags}}
+        <a href="{{tagUrl this.slug}}" class="tag">{{this.name}}</a>
+      {{/each}}
+    </div>
+  </div>
+  {{/if}}
+</aside>

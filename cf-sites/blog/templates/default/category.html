@@ -1,0 +1,27 @@
+<section class="category-page">
+  <!-- Category Hero -->
+  <header class="list-hero{{#if listFeaturedImage}} list-hero--has-image{{/if}}">
+    {{#if listFeaturedImage}}
+    <img src="{{listFeaturedImage}}" alt="{{listTitle}}" class="list-hero-bg" loading="lazy" decoding="async" onerror="this.remove();this.parentNode.classList.remove('list-hero--has-image')">
+    <div class="list-hero-overlay">
+      <span class="list-hero-label">{{t "category"}}</span>
+      <h1 class="list-hero-title">{{listTitle}}</h1>
+      {{#if listDescription}}<p class="list-hero-desc">{{listDescription}}</p>{{/if}}
+    </div>
+    {{else}}
+    <div class="list-hero-plain">
+      <span class="list-hero-label">{{t "category"}}</span>
+      <h1 class="list-hero-title">{{listTitle}}</h1>
+      {{#if listDescription}}<p class="list-hero-desc">{{listDescription}}</p>{{/if}}
+    </div>
+    {{/if}}
+  </header>
+
+  <!-- Post Grid / List -->
+  <div class="{{#if (eq postsLayout 'list')}}post-list{{else}}post-grid{{/if}}">
+    {{#each posts}}
+      {{> post-card}}
+    {{/each}}
+  </div>
+  {{> pagination}}
+</section>
