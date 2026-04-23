@@ -179,6 +179,7 @@ Trending 文章**必须**通过 `linked_pillar` 链接到 evergreen pillar，形
 | 命令 | 用途 | 频率 |
 |------|------|------|
 | `/init-site` | 导入已有站点（抓取首页） | 一次性 |
+| `/deploy` | 部署 CF Sites CMS 到 Cloudflare | 一次性 |
 | `/create-site` | 从零创建新站点（含 CF Sites） | 一次性 |
 | `/plan-site` | 常青内容体系规划（100+篇，季度） | 季度 |
 | `/plan-trending` | 热点内容规划（5-15篇，周级） | 周级 |

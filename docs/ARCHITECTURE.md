@@ -9,7 +9,7 @@
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  用户层（.claude/commands/）                              │
-│  /create-site  /init-site  /sites  /plan-site           │
+│  /create-site  /deploy  /init-site  /sites              │
 │  /plan-trending  /list  /write  /write-batch            │
 │  /publish  /rewrite  /evaluate  /ask  /compile-wiki     │
 │  /lint  /evolve                                         │
@@ -78,6 +78,7 @@ writing_bro/
 └── .claude/
     ├── commands/                          # Skills — 用户入口
     │   ├── create-site.md                 # 从零建站（CF Sites）
+    │   ├── deploy.md                      # 部署 CF Sites 到 Cloudflare
     │   ├── init-site.md                   # 导入已有站点
     │   ├── sites.md                       # CF Sites 站点管理
     │   ├── plan-site.md

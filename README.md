@@ -81,6 +81,7 @@ npm run deploy               # 部署到你的 Cloudflare 账户
 |------|------|------|
 | `/init-site` | 导入已有站点（抓取首页） | 一次性 |
 | `/create-site` | 从零创建新站点（含 CF Sites） | 一次性 |
+| `/deploy` | 部署 CF Sites CMS 到 Cloudflare | 一次性 |
 | `/plan-site` | 常青内容体系规划 | 季度 |
 | `/plan-trending` | 热点内容规划 | 周级 |
 | `/write` | 写一篇文章（核心命令） | 日度 |

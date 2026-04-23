@@ -72,6 +72,7 @@
 
 | 命令 | 用途 |
 |------|------|
+| `/deploy` | 部署 CF Sites CMS 到 Cloudflare（创建 D1/R2/KV + 部署服务） |
 | `/create-site` | 从零创建 CF Sites 站点（定位、品牌、视觉、页面配置） |
 
 ## 写作管线详解
