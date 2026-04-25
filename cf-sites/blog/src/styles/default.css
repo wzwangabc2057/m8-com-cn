@@ -5,26 +5,24 @@
 @source "../../pages";
 
 @theme {
-  --color-primary: #B3201F;
-  --color-primary-dark: #8F1A1A;
-  --color-primary-light: #D4342F;
-  --color-surface: #F5F6F8;
-  --color-surface-raised: #FFFFFF;
-  --color-heading: #1A1A2E;
+  --color-primary: #4361ee;
+  --color-primary-dark: #3a0ca3;
+  --color-primary-light: #6b82f7;
+  --color-surface: #f8fafc;
+  --color-surface-raised: #ffffff;
+  --color-heading: #0f172a;
   --color-text: #334155;
-  --color-text-muted: #6B7280;
+  --color-text-muted: #586a80;
   --color-text-faint: #71839b;
   --color-border: #e2e8f0;
   --color-border-light: #f1f5f9;
-  --color-tag-bg: #FFF8E7;
-  --color-tag-text: #8B6914;
-  --color-cat-bg: #FDE8E8;
-  --color-cat-text: #8F1A1A;
-  --color-nav-bg: #8F1A1A;
-  --color-code-bg: #2A1A1A;
-  --color-gold: #C9A24A;
-  --color-gold-light: #E6C878;
-  --color-accent-gradient: linear-gradient(135deg, #8F1A1A 0%, #B3201F 40%, #C9A24A 100%);
+  --color-tag-bg: #ede9fe;
+  --color-tag-text: #6d28d9;
+  --color-cat-bg: #dbeafe;
+  --color-cat-text: #2563eb;
+  --color-nav-bg: #0f172a;
+  --color-code-bg: #1e293b;
+  --color-accent-gradient: linear-gradient(135deg, #4361ee, #7c3aed);
 }
 
 @layer base {
@@ -52,7 +50,7 @@
 .site-header {
   @apply px-6 sticky top-0 z-50;
   backdrop-filter: blur(12px);
-  background: linear-gradient(90deg, #8F1A1A 0%, #B3201F 60%, #6A1515 100%) !important;
+  background: rgba(15, 23, 42, 0.95) !important;
   color: #ffffff !important;
 }
 
@@ -140,7 +138,7 @@
 
 .site-footer {
   @apply py-10 px-6 mt-auto;
-  background: linear-gradient(180deg, #1A1A2E 0%, #0F0F1A 100%) !important;
+  background-color: #0f172a !important;
   color: #71839b !important;
 }
 
@@ -203,7 +201,7 @@
 /* Blog content area: full-width light background, inner content centered */
 .blog-content-area {
   @apply w-full px-4 sm:px-6 py-8 flex-1 overflow-hidden;
-  background: linear-gradient(180deg, #F5F6F8 0%, #F0F1F4 100%) !important;
+  background-color: #f8fafc !important;
   color: #334155 !important;
 }
 
@@ -212,11 +210,11 @@
 }
 
 .blog-content-area a {
-  color: #B3201F;
+  color: #4361ee;
 }
 
 .blog-content-area a:hover {
-  color: #8F1A1A;
+  color: #3a0ca3;
 }
 
 .full-width-container {
@@ -234,7 +232,7 @@
 .section-title::before {
   content: '';
   @apply w-1 h-7 rounded-full;
-  background: linear-gradient(to bottom, #B3201F, #C9A24A);
+  background: var(--color-accent-gradient);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -243,7 +241,7 @@
 
 .hero {
   @apply relative text-center py-16 sm:py-20 mb-10 overflow-hidden;
-  background: linear-gradient(135deg, #1A0505 0%, #8F1A1A 50%, #1A0505 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
 }
 
 .hero--has-image .hero-content {
@@ -257,7 +255,7 @@
 .hero--has-image::after {
   content: '';
   @apply absolute inset-0;
-  background: linear-gradient(135deg, rgba(26,5,5,.85), rgba(179,32,31,.5));
+  background: linear-gradient(135deg, rgba(15,23,42,.8), rgba(67,97,238,.35));
 }
 
 .hero-title {
@@ -316,7 +314,7 @@
 
 .featured-card-placeholder {
   @apply w-full h-full;
-  background: linear-gradient(135deg, #8F1A1A 0%, #B3201F 40%, #C9A24A 100%);
+  background: var(--color-accent-gradient);
 }
 
 .featured-card-overlay {
@@ -361,8 +359,7 @@
   transition-property: transform, box-shadow;
   will-change: transform;
   aspect-ratio: 16 / 10;
-  background: linear-gradient(135deg, #8F1A1A 0%, #B3201F 40%, #C9A24A 100%);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+  background: var(--color-accent-gradient);
 }
 
 .category-card:hover {
@@ -538,7 +535,7 @@
 }
 
 .tag-sm:hover {
-  @apply bg-red-200 text-red-800;
+  @apply bg-purple-200 text-purple-800;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -560,12 +557,12 @@
 .list-hero-overlay {
   @apply relative z-10 flex flex-col items-center justify-center text-center text-white
          px-6 py-14 sm:py-20;
-  background: linear-gradient(135deg, rgba(26,5,5,.8), rgba(179,32,31,.5));
+  background: linear-gradient(135deg, rgba(15,23,42,.7), rgba(67,97,238,.4));
 }
 
 .list-hero-plain {
   @apply flex flex-col items-center text-center py-12 sm:py-16 px-6;
-  background: linear-gradient(135deg, #1A0505, #5C1515);
+  background: linear-gradient(135deg, #0f172a, #1e293b);
   @apply rounded-2xl text-white;
 }
 
@@ -614,12 +611,12 @@
 
 .post-title {
   @apply text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-5 tracking-tight;
-  color: #1A1A2E;
+  color: #0f172a;
 }
 
 .post-meta {
   @apply text-base flex flex-wrap gap-3 items-center;
-  color: #6B7280;
+  color: #586a80;
 }
 
 .post-meta-sep {
@@ -628,11 +625,11 @@
 
 .post-author {
   @apply font-semibold transition-colors;
-  color: #B3201F;
+  color: #4361ee;
 }
 
 .post-author:hover {
-  color: #8F1A1A;
+  color: #3a0ca3;
 }
 
 /* ── Post content typography ───────────────────────────────── */
@@ -655,24 +652,24 @@
 
 .post-content h1 {
   @apply text-2xl sm:text-3xl font-bold mt-12 mb-6 scroll-mt-24;
-  color: #1A1A2E;
+  color: #0f172a;
 }
 
 .post-content h2 {
   @apply text-xl sm:text-2xl font-bold mt-10 mb-5 scroll-mt-24;
-  color: #1A1A2E;
+  color: #0f172a;
 }
 
 .post-content h3 {
   @apply text-lg sm:text-xl font-bold mt-8 mb-4 scroll-mt-24;
-  color: #1A1A2E;
+  color: #0f172a;
 }
 
 .post-content h4,
 .post-content h5,
 .post-content h6 {
   @apply text-base font-bold mt-6 mb-3 scroll-mt-24;
-  color: #1A1A2E;
+  color: #0f172a;
 }
 
 .post-content p {
@@ -690,11 +687,11 @@
 
 .post-content a {
   @apply underline decoration-primary/30 decoration-2 underline-offset-2 transition-all;
-  color: #B3201F;
+  color: #4361ee;
 }
 
 .post-content a:hover {
-  color: #8F1A1A;
+  color: #3a0ca3;
 }
 
 .post-content img {
@@ -703,8 +700,8 @@
 
 .post-content blockquote {
   @apply border-l-4 border-primary/40 pl-5 py-2 my-8 italic;
-  color: #6B7280;
-  background-color: #F5F6F8;
+  color: #586a80;
+  background-color: #f8fafc;
   border-radius: 0 0.5rem 0.5rem 0;
 }
 
@@ -725,7 +722,7 @@
 }
 
 .post-content strong {
-  color: #1A1A2E;
+  color: #0f172a;
 }
 
 /* ── Post footer ───────────────────────────────────────────── */
@@ -747,7 +744,7 @@
 }
 
 .tag:hover {
-  @apply bg-red-200 text-red-800;
+  @apply bg-purple-200 text-purple-800;
 }
 
 .tag-count {
@@ -759,7 +756,7 @@
 }
 
 .category-link:hover {
-  @apply bg-amber-200 text-amber-800;
+  @apply bg-blue-200 text-blue-800;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -798,7 +795,7 @@
 
 .author-hero {
   @apply rounded-2xl overflow-hidden mb-10 py-12 px-6;
-  background: linear-gradient(135deg, #1A0505, #5C1515);
+  background: linear-gradient(135deg, #0f172a, #1e293b);
 }
 
 .author-hero-inner {
