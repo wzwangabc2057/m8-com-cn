@@ -43,9 +43,10 @@ Ahrefs 是最流行的 SEO 工具 [^3]
 ## 第二步：添加内部链接
 
 1. 读取 {content_index_path}，了解所有已有条目
-2. **Cross-cluster scan**：不只看当前 cluster，扫描所有 cluster 的 pillar 文章
-3. 在文章中找到匹配已有条目 target_keywords 的概念
-4. 自然地将概念转换为 `[[slug]]` 链接
+2. **只链接已发布条目**：只对 frontmatter 含 `published_url` 的条目创建 `[[slug]]` 链接。未发布的条目（status: planned/completed 但无 published_url）一律不链接，避免线上死链
+3. **Cross-cluster scan**：不只看当前 cluster，扫描所有 cluster 的已发布文章
+4. 在文章中找到匹配已发布条目 target_keywords 的概念
+5. 自然地将概念转换为 `[[slug]]` 链接
 
 **Cross-cluster linking 规则**：
 - 每篇文章至少 1 个跨 cluster 的 pillar 链接

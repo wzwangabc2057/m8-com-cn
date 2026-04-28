@@ -36,6 +36,7 @@ $ARGUMENTS — 必填，文章 slug。
    - `status`（只发布 status: completed 的文章，除非 `--force`）
    - `type`（trending / evergreen）
    - `created` / `updated`
+4. **检查配图完整性**：如果正文中存在 `[IMAGE: ...]` 占位符，说明配图步骤未完成。**停止发布**，提示用户先运行 illustrator 或 `/write --update {slug}` 补图
 
 ### Step 2：转换格式
 
@@ -93,10 +94,11 @@ $ARGUMENTS — 必填，文章 slug。
 1. **收集图片列表**：从文章目录中找所有被引用的图片文件（.jpg, .jpeg, .png, .webp, .svg, .gif）
 2. **逐个上传**：每个文件调用 `POST /api/assets?siteId={siteId}` 上传，拿到 `publicUrl`
 3. **替换引用**：在转换为 HTML 的过程中，将所有本地文件名替换为对应的 `publicUrl`
-4. **设置 coverImage**：
+4. **设置 coverImage 并去重**：
    - 优先用 `hero.jpg` / `hero.webp` 的 publicUrl
    - 没有则用文章中第一张图片的 publicUrl
    - 都没有则不设 coverImage
+   - **从 HTML content 中移除与 coverImage 相同的 `<img>` 标签**（CF Sites 模板会自动渲染 coverImage 为头图，正文里再出现就会重复）
 
 **所有图片类型都要上传**：Stock 照片、SVG 插图、数据图表，无一例外。CF Sites 不会自动下载本地路径的图片。
 
@@ -164,6 +166,7 @@ published_at: "2026-04-19T12:00:00Z"
 
 - **配置缺失**：缺少 cf_cms_url / cf_site_id / CF_CMS_TOKEN → 提示配置方法
 - **文章未完成**：status 不是 completed → 提示用 `--force` 或先完成文章
+- **配图未完成**：正文含 `[IMAGE: ...]` 占位符 → **停止发布**，提示先运行 illustrator 补图，或用 `/write --update {slug}` 重走配图流程
 - **API 401**：token 无效 → 提示检查 .env 中的 CF_CMS_TOKEN
 - **API 404**：siteId 不存在 → 提示先创建站点（`POST /api/sites`）
 - **网络错误**：CF Sites 不可达 → 文章保存在本地，可稍后 `/publish slug` 重试

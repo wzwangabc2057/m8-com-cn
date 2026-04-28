@@ -101,14 +101,19 @@ Searcher：{searcher_path}
 5. 基于 analyzer 结果 + persona 制定策略
 6. 调度 researcher 子代理（素材收集）
 7. 调度 drafter 子代理（撰写文章）
-8. 调度 illustrator 子代理（替换 IMAGE 占位符）
+8. **配图（P0 硬约束）**：文章中所有 `[IMAGE: ...]` 占位符必须替换为实际图片文件。对每个占位符：
+   - SVG/图表：直接生成 SVG 代码，保存到文章同目录，用 `![描述](filename.svg)` 替换
+   - Stock 照片：搜索 Unsplash 下载到文章同目录，用 `![描述](filename.jpg)` 替换
+   - 自检：完成后搜索 `[IMAGE:` 确认 0 个残留
 9. 调度 evaluator 子代理（质量评估）
 10. 如有具体问题需修复：以 Author 身份理解文章和反馈语境，高质量修复，重新评估
 11. 将最终文章写入 {site}/content/{cluster}/{slug}/{slug}.md
 12. 更新 {site}/content/INDEX.md
 
-完成后返回：slug、评估分数、实际字数、文章路径。
+完成后返回：slug、评估分数、实际字数、文章路径、配图数量。
 ```
+
+**配图是硬约束，不可跳过。** 没有 illustrator 子代理可用时，agent 必须自行生成 SVG 图表或搜索下载 Stock 照片。
 
 **并发控制**：最多 3 个 agent 同时运行。如超过 3 篇，分批 dispatch，前一批完成后再启动下一批。
 

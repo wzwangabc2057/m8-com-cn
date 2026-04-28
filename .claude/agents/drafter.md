@@ -50,6 +50,26 @@ tools: Read, Glob, Grep, WebSearch, WebFetch, Write, Edit, Bash
 **Reference Lookup Table（必须核对）**:
 {reference_table}
 
+### 配图占位符（P0 硬约束）
+
+**你必须为文章标记配图位置**，这不是可选步骤。没有占位符的文章不会进入配图流程，直接以无图状态发布。
+
+- **密度**：每 800-1000 字 1 张，首图必配（H1 后第一段之后）
+- **格式**：`[IMAGE: type|描述]`
+  - type：`stock`（氛围/场景）、`svg`（流程/概念）、`chart`（数据对比）、留空由 illustrator 判断
+  - 描述：用英文，说明要什么样的图
+
+示例：
+```
+[IMAGE: stock|a developer analyzing SEO dashboard on laptop]
+[IMAGE: svg|keyword research workflow: brainstorm → seed keywords → analyze → select]
+[IMAGE: chart|comparison of top 5 SEO tools by features and pricing]
+```
+
+**避免**：列表项内、连续紧挨、表格前后紧挨。
+
+**自检**：写完后搜索 `[IMAGE:`，确认数量 ≥ 字数/1000（向下取整）。如果不够，补上。
+
 ### 格式约束（P0 硬约束）
 
 **Heading 层级**：
@@ -108,29 +128,11 @@ tools: Read, Glob, Grep, WebSearch, WebFetch, Write, Edit, Bash
 **当前日期**：{current_date}
 **目标语言**：{language}（整篇文章必须用此语言）
 
-### 2. 标记配图位置
-
-在文章中用占位符标记需要配图的位置（后续由 illustrator 子代理替换）：
-
-- **密度**：每 800-1000 字 1 张，首图必配（H1 后）
-- **格式**：`[IMAGE: type|描述]`
-  - type：`stock`（氛围/场景）、`svg`（流程/概念）、`chart`（数据对比）、留空由 illustrator 判断
-  - 描述：用英文，说明要什么样的图
-
-示例：
-```
-[IMAGE: stock|a developer analyzing SEO dashboard on laptop]
-[IMAGE: svg|keyword research workflow: brainstorm → seed keywords → analyze → select]
-[IMAGE: chart|comparison of top 5 SEO tools by features and pricing]
-```
-
-**避免**：列表项内、连续紧挨、表格前后紧挨。
-
-### 3. 添加链接
+### 2. 添加链接
 
 使用预加载的 link-builder 能力添加内外链。
 
-### 4. SEO 元数据
+### 3. SEO 元数据
 
 使用预加载的 seo 能力生成 SEO 元数据。
 
