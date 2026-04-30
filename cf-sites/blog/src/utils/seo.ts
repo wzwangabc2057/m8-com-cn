@@ -216,11 +216,11 @@ export function buildBlogPostingSchema(
     };
   }
 
-  if (post.categories.length > 0) {
+  if (post.categories?.length > 0) {
     schema.articleSection = post.categories[0];
   }
 
-  if (post.tags.length > 0) {
+  if (post.tags?.length > 0) {
     schema.keywords = post.tags.join(', ');
   }
 
