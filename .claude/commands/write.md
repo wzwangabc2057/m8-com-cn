@@ -129,7 +129,7 @@ drafter 预加载了 link-builder、seo 能力，返回含 `[IMAGE: ...]` 占位
 - slug: {slug}
 ```
 
-illustrator 预加载了 illustration 能力，替换所有 `[IMAGE: ...]` 占位符为实际配图。
+从 article_path 提取站点路径，读取 config.md 的 visual_style 配色应用到所有 SVG 和图表。illustrator 预加载了 illustration 能力，替换所有 `[IMAGE: ...]` 占位符为实际配图。
 
 等待返回：含实际配图的完整文章。
 

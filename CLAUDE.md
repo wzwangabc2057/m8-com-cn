@@ -92,6 +92,23 @@ cf_auto_publish: true
 
 API token 存在 `sites/{site}/.env`（不进 git）：`CF_CMS_TOKEN=xxx`
 
+## Visual Style（可选 — illustration skill 使用）
+
+在 config.md 中可添加 `visual_style` 块，控制 SVG 插图和数据图表的配色：
+
+```yaml
+visual_style:
+  primary: "#hex"
+  primary_dark: "#hex"
+  accent: "#hex"
+  bg_light: "#hex"
+  bg_dark: "#hex"
+  chart_palette: ["#hex", ...]  # 5-6 colors for data charts
+  font_family: "system-ui, sans-serif"
+```
+
+如果 config.md 没有 `visual_style`，illustration skill 使用默认调色板（基于 blog CSS：`#4361ee` 为主色）。
+
 ## knowledge.md
 
 可选的站点级知识管理配置，控制 `content/knowledge/` 的时效标签和新鲜度规则：

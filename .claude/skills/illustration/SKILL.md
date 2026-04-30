@@ -6,6 +6,32 @@ user-invocable: false
 
 为文章选择和生成最合适的配图。
 
+## 站点视觉风格
+
+生成 SVG 或数据图表前，先加载站点的视觉风格配置：
+
+1. 从文章路径提取站点路径：`sites/{site}/content/...` → `sites/{site}/`
+2. 读取 `sites/{site}/config.md`，查找 `visual_style` YAML 块
+3. 如找到，使用站点指定的颜色、字体、图表配色
+4. 如未找到，使用默认调色板：
+
+```
+Default palette:
+  primary: "#4361ee"
+  primary_dark: "#3a0ca3"
+  heading: "#0f172a"
+  text: "#334155"
+  text_muted: "#64748b"
+  accent: "#7c3aed"
+  bg_light: "#f8fafc"
+  bg_dark: "#1e293b"
+  gradient: "#4361ee → #7c3aed"
+  chart_palette: ["#4361ee", "#7c3aed", "#f59e0b", "#10b981", "#ef4444", "#06b6d4"]
+  font: "system-ui, -apple-system, sans-serif"
+```
+
+所有 SVG 插图和数据图表必须使用站点配色。Stock 照片不受此约束。
+
 ## 类型决策
 
 对每个配图位置，判断最适合的类型：
@@ -60,11 +86,14 @@ user-invocable: false
 *图片来源: [摄影师](页面URL) on [Unsplash](https://unsplash.com)*
 ```
 
-**Stock 照片必须下载到文章目录**：
-- 用 `curl -L -o content/{cluster}/{slug}/{name}.jpg "URL"` 下载
-- 命名规则：`hero.jpg`（首图）、`{section-keyword}.jpg`（其他）
-- 引用使用同目录相对路径：`hero.jpg`（无前缀）
-- 保留归属信息（photographer credit + Unsplash 链接）
+**Stock 照片必须下载到文章目录并转为 WebP**：
+1. 下载 JPG：`curl -L -o /tmp/{slug}-{name}.jpg "URL"`
+2. 转换 WebP：`cwebp -q 80 -resize 1200 0 /tmp/{slug}-{name}.jpg -o content/{cluster}/{slug}/{slug}-{name}.webp`
+3. 如果 `cwebp` 不可用，保留 JPG 并用 `sips` 或 `magick` 压缩到 1200px 宽
+4. 命名规则：`{slug}-hero.webp`（首图）、`{slug}-{keyword}.webp`（其他）
+5. 引用使用同目录相对路径：`{slug}-hero.webp`（无前缀）
+6. Markdown 中引用 `.webp` 文件，不引用 `.jpg`
+7. 保留归属信息（photographer credit + Unsplash 链接）
 
 **alt 文字必须用目标语言，包含相关关键词（SEO 价值）。**
 
@@ -90,11 +119,11 @@ user-invocable: false
 1. 设计图形结构（节点 + 连线 + 标签）
 2. 生成 SVG 代码，保存到 `content/{cluster}/{slug}/{name}.svg`
 3. 设计要求：
-   - 配色清晰（2-5 色），深色文字浅色背景
+   - **配色使用站点 visual_style**（见"站点视觉风格"节），深色文字浅色背景
    - **标签用目标语言**，字号 ≥14px（移动端可读）
    - viewBox 设为合理比例（如 `0 0 800 400`），宽度不超 800px
-   - 使用系统字体（`font-family: system-ui, sans-serif`）
-   - 文件名含关键词（英文 slug）
+   - 使用站点指定的字体（默认 `system-ui, -apple-system, sans-serif`）
+   - 文件名用 slug 前缀：`{slug}-{keyword}.svg`
 4. 插入格式：
 ```markdown
 ![流程描述]({name}.svg)
@@ -126,7 +155,7 @@ user-invocable: false
    - 直接用 SVG 原语画简单柱状图、饼图
    - 适合数据点少（≤8 个）的简单图表
 
-4. 保存到 `content/{cluster}/{slug}/`，文件名 `{chart-name}.svg` 或 `.png`
+4. 保存到 `content/{cluster}/{slug}/`，文件名 `{slug}-{chart-name}.svg` 或 `.png`
 5. **每张图表必须标注数据来源**
 
 ### 插入格式
@@ -166,6 +195,6 @@ user-invocable: false
 
 - 所有 alt 文字、标题、标签用目标语言
 - 文件名用英文 slug
-- Stock 图片宽度参数 `w=1200`，质量 `q=80`
+- Stock 图片宽度参数 `w=1200`，质量 `q=80`，存储为 WebP（`cwebp -q 80 -resize 1200 0`）
 - 每张图底部标注来源/数据出处
 - SVG 优先于 PNG（矢量可缩放，文字可被搜索引擎索引）
