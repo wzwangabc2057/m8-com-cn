@@ -1,3 +1,20 @@
+{{#unless (eq layout "blank")}}
+  {{#if pageBreadcrumbs.length}}
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-8">
+    <nav class="page-breadcrumbs" aria-label="Breadcrumb">
+      {{#each pageBreadcrumbs}}
+        {{#if @last}}
+          <span class="page-breadcrumb-current">{{this.name}}</span>
+        {{else}}
+          <a href="{{this.url}}" class="page-breadcrumb-link">{{this.name}}</a>
+          <span class="page-breadcrumb-sep">/</span>
+        {{/if}}
+      {{/each}}
+    </nav>
+  </div>
+  {{/if}}
+{{/unless}}
+
 {{!-- Layout: full_width — no title, no container, pure content --}}
 {{#if (eq layout "full_width")}}
 <article class="page-full-width">
@@ -82,3 +99,20 @@
   <div class="page-content prose prose-lg prose-slate max-w-none mx-auto">{{{page.content}}}</div>
 </article>
 {{/if}}
+
+{{#unless (eq layout "blank")}}
+  {{#if pageCompanionLinks.length}}
+  <section class="archive-directory max-w-6xl mx-auto mt-12">
+    <div class="archive-directory-head">
+      {{#if pageCompanionLabel}}<span class="archive-directory-label">{{pageCompanionLabel}}</span>{{/if}}
+      {{#if pageCompanionTitle}}<h2 class="section-title">{{pageCompanionTitle}}</h2>{{/if}}
+      {{#if pageCompanionSummary}}<p class="archive-directory-summary">{{pageCompanionSummary}}</p>{{/if}}
+    </div>
+    <div class="archive-directory-links">
+      {{#each pageCompanionLinks}}
+      <a href="{{this.href}}" class="archive-directory-link">{{this.label}}</a>
+      {{/each}}
+    </div>
+  </section>
+  {{/if}}
+{{/unless}}

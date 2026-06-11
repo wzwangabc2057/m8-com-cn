@@ -3,6 +3,7 @@ import { loadCustomPartials } from '../services/partials.js';
 import { getStoreEnabled } from '../services/kv-cache.js';
 import { render, htmlResponse } from '../renderer.js';
 import { handleHome } from './home.js';
+import { getM8PageNavigation } from '../utils/m8-page-nav.js';
 import {
   buildPageSeo,
   buildWebSiteSchema,
@@ -44,12 +45,18 @@ export async function handlePage(env: Env, slug: string): Promise<Response | nul
   const schema: Record<string, unknown> = {
     website: buildWebSiteSchema(config, base),
   };
-  if (pageEntry.parent) {
-    const breadcrumbs = [
-      { name: config.name, url: '/' },
-      { name: pageEntry.title, url: `/${slug}` },
-    ];
-    schema.breadcrumbList = buildBreadcrumbSchema(config, breadcrumbs, base);
+  const fallbackBreadcrumbs = canonicalSlug === ''
+    ? []
+    : [
+        { name: config.name, url: '/' },
+        { name: pageEntry.title, url: `/${slug}` },
+      ];
+  const m8Navigation = env.SITE_ID === 'm8.com.cn'
+    ? getM8PageNavigation(slug, pageEntry.title)
+    : null;
+  const pageBreadcrumbs = m8Navigation?.breadcrumbs || fallbackBreadcrumbs;
+  if (pageBreadcrumbs.length > 0) {
+    schema.breadcrumbList = buildBreadcrumbSchema(config, pageBreadcrumbs, base);
   }
 
   if (pageEntry.content) {
@@ -79,6 +86,11 @@ export async function handlePage(env: Env, slug: string): Promise<Response | nul
     pageCss: pageEntry.customCss || null,
     pageJs: pageEntry.customJs || null,
     customPartials,
+    pageBreadcrumbs,
+    pageCompanionLabel: m8Navigation?.companionLabel || '',
+    pageCompanionTitle: m8Navigation?.companionTitle || '',
+    pageCompanionSummary: m8Navigation?.companionSummary || '',
+    pageCompanionLinks: m8Navigation?.companionLinks || [],
     preloadImage: pageEntry.featuredImage || seo.ogImage,
   }, 'page');
 
