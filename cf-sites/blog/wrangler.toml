@@ -9,12 +9,12 @@ bucket_name = "blog-content"
 [[d1_databases]]
 binding = "DB"
 database_name = "cloudflare-sites-db"
-database_id = "9e0d5b2d-d8f3-48fa-beda-bd70ed602e91"
+database_id = "883b9411-48b7-4c68-8991-2c82d7504e9d"
 
 # KV Cache (shared with store service)
 [[kv_namespaces]]
 binding = "CACHE"
-id = "89c7aeae01f341afbb88fd50eb194477"
+id = "3d29e2a1a55d4ecdb102d191cf281368"
 
 # Analytics Engine (uncomment after enabling at Dashboard)
 # [[analytics_engine_datasets]]
@@ -22,4 +22,4 @@ id = "89c7aeae01f341afbb88fd50eb194477"
 # dataset = "storefront_analytics"
 
 [vars]
-SITE_ID = "china-tech-mfg"
+SITE_ID = "m8.com.cn"

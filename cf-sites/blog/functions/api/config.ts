@@ -1,4 +1,5 @@
 import { getConfig, putConfig } from '../../src/services/content.js';
+import { configKey, invalidateCache } from '../../src/services/kv-cache.js';
 import { requireAuth, jsonResponse, errorResponse } from '../../src/utils/auth.js';
 import type { Env, SiteConfig } from '../../src/types.js';
 
@@ -39,5 +40,6 @@ export const onRequestPut: PagesFunction<Env> = async ({ env, request }) => {
 
   const updated: SiteConfig = { ...existing, ...body };
   await putConfig(env.CONTENT_BUCKET, env.SITE_ID, updated);
+  await invalidateCache(env.CACHE, configKey(env.SITE_ID));
   return jsonResponse(updated);
 };
