@@ -177,11 +177,11 @@ const ZH_CATEGORY_SEO: Record<string, { title: string; description: string }> = 
   },
   'hk-stocks': {
     title: '港股研究与港股高股息',
-    description: '聚合港股互联网、港股高股息、南向资金、创新药与估值比较，覆盖港股核心公司、行业与主题机会。',
+    description: '聚合港股平台互联网、消费电子 / 智能硬件、高股息能源 / 电信、保险与南向资金，覆盖港股核心公司、行业与主题机会。',
   },
   crypto: {
     title: '加密货币与比特币研究',
-    description: '聚合比特币、以太坊、稳定币、ETF 资金流、链上生态与加密监管观察，覆盖加密市场核心主题。',
+    description: '聚合比特币、稳定币、ETF 资金流、交易所 / 托管基础设施、Treasury Beta 与链上生态观察，覆盖加密市场核心主题。',
   },
   macro: {
     title: '宏观市场与利率观察',

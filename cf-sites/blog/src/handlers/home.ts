@@ -158,7 +158,7 @@ function buildM8ResearchTracks(isZh: boolean): HomeResearchTrack[] {
       {
         kicker: 'Hong Kong',
         title: 'Hong Kong stock coverage',
-        description: 'Use Hong Kong stocks as a separate market entrance for internet platforms, insurers, exporters, and high-dividend defensives.',
+        description: 'Use Hong Kong stocks as a separate market entrance for internet platforms, consumer electronics, exporters, energy dividends, insurers, and southbound flow.',
         href: M8_LINKS.hkTechDividend,
         cta: 'Open Hong Kong coverage',
         links: [
@@ -170,13 +170,13 @@ function buildM8ResearchTracks(isZh: boolean): HomeResearchTrack[] {
       {
         kicker: 'Blockchain',
         title: 'Blockchain and crypto assets',
-        description: 'Give BTC ETF, crypto beta, stablecoin regulation, and on-chain ecosystem names their own market-level entrance.',
+        description: 'Give BTC ETF flows, exchange infrastructure, treasury beta, stablecoin regulation, and on-chain ecosystems their own market-level entrance.',
         href: M8_LINKS.btcEtfWatch,
         cta: 'Open blockchain coverage',
         links: [
           { label: 'BTC ETF center', href: M8_LINKS.btcEtfWatch },
           { label: 'CME crypto basket', href: M8_LINKS.cryptoCme },
-          { label: 'Coinbase Base ecosystem', href: M8_LINKS.cryptoCoinbaseBase },
+          { label: 'MSTR treasury beta', href: M8_LINKS.cryptoMstr },
         ],
       },
     ];
@@ -210,7 +210,7 @@ function buildM8ResearchTracks(isZh: boolean): HomeResearchTrack[] {
     {
       kicker: 'Hong Kong',
       title: '港股平台、红利与制造链',
-      description: '把港股互联网平台、保险、高股息、出海制造和南向资金逻辑单独收口，避免港股内容被并进其他市场栏目。',
+      description: '把港股平台互联网、消费电子 / 智能硬件、高股息能源 / 电信、保险和南向资金逻辑单独收口，避免港股内容被并进其他市场栏目。',
       href: M8_LINKS.hkTechDividend,
       cta: '进入 港股研究中心',
       links: [
@@ -222,13 +222,13 @@ function buildM8ResearchTracks(isZh: boolean): HomeResearchTrack[] {
     {
       kicker: 'Blockchain',
       title: '区块链与加密资产主线',
-      description: '围绕 BTC ETF、交易所、稳定币监管、链上生态和加密风险偏好，建立独立的区块链研究入口。',
+      description: '围绕 BTC ETF 资金流、交易所 / 托管基础设施、稳定币监管、链上生态和 Treasury Beta，建立独立的区块链研究入口。',
       href: M8_LINKS.btcEtfWatch,
       cta: '进入 区块链研究中心',
       links: [
         { label: 'BTC ETF 中心', href: M8_LINKS.btcEtfWatch },
         { label: 'CME 加密指数期货', href: M8_LINKS.cryptoCme },
-        { label: 'Coinbase Base 生态', href: M8_LINKS.cryptoCoinbaseBase },
+        { label: 'MSTR Treasury Beta', href: M8_LINKS.cryptoMstr },
       ],
     },
   ];
@@ -678,15 +678,15 @@ export async function handleHome(env: Env, page: number): Promise<Response> {
           name: isZh ? '港股' : 'Hong Kong stocks',
           href: M8_LINKS.hkTechDividend,
           description: isZh
-            ? '把平台互联网、保险、高股息、出海制造和南向资金逻辑收成独立的港股研究入口。'
-            : 'Create a dedicated Hong Kong market entrance for platforms, insurers, dividends, and exporters.',
+            ? '把平台互联网、消费电子 / 智能硬件、高股息能源 / 电信、保险和南向资金逻辑收成独立的港股研究入口。'
+            : 'Create a dedicated Hong Kong market entrance for platforms, consumer electronics, dividends, insurers, and southbound flow.',
         },
         crypto: {
           name: isZh ? '区块链' : 'Blockchain',
           href: M8_LINKS.btcEtfWatch,
           description: isZh
-            ? '围绕 BTC ETF、交易所、稳定币监管和链上生态，建立独立的区块链与加密资产入口。'
-            : 'Create a separate blockchain and crypto entrance around BTC ETF, exchanges, stablecoins, and on-chain ecosystems.',
+            ? '围绕 BTC ETF 资金流、交易所 / 托管基础设施、稳定币监管、Treasury Beta 和链上生态，建立独立的区块链与加密资产入口。'
+            : 'Create a separate blockchain and crypto entrance around BTC ETF flows, exchange infrastructure, treasury beta, stablecoins, and on-chain ecosystems.',
         },
       }
     : {};

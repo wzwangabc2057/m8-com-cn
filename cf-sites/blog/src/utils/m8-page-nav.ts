@@ -89,6 +89,8 @@ const PAGE_NAV_MAP: Record<string, PageNavDefinition> = {
     parent: { slug: 'research-directory', name: '研究目录' },
     links: [
       { label: '港股栏目', href: '/category/hk-stocks/' },
+      { label: '宏观利率中心', href: '/macro-rate-watch/' },
+      { label: 'AI产业链中心', href: '/ai-supply-chain/' },
       { label: '全部归档', href: '/blog' },
     ],
   },
@@ -96,6 +98,7 @@ const PAGE_NAV_MAP: Record<string, PageNavDefinition> = {
     parent: { slug: 'research-directory', name: '研究目录' },
     links: [
       { label: '加密栏目', href: '/category/crypto/' },
+      { label: '美股重点标的', href: '/us-stock-core-coverage/' },
       { label: '宏观利率中心', href: '/macro-rate-watch/' },
       { label: '投资框架中心', href: '/investing-frameworks/' },
       { label: '全部归档', href: '/blog' },
@@ -249,6 +252,13 @@ function keywordHubLinks(text: string): PageCompanionLink[] {
   }
   if (/(bitcoin|btc|crypto|stablecoin|cme)/.test(value)) {
     links.push({ label: '区块链 / BTC ETF', href: '/btc-etf-watch' });
+  }
+  if (/(coinbase|base|layer2|mstr|microstrategy|mining|miner|ibit)/.test(value)) {
+    links.push({ label: '区块链 / BTC ETF', href: '/btc-etf-watch' });
+    links.push({ label: '美股重点标的', href: '/us-stock-core-coverage' });
+  }
+  if (/(xiaomi|cnooc|tencent|alibaba|meituan|hkex|southbound|1810hk|0883hk)/.test(value)) {
+    links.push({ label: '港股研究中心', href: '/hk-tech-dividend' });
   }
   if (/(hbm|gpu|nvidia|rubin|micron|packaging|advanced packaging)/.test(value)) {
     links.push({ label: 'AI产业链中心', href: '/ai-supply-chain' });
