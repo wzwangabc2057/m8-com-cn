@@ -498,11 +498,11 @@ function buildM8SectorGroups(isZh: boolean): HomeSectorGroup[] {
     {
       market: 'A股',
       title: 'A股细分板块',
-      description: '把 A股继续拆成半导体设备、AI服务器链、国产算力、高股息与市场机制，不再只保留一个总入口。',
+      description: '把 A股继续拆成半导体设备 / 材料、光模块 / 服务器链、液冷 / 配电、高股息 / 资源与市场机制，不再只保留一个总入口。',
       items: [
         {
-          title: '半导体设备与先进制造',
-          description: '围绕刻蚀、薄膜沉积、先进制程设备和国产替代，把最核心的设备链单独做厚。',
+          title: '半导体设备 / 量检测 / 先进制造',
+          description: '围绕刻蚀、量检测、先进制程设备和国产替代，把最核心的设备与工艺链单独做厚。',
           href: M8_LINKS.zhongwei,
           links: [
             { label: 'A股核心标的', href: M8_LINKS.aShareCoreCoverage },
@@ -510,8 +510,8 @@ function buildM8SectorGroups(isZh: boolean): HomeSectorGroup[] {
           ],
         },
         {
-          title: 'AI服务器链 / PCB / 制造链',
-          description: '把 AI 服务器、交换、PCB、上游制造协同放进一个 A股算力配套板块里，方便持续补公司。',
+          title: '光模块 / 连接 / 服务器链',
+          description: '把光模块、高速连接、PCB、交换与服务器制造协同放进一个 A股算力配套板块里，方便持续补公司。',
           href: M8_LINKS.aShareCoreCoverage,
           links: [
             { label: 'A股主线中心', href: M8_LINKS.aShareMainlines },
@@ -519,21 +519,21 @@ function buildM8SectorGroups(isZh: boolean): HomeSectorGroup[] {
           ],
         },
         {
-          title: '国产算力 / 政策催化 / 市场机制',
-          description: '把国产算力、政策催化和 A股交易制度放在一起，解决“逻辑对了但市场不一样”的阅读断层。',
+          title: '液冷 / 配电 / 电力设备',
+          description: '把液冷、配电、电力设备与数据中心电力基础设施拆成独立层，承接 AI 电力约束和算电协同逻辑。',
           href: M8_LINKS.astockMechanics,
           links: [
-            { label: 'A股市场机制', href: M8_LINKS.astockMechanics },
+            { label: 'AI产业链中心', href: M8_LINKS.aiSupplyChain },
             { label: 'A股主线中心', href: M8_LINKS.aShareMainlines },
           ],
         },
         {
-          title: '高股息 / 红利资产 / 资源股',
-          description: '把高股息央企、红利资产和资源股从成长主线里拆出来，形成单独的防御资产阅读口。',
+          title: '高股息 / 资源 / 市场机制',
+          description: '把高股息央企、资源股、防御资产和 A股交易制度拆开理解，形成单独的风格与制度阅读口。',
           href: M8_LINKS.aShareMainlines,
           links: [
             { label: 'A股主线中心', href: M8_LINKS.aShareMainlines },
-            { label: 'A股核心标的', href: M8_LINKS.aShareCoreCoverage },
+            { label: 'A股市场机制', href: M8_LINKS.astockMechanics },
           ],
         },
       ],
@@ -541,42 +541,42 @@ function buildM8SectorGroups(isZh: boolean): HomeSectorGroup[] {
     {
       market: '美股',
       title: '美股细分板块',
-      description: '把美股继续拆成 AI算力、半导体设备、Tesla / FSD、AI软件 / Agent、创新药 / GLP-1，方便做长期覆盖池。',
+      description: '把美股继续拆成半导体设备 / 材料、光通信 / 光器件、AI网络 / ASIC、电力设备 / 配电，再把 Tesla 和 GLP-1 保留在专题层。',
       items: [
         {
-          title: 'AI算力 / GPU / HBM',
-          description: '把 NVIDIA、HBM、先进封装和数据中心资本开支放进一条 AI 基建板块里，不和泛科技稿混在一起。',
+          title: '半导体设备 / 检测 / 材料',
+          description: '把量检测、工艺控制、半导体材料与设备链单独列出，承接 ONTO、CAMT、ENTG、AXTI 这类卡脖子环节。',
           href: M8_LINKS.aiSupplyChain,
           links: [
             { label: 'AI产业链中心', href: M8_LINKS.aiSupplyChain },
-            { label: 'NVIDIA 系统级资本开支', href: M8_LINKS.nvidiaSystem },
+            { label: '美股重点标的', href: M8_LINKS.usStockCoreCoverage },
           ],
         },
         {
-          title: 'Tesla / FSD / Robotaxi / 机器人',
-          description: '把 Tesla 财报、FSD 进度、Robotaxi 估值逻辑和 Optimus 供应链拆成独立长线专题。',
-          href: M8_LINKS.teslaFsd,
+          title: '光通信 / 激光 / 光器件',
+          description: '把光通信、激光、相干链路和光器件拆成独立层，承接 COHR 这类 AI 光链标的和相邻供应链。',
+          href: M8_LINKS.usStockCoreCoverage,
           links: [
-            { label: 'Tesla / FSD 中心', href: M8_LINKS.teslaFsd },
-            { label: 'Tesla Q1 2026', href: M8_LINKS.teslaQ1 },
+            { label: '美股重点标的', href: M8_LINKS.usStockCoreCoverage },
+            { label: 'AI产业链中心', href: M8_LINKS.aiSupplyChain },
           ],
         },
         {
-          title: 'AI软件 / Agent / 模型平台',
-          description: '把 OpenAI、Agent、企业级 AI 软件和开发者工作流单独列出，避免只被归到 AI 硬件下面。',
-          href: M8_LINKS.aiAgentPlatforms,
+          title: 'AI网络 / ASIC / 平台',
+          description: '把交换、网络、定制 ASIC、平台型 AI 基建拆成单独层，承接 AVGO 这类 AI 网络与平台资产。',
+          href: M8_LINKS.aiSupplyChain,
           links: [
-            { label: 'AI软件 / Agent', href: M8_LINKS.aiAgentPlatforms },
+            { label: 'AI产业链中心', href: M8_LINKS.aiSupplyChain },
             { label: 'GPT-5 企业版', href: M8_LINKS.openaiGpt5 },
           ],
         },
         {
-          title: '创新药 / GLP-1 / 医疗支付',
-          description: '把减重药、口服 GLP-1、支付渠道和创新药竞争格局收成独立的美股医疗板块层。',
-          href: '/glp1-drug-watch',
+          title: '电力设备 / 配电 / 电网升级',
+          description: '把配电、功率管理、电网升级和算电基础设施拆成独立板块，承接 GEV、ETN 这类电力设备资产。',
+          href: M8_LINKS.usStockCoreCoverage,
           links: [
-            { label: '创新药 / GLP-1 中心', href: '/glp1-drug-watch' },
-            { label: '口服 GLP-1', href: M8_LINKS.oralGlp1 },
+            { label: '美股重点标的', href: M8_LINKS.usStockCoreCoverage },
+            { label: '宏观利率中心', href: M8_LINKS.macroRateWatch },
           ],
         },
       ],
