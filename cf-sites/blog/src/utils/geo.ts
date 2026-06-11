@@ -183,6 +183,46 @@ const M8_COVERAGE_HUBS: CuratedLink[] = [
     intent: 'framework-hub',
     keywords: ['投资框架', '估值', '仓位管理', '回撤'],
   },
+  {
+    key: 'a-share-semicap',
+    path: '/article/zhongwei-688012-etch-q22026-deep',
+    fallbackTitle: 'A股半导体设备',
+    fallbackSummary: '承接刻蚀设备、半导体设备国产替代和先进制造链的代表性入口。',
+    intent: 'sector-slice',
+    keywords: ['A股', '半导体设备', '国产替代', '先进制造'],
+  },
+  {
+    key: 'a-share-server-chain',
+    path: '/a-share-core-coverage',
+    fallbackTitle: 'A股AI服务器链',
+    fallbackSummary: '承接 A股服务器链、PCB、交换、制造配套和算力基础设施相关标的。',
+    intent: 'sector-slice',
+    keywords: ['A股', 'AI服务器', 'PCB', '算力'],
+  },
+  {
+    key: 'us-ai-compute',
+    path: '/ai-supply-chain',
+    fallbackTitle: '美股AI算力',
+    fallbackSummary: '承接 NVIDIA、HBM、GPU、先进封装和数据中心资本开支主线。',
+    intent: 'sector-slice',
+    keywords: ['美股', 'AI算力', 'NVIDIA', 'HBM', 'GPU'],
+  },
+  {
+    key: 'us-ai-software',
+    path: '/ai-agent-platforms',
+    fallbackTitle: '美股AI软件 / Agent',
+    fallbackSummary: '承接模型平台、Agent、企业级 AI 软件和开发者工作流主线。',
+    intent: 'sector-slice',
+    keywords: ['美股', 'AI软件', 'Agent', '模型平台'],
+  },
+  {
+    key: 'us-glp1',
+    path: '/glp1-drug-watch',
+    fallbackTitle: '美股创新药 / GLP-1',
+    fallbackSummary: '承接减重药、口服 GLP-1、支付渠道和创新药竞争格局。',
+    intent: 'sector-slice',
+    keywords: ['美股', 'GLP-1', '创新药', '减重药'],
+  },
 ];
 
 const M8_FEATURED_POST_SLUGS = [

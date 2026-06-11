@@ -82,6 +82,20 @@ type HomeReadingStep = {
   links: HomeLink[];
 };
 
+type HomeSectorSlice = {
+  title: string;
+  description: string;
+  href: string;
+  links: HomeLink[];
+};
+
+type HomeSectorGroup = {
+  market: string;
+  title: string;
+  description: string;
+  items: HomeSectorSlice[];
+};
+
 function isZhLanguage(language?: string): boolean {
   return (language || '').toLowerCase().startsWith('zh');
 }
@@ -388,6 +402,188 @@ function buildM8ReadingSteps(isZh: boolean): HomeReadingStep[] {
   ];
 }
 
+function buildM8SectorGroups(isZh: boolean): HomeSectorGroup[] {
+  if (!isZh) {
+    return [
+      {
+        market: 'A-Shares',
+        title: 'A-share sector slices',
+        description: 'Break China coverage into semicap, servers, domestic compute, dividends, and market structure instead of one broad bucket.',
+        items: [
+          {
+            title: 'Semicap and advanced manufacturing',
+            description: 'Use semicap leaders and process tools as the spearhead for domestic substitution and capex cycle work.',
+            href: M8_LINKS.zhongwei,
+            links: [
+              { label: 'A-share core coverage', href: M8_LINKS.aShareCoreCoverage },
+              { label: 'Zhongwei deep dive', href: M8_LINKS.zhongwei },
+            ],
+          },
+          {
+            title: 'AI servers, PCB, and supply chain',
+            description: 'Keep AI servers, networking, PCB, and adjacent manufacturing names inside one A-share compute slice.',
+            href: M8_LINKS.aShareCoreCoverage,
+            links: [
+              { label: 'A-share mainlines', href: M8_LINKS.aShareMainlines },
+              { label: 'AI supply chain', href: M8_LINKS.aiSupplyChain },
+            ],
+          },
+          {
+            title: 'Domestic compute and market structure',
+            description: 'Link domestic compute, policy support, and A-share microstructure so market-specific research is easier to find.',
+            href: M8_LINKS.astockMechanics,
+            links: [
+              { label: 'Market mechanics', href: M8_LINKS.astockMechanics },
+              { label: 'A-share mainlines', href: M8_LINKS.aShareMainlines },
+            ],
+          },
+          {
+            title: 'Dividends, SOEs, and defensive assets',
+            description: 'Separate dividend and resource defensives from growth narratives so readers can land on the right A-share style.',
+            href: M8_LINKS.aShareMainlines,
+            links: [
+              { label: 'A-share mainlines', href: M8_LINKS.aShareMainlines },
+              { label: 'A-share core coverage', href: M8_LINKS.aShareCoreCoverage },
+            ],
+          },
+        ],
+      },
+      {
+        market: 'US Stocks',
+        title: 'US sector slices',
+        description: 'Break US stock coverage into AI compute, semicap, Tesla, software agents, and healthcare instead of one generic market page.',
+        items: [
+          {
+            title: 'AI compute, GPU, and HBM',
+            description: 'Track NVIDIA, HBM, advanced packaging, and capex transmission as one AI infrastructure lane.',
+            href: M8_LINKS.aiSupplyChain,
+            links: [
+              { label: 'AI supply chain', href: M8_LINKS.aiSupplyChain },
+              { label: 'NVIDIA system cycle', href: M8_LINKS.nvidiaSystem },
+            ],
+          },
+          {
+            title: 'Tesla, FSD, and robotics',
+            description: 'Keep Tesla, FSD, Robotaxi, Optimus, and supplier mapping in one durable operating lane.',
+            href: M8_LINKS.teslaFsd,
+            links: [
+              { label: 'Tesla / FSD hub', href: M8_LINKS.teslaFsd },
+              { label: 'Tesla Q1 2026', href: M8_LINKS.teslaQ1 },
+            ],
+          },
+          {
+            title: 'AI software and agent platforms',
+            description: 'Separate model platforms, coding agents, and enterprise AI software from hardware-heavy names.',
+            href: M8_LINKS.aiAgentPlatforms,
+            links: [
+              { label: 'AI software / agents', href: M8_LINKS.aiAgentPlatforms },
+              { label: 'GPT-5 enterprise', href: M8_LINKS.openaiGpt5 },
+            ],
+          },
+          {
+            title: 'Biotech, GLP-1, and healthcare',
+            description: 'Treat GLP-1, obesity drugs, payment channels, and biotech pipelines as a dedicated healthcare layer.',
+            href: '/glp1-drug-watch',
+            links: [
+              { label: 'GLP-1 hub', href: '/glp1-drug-watch' },
+              { label: 'Oral GLP-1', href: M8_LINKS.oralGlp1 },
+            ],
+          },
+        ],
+      },
+    ];
+  }
+
+  return [
+    {
+      market: 'A股',
+      title: 'A股细分板块',
+      description: '把 A股继续拆成半导体设备、AI服务器链、国产算力、高股息与市场机制，不再只保留一个总入口。',
+      items: [
+        {
+          title: '半导体设备与先进制造',
+          description: '围绕刻蚀、薄膜沉积、先进制程设备和国产替代，把最核心的设备链单独做厚。',
+          href: M8_LINKS.zhongwei,
+          links: [
+            { label: 'A股核心标的', href: M8_LINKS.aShareCoreCoverage },
+            { label: '中微公司深度', href: M8_LINKS.zhongwei },
+          ],
+        },
+        {
+          title: 'AI服务器链 / PCB / 制造链',
+          description: '把 AI 服务器、交换、PCB、上游制造协同放进一个 A股算力配套板块里，方便持续补公司。',
+          href: M8_LINKS.aShareCoreCoverage,
+          links: [
+            { label: 'A股主线中心', href: M8_LINKS.aShareMainlines },
+            { label: 'AI产业链中心', href: M8_LINKS.aiSupplyChain },
+          ],
+        },
+        {
+          title: '国产算力 / 政策催化 / 市场机制',
+          description: '把国产算力、政策催化和 A股交易制度放在一起，解决“逻辑对了但市场不一样”的阅读断层。',
+          href: M8_LINKS.astockMechanics,
+          links: [
+            { label: 'A股市场机制', href: M8_LINKS.astockMechanics },
+            { label: 'A股主线中心', href: M8_LINKS.aShareMainlines },
+          ],
+        },
+        {
+          title: '高股息 / 红利资产 / 资源股',
+          description: '把高股息央企、红利资产和资源股从成长主线里拆出来，形成单独的防御资产阅读口。',
+          href: M8_LINKS.aShareMainlines,
+          links: [
+            { label: 'A股主线中心', href: M8_LINKS.aShareMainlines },
+            { label: 'A股核心标的', href: M8_LINKS.aShareCoreCoverage },
+          ],
+        },
+      ],
+    },
+    {
+      market: '美股',
+      title: '美股细分板块',
+      description: '把美股继续拆成 AI算力、半导体设备、Tesla / FSD、AI软件 / Agent、创新药 / GLP-1，方便做长期覆盖池。',
+      items: [
+        {
+          title: 'AI算力 / GPU / HBM',
+          description: '把 NVIDIA、HBM、先进封装和数据中心资本开支放进一条 AI 基建板块里，不和泛科技稿混在一起。',
+          href: M8_LINKS.aiSupplyChain,
+          links: [
+            { label: 'AI产业链中心', href: M8_LINKS.aiSupplyChain },
+            { label: 'NVIDIA 系统级资本开支', href: M8_LINKS.nvidiaSystem },
+          ],
+        },
+        {
+          title: 'Tesla / FSD / Robotaxi / 机器人',
+          description: '把 Tesla 财报、FSD 进度、Robotaxi 估值逻辑和 Optimus 供应链拆成独立长线专题。',
+          href: M8_LINKS.teslaFsd,
+          links: [
+            { label: 'Tesla / FSD 中心', href: M8_LINKS.teslaFsd },
+            { label: 'Tesla Q1 2026', href: M8_LINKS.teslaQ1 },
+          ],
+        },
+        {
+          title: 'AI软件 / Agent / 模型平台',
+          description: '把 OpenAI、Agent、企业级 AI 软件和开发者工作流单独列出，避免只被归到 AI 硬件下面。',
+          href: M8_LINKS.aiAgentPlatforms,
+          links: [
+            { label: 'AI软件 / Agent', href: M8_LINKS.aiAgentPlatforms },
+            { label: 'GPT-5 企业版', href: M8_LINKS.openaiGpt5 },
+          ],
+        },
+        {
+          title: '创新药 / GLP-1 / 医疗支付',
+          description: '把减重药、口服 GLP-1、支付渠道和创新药竞争格局收成独立的美股医疗板块层。',
+          href: '/glp1-drug-watch',
+          links: [
+            { label: '创新药 / GLP-1 中心', href: '/glp1-drug-watch' },
+            { label: '口服 GLP-1', href: M8_LINKS.oralGlp1 },
+          ],
+        },
+      ],
+    },
+  ];
+}
+
 export async function handleHome(env: Env, page: number): Promise<Response> {
   const [config, categories, tags, collections, authors, storeEnabled] = await Promise.all([
     getConfig(env.CONTENT_BUCKET, env.SITE_ID, env.CACHE),
@@ -553,6 +749,7 @@ export async function handleHome(env: Env, page: number): Promise<Response> {
   const categoriesForRender = useFocusedHome ? topicCategories : categoriesWithDefaults;
   const researchTracks: HomeResearchTrack[] = [];
   const hubCards = useFocusedHome ? buildM8HubCards(isZh) : [];
+  const sectorGroups = useFocusedHome ? buildM8SectorGroups(isZh) : [];
   const readingSteps = useFocusedHome ? buildM8ReadingSteps(isZh) : [];
   const showTopicCards = useFocusedHome
     && topicCards.length > 0;
@@ -598,6 +795,12 @@ export async function handleHome(env: Env, page: number): Promise<Response> {
     hubCardsDescription: isZh
       ? '把 AI、Tesla / FSD、创新药和研究方法放在第二层，作为四条市场主线下面的持续扩写板块。'
       : 'Keep AI, Tesla / FSD, healthcare, and frameworks on the second layer under the four market entrances.',
+    showSectorGroups: sectorGroups.length > 0,
+    sectorGroups,
+    sectorGroupsTitle: isZh ? 'A股与美股细分板块' : 'Granular A-share and US stock sectors',
+    sectorGroupsDescription: isZh
+      ? '主线先按市场分，第二层继续按行业与板块展开，后面再落到公司、财报和专题长文。'
+      : 'Start with market entrances, then split them into sectors before moving down to companies, earnings, and deep dives.',
     showReadingSteps: false,
     readingSteps,
     readingStepsTitle: isZh ? '怎么使用这个首页' : 'How to use this homepage',

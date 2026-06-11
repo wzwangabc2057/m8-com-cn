@@ -119,6 +119,44 @@
 </section>
 {{/if}}
 
+{{#if showSectorGroups}}
+<section class="section home-sector-groups">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{sectorGroupsTitle}}</h2>
+      {{#if sectorGroupsDescription}}<p class="section-intro">{{sectorGroupsDescription}}</p>{{/if}}
+    </div>
+  </div>
+  <div class="space-y-10">
+    {{#each sectorGroups}}
+    <section class="archive-directory">
+      <div class="archive-directory-head">
+        <span class="archive-directory-label">{{this.market}}</span>
+        <h3 class="section-title">{{this.title}}</h3>
+        {{#if this.description}}<p class="archive-directory-summary">{{this.description}}</p>{{/if}}
+      </div>
+      <div class="archive-directory-grid">
+        {{#each this.items}}
+        <article class="archive-directory-card">
+          <div class="archive-directory-kicker">{{../market}}</div>
+          <h4 class="archive-directory-title"><a href="{{this.href}}">{{this.title}}</a></h4>
+          <p class="archive-directory-desc">{{this.description}}</p>
+          {{#if this.links.length}}
+          <div class="archive-directory-links">
+            {{#each this.links}}
+            <a href="{{this.href}}" class="archive-directory-link">{{this.label}}</a>
+            {{/each}}
+          </div>
+          {{/if}}
+        </article>
+        {{/each}}
+      </div>
+    </section>
+    {{/each}}
+  </div>
+</section>
+{{/if}}
+
 {{#if showReadingSteps}}
 <section class="section home-reading-steps">
   <div class="section-head">
