@@ -6,6 +6,7 @@ import { loadCustomPartials } from '../services/partials.js';
 import { getStoreEnabled } from '../services/kv-cache.js';
 import { buildPagination } from '../utils/pagination.js';
 import { render, htmlResponse } from '../renderer.js';
+import { buildMarketDirectoryEntries, buildSupportDirectoryEntries } from '../utils/category-directory.js';
 
 import {
   buildBreadcrumbSchema,
@@ -17,40 +18,7 @@ import {
 } from '../utils/seo.js';
 import { resolveLabels } from '../utils/i18n.js';
 import { enrichPostsWithCategoryDisplayNames } from '../utils/uncategorized.js';
-import type { Category, Env, NavItem } from '../types.js';
-
-interface DirectorySection {
-  slug: string;
-  label: string;
-  href: string;
-  description: string;
-  kicker: string;
-  children: NavItem[];
-}
-
-function parseCategorySlugFromHref(href?: string): string | null {
-  if (!href) return null;
-  const match = href.match(/\/category\/([^/]+)\/?$/);
-  return match?.[1] ? decodeURIComponent(match[1]) : null;
-}
-
-function buildDirectorySections(navItems: NavItem[], categories: Category[]): DirectorySection[] {
-  const categoryBySlug = new Map(categories.map((category) => [category.slug, category]));
-  return navItems.reduce<DirectorySection[]>((sections, item) => {
-    const slug = parseCategorySlugFromHref(item.href);
-    if (!slug) return sections;
-    const category = categoryBySlug.get(slug);
-    sections.push({
-      slug,
-      label: item.label,
-      href: item.href,
-      description: category?.description || '',
-      kicker: (item.children || []).map((child) => child.label).slice(0, 3).join(' · '),
-      children: (item.children || []).slice(0, 4),
-    });
-    return sections;
-  }, []);
-}
+import type { Env } from '../types.js';
 
 export async function handleCollection(env: Env, key: string, page: number): Promise<Response | null> {
   const [config, collections, authors, categories, storeEnabled] = await Promise.all([
@@ -110,8 +78,11 @@ export async function handleCollection(env: Env, key: string, page: number): Pro
     ? (blogConfig.coverImage || collection?.coverImage || defaultImages.collection || '')
     : (collection?.coverImage || defaultImages.collection || '');
   const seoMeta = buildCollectionSeoMeta(config, key, listTitle, listDescription, isBlog);
-  const directorySections = isBlog
-    ? buildDirectorySections(config.nav || [], categories)
+  const directoryCategories = isBlog
+    ? buildMarketDirectoryEntries(config, categories)
+    : [];
+  const directoryLinks = isBlog
+    ? buildSupportDirectoryEntries(config, categories, directoryCategories.map((item) => item.slug))
     : [];
   const breadcrumbs = [
     { name: config.name, url: '/' },
@@ -138,7 +109,14 @@ export async function handleCollection(env: Env, key: string, page: number): Pro
     listTitle,
     listDescription: seoMeta.description,
     listCoverImage,
-    directorySections,
+    breadcrumbs,
+    directoryLabel: config.language?.startsWith('zh') ? '研究目录' : 'Research directory',
+    directoryTitle: config.language?.startsWith('zh') ? '先按市场主线，再进入延伸栏目' : 'Start with market tracks, then branch into deeper research lanes',
+    directorySummary: config.language?.startsWith('zh')
+      ? '先从 A股、美股、港股、区块链四个主入口切入，再继续到 AI 产业链、行业研究、宏观与投资框架。'
+      : 'Start from the four main market entrances, then continue into AI, industry research, macro, and investing frameworks.',
+    directoryCategories,
+    directoryLinks,
     postsLayout: blogConfig.postsLayout || 'grid',
     defaultPostImage: defaultImages.post || '',
     posts: postsWithAuthorAndCategoryDisplay,

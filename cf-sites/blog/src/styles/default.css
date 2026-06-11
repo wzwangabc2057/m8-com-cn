@@ -967,23 +967,32 @@
   @apply mb-10 pb-8 border-b border-border/60;
 }
 
+.page-breadcrumbs,
 .post-breadcrumbs {
-  @apply mb-6 flex flex-wrap items-center justify-center gap-2 text-sm text-text-faint;
+  @apply mb-6 flex flex-wrap items-center gap-2 text-sm text-text-faint;
 }
 
+.post-breadcrumbs {
+  @apply justify-center;
+}
+
+.page-breadcrumb-link,
 .post-breadcrumb-link {
   @apply text-text-muted;
   transition: color .2s;
 }
 
+.page-breadcrumb-link:hover,
 .post-breadcrumb-link:hover {
   @apply text-primary;
 }
 
+.page-breadcrumb-sep,
 .post-breadcrumb-sep {
   @apply text-border;
 }
 
+.page-breadcrumb-current,
 .post-breadcrumb-current {
   @apply text-text-faint;
 }

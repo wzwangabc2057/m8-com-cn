@@ -1,4 +1,17 @@
 <section class="category-page">
+  {{#if breadcrumbs.length}}
+  <nav class="page-breadcrumbs" aria-label="Breadcrumb">
+    {{#each breadcrumbs}}
+      {{#if @last}}
+        <span class="page-breadcrumb-current">{{this.name}}</span>
+      {{else}}
+        <a href="{{this.url}}" class="page-breadcrumb-link">{{this.name}}</a>
+        <span class="page-breadcrumb-sep">/</span>
+      {{/if}}
+    {{/each}}
+  </nav>
+  {{/if}}
+
   <!-- Category Hero -->
   <header class="list-hero{{#if listFeaturedImage}} list-hero--has-image{{/if}}">
     {{#if listFeaturedImage}}
@@ -16,6 +29,24 @@
     </div>
     {{/if}}
   </header>
+
+  {{#if (or marketDirectoryLinks.length supportDirectoryLinks.length)}}
+  <section class="archive-directory">
+    <div class="archive-directory-head">
+      {{#if directoryLabel}}<span class="archive-directory-label">{{directoryLabel}}</span>{{/if}}
+      {{#if directorySummary}}<p class="archive-directory-summary">{{directorySummary}}</p>{{/if}}
+    </div>
+    <div class="archive-directory-links">
+      <a href="{{archiveHref}}" class="archive-directory-link">{{archiveLabel}}</a>
+      {{#each marketDirectoryLinks}}
+      <a href="{{this.href}}" class="archive-directory-link">{{this.name}}</a>
+      {{/each}}
+      {{#each supportDirectoryLinks}}
+      <a href="{{this.href}}" class="archive-directory-link">{{this.name}}</a>
+      {{/each}}
+    </div>
+  </section>
+  {{/if}}
 
   <!-- Post Grid / List -->
   <div class="{{#if (eq postsLayout 'list')}}post-list{{else}}post-grid{{/if}}">

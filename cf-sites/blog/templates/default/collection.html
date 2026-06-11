@@ -1,4 +1,17 @@
 <section class="collection-page">
+  {{#if breadcrumbs.length}}
+  <nav class="page-breadcrumbs" aria-label="Breadcrumb">
+    {{#each breadcrumbs}}
+      {{#if @last}}
+        <span class="page-breadcrumb-current">{{this.name}}</span>
+      {{else}}
+        <a href="{{this.url}}" class="page-breadcrumb-link">{{this.name}}</a>
+        <span class="page-breadcrumb-sep">/</span>
+      {{/if}}
+    {{/each}}
+  </nav>
+  {{/if}}
+
   <!-- Collection Hero -->
   <header class="list-hero{{#if listCoverImage}} list-hero--has-image{{/if}}">
     {{#if listCoverImage}}
@@ -14,6 +27,34 @@
     </div>
     {{/if}}
   </header>
+
+  {{#if (or directoryCategories.length directoryLinks.length)}}
+  <section class="archive-directory">
+    <div class="archive-directory-head">
+      {{#if directoryLabel}}<span class="archive-directory-label">{{directoryLabel}}</span>{{/if}}
+      {{#if directoryTitle}}<h2 class="section-title">{{directoryTitle}}</h2>{{/if}}
+      {{#if directorySummary}}<p class="archive-directory-summary">{{directorySummary}}</p>{{/if}}
+    </div>
+    {{#if directoryCategories.length}}
+    <div class="archive-directory-grid">
+      {{#each directoryCategories}}
+      <article class="archive-directory-card">
+        <div class="archive-directory-kicker">{{this.count}} {{t "postsCount"}}</div>
+        <h3 class="archive-directory-title"><a href="{{this.href}}">{{this.name}}</a></h3>
+        <p class="archive-directory-desc">{{this.description}}</p>
+      </article>
+      {{/each}}
+    </div>
+    {{/if}}
+    {{#if directoryLinks.length}}
+    <div class="archive-directory-links">
+      {{#each directoryLinks}}
+      <a href="{{this.href}}" class="archive-directory-link">{{this.name}}</a>
+      {{/each}}
+    </div>
+    {{/if}}
+  </section>
+  {{/if}}
 
   <!-- Post Grid / List -->
   <div class="{{#if (eq postsLayout 'list')}}post-list{{else}}post-grid{{/if}}">

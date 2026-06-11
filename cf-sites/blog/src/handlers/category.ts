@@ -6,8 +6,10 @@ import { loadCustomPartials } from '../services/partials.js';
 import { getStoreEnabled } from '../services/kv-cache.js';
 import { buildPagination } from '../utils/pagination.js';
 import { render, htmlResponse } from '../renderer.js';
+import { buildMarketDirectoryEntries, buildSupportDirectoryEntries } from '../utils/category-directory.js';
 
 import {
+  buildBreadcrumbSchema,
   buildListSeo,
   buildWebSiteSchema,
   getCanonicalBase,
@@ -57,6 +59,14 @@ export async function handleCategory(env: Env, slug: string, page: number): Prom
 
   const labels = resolveLabels(config.language || 'zh-CN', config.labels);
   const listTitle = isUncategorized(slug) ? labels.uncategorized : (category?.name || slug);
+  const marketDirectoryLinks = buildMarketDirectoryEntries(config, categories)
+    .filter((entry) => entry.slug !== filterSlug);
+  const supportDirectoryLinks = buildSupportDirectoryEntries(config, categories, [filterSlug]);
+  const breadcrumbs = [
+    { name: config.name, url: '/' },
+    { name: config.blog?.title || labels.blog, url: `/${config.routes?.blog || 'blog'}` },
+    { name: listTitle, url: baseUrl },
+  ];
 
   const authorMap = new Map(authors.map((a) => [a.id, a]));
   const postsWithAuthor = posts.map((p) => ({
@@ -88,13 +98,25 @@ export async function handleCategory(env: Env, slug: string, page: number): Prom
     pageTitle: listTitle,
     pageDescription: category?.description,
     seo,
-    schema: { website: buildWebSiteSchema(config, base) },
+    schema: {
+      website: buildWebSiteSchema(config, base),
+      breadcrumbList: buildBreadcrumbSchema(config, breadcrumbs, base),
+    },
     showHeader: true,
     showFooter: true,
     customPartials,
+    breadcrumbs,
     listTitle,
     listDescription: category?.description || '',
     listFeaturedImage,
+    directoryLabel: config.language?.startsWith('zh') ? '继续浏览' : 'Keep browsing',
+    directorySummary: config.language?.startsWith('zh')
+      ? '继续沿市场主线或常青研究栏目扩展阅读，避免只停留在单一分类页。'
+      : 'Continue through adjacent market tracks and evergreen research sections instead of stopping at a single category page.',
+    marketDirectoryLinks,
+    supportDirectoryLinks,
+    archiveHref: `/${config.routes?.blog || 'blog'}`,
+    archiveLabel: config.language?.startsWith('zh') ? '查看全部归档' : 'Browse the full archive',
     postsLayout: config.blog?.postsLayout || 'grid',
     defaultPostImage: defaultImages.post || '',
     posts: postsWithAuthorAndCategoryDisplay,
