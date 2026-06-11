@@ -967,6 +967,27 @@
   @apply mb-10 pb-8 border-b border-border/60;
 }
 
+.post-breadcrumbs {
+  @apply mb-6 flex flex-wrap items-center justify-center gap-2 text-sm text-text-faint;
+}
+
+.post-breadcrumb-link {
+  @apply text-text-muted;
+  transition: color .2s;
+}
+
+.post-breadcrumb-link:hover {
+  @apply text-primary;
+}
+
+.post-breadcrumb-sep {
+  @apply text-border;
+}
+
+.post-breadcrumb-current {
+  @apply text-text-faint;
+}
+
 .post-header-meta {
   @apply flex flex-wrap gap-2 mb-5;
 }
@@ -1095,6 +1116,14 @@
 
 .post-tags {
   @apply flex flex-wrap gap-2;
+}
+
+.post-related {
+  @apply mt-16 px-4 sm:px-6 pb-4;
+}
+
+.post-related-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6;
 }
 
 /* ═══════════════════════════════════════════════════════════

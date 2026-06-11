@@ -1,4 +1,17 @@
 <article class="post max-w-4xl mx-auto">
+  {{#if breadcrumbs.length}}
+  <nav class="post-breadcrumbs" aria-label="Breadcrumb">
+    {{#each breadcrumbs}}
+      {{#if @last}}
+      <span class="post-breadcrumb-current">{{this.name}}</span>
+      {{else}}
+      <a href="{{this.url}}" class="post-breadcrumb-link">{{this.name}}</a>
+      <span class="post-breadcrumb-sep">/</span>
+      {{/if}}
+    {{/each}}
+  </nav>
+  {{/if}}
+
   <header class="post-header text-center">
     {{#if post.categories.length}}
     <div class="post-header-meta justify-center">
@@ -40,3 +53,19 @@
   </footer>
   {{/if}}
 </article>
+
+{{#if showRelatedPosts}}
+<section class="post-related max-w-6xl mx-auto">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{relatedTitle}}</h2>
+      {{#if relatedDescription}}<p class="section-intro">{{relatedDescription}}</p>{{/if}}
+    </div>
+  </div>
+  <div class="post-related-grid">
+    {{#each relatedPosts}}
+      {{> post-card}}
+    {{/each}}
+  </div>
+</section>
+{{/if}}

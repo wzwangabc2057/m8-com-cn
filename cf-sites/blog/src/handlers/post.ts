@@ -2,6 +2,7 @@ import { getConfig, getPost, applyImageResizing } from '../services/content.js';
 import { getAuthors, getCategories } from '../services/meta.js';
 import { loadCustomPartials } from '../services/partials.js';
 import { getStoreEnabled } from '../services/kv-cache.js';
+import { getPosts } from '../services/d1-content.js';
 import { render, htmlResponse } from '../renderer.js';
 import {
   buildPostSeo,
@@ -14,6 +15,22 @@ import {
 import { resolveLabels } from '../utils/i18n.js';
 import { resolveCategoryDisplayName } from '../utils/uncategorized.js';
 import type { Env } from '../types.js';
+
+function mergeRelatedPostGroups<T extends { slug: string }>(groups: T[][], currentSlug: string, limit: number): T[] {
+  const seen = new Set<string>([currentSlug]);
+  const merged: T[] = [];
+
+  for (const group of groups) {
+    for (const item of group) {
+      if (seen.has(item.slug)) continue;
+      seen.add(item.slug);
+      merged.push(item);
+      if (merged.length >= limit) return merged;
+    }
+  }
+
+  return merged;
+}
 
 /**
  * If content is a full HTML document (with <head>/<meta>/<title> etc.),
@@ -189,6 +206,7 @@ export async function handlePost(env: Env, slug: string): Promise<Response | nul
   const authorName = authorObj?.name || effectiveAuthorId || '';
 
   const labels = resolveLabels(config.language || 'zh-CN', config.labels);
+  const isZh = (config.language || '').toLowerCase().startsWith('zh');
   const categoryDisplayNames = (post.categories || []).map((slug) =>
     resolveCategoryDisplayName(slug, categories, labels.uncategorized),
   );
@@ -216,6 +234,38 @@ export async function handlePost(env: Env, slug: string): Promise<Response | nul
     ? post.excerpt.replace(/<[^>]*>/g, '').replace(/&[a-z]+;/gi, ' ').replace(/\s+/g, ' ').trim()
     : '';
 
+  const authorMap = new Map(authors.map((author) => [author.id, author]));
+  const enrichPostSummary = <T extends { author: string; categories: string[] }>(item: T) => ({
+    ...item,
+    authorDisplayName: authorMap.get(item.author)?.name || item.author,
+    categoryDisplayNames: (item.categories || []).map((categorySlug) =>
+      resolveCategoryDisplayName(categorySlug, categories, labels.uncategorized),
+    ),
+  });
+
+  const relatedLimit = 3;
+  const relatedCategory = post.categories[0];
+  const relatedTag = post.tags[0];
+  const [relatedByCategory, relatedByTag, relatedLatest] = await Promise.all([
+    relatedCategory
+      ? getPosts(env.DB, env.SITE_ID, 1, relatedLimit + 2, { category: relatedCategory })
+      : Promise.resolve({ posts: [], total: 0 }),
+    relatedTag
+      ? getPosts(env.DB, env.SITE_ID, 1, relatedLimit + 2, { tag: relatedTag })
+      : Promise.resolve({ posts: [], total: 0 }),
+    getPosts(env.DB, env.SITE_ID, 1, relatedLimit + 4),
+  ]);
+
+  const relatedPosts = mergeRelatedPostGroups(
+    [
+      relatedByCategory.posts.map(enrichPostSummary),
+      relatedByTag.posts.map(enrichPostSummary),
+      relatedLatest.posts.map(enrichPostSummary),
+    ],
+    post.slug,
+    relatedLimit,
+  );
+
   const base = getCanonicalBase(config, env.EFFECTIVE_ORIGIN);
   const html = render(config.theme || 'default', 'post', {
     site: { ...config, url: env.EFFECTIVE_ORIGIN || config.url },
@@ -235,6 +285,13 @@ export async function handlePost(env: Env, slug: string): Promise<Response | nul
     post: { ...post, author: effectiveAuthorId || post.author, categoryDisplayNames },
     authorName,
     breadcrumbs,
+    showRelatedPosts: relatedPosts.length > 0,
+    relatedPosts,
+    relatedTitle: isZh ? '继续阅读' : 'Continue reading',
+    relatedDescription: isZh
+      ? '优先沿着同一市场主线、同一行业或同一主题继续往下读，减少单篇跳出。'
+      : 'Continue with closely related coverage from the same market, sector, or theme.',
+    defaultPostImage: config.defaults?.post || '',
     preloadImage: post.coverImage || seo.ogImage,
   });
 
