@@ -11,6 +11,8 @@ import { handleSiteAsset } from '../src/handlers/site-assets.js';
 import { handleSitemap } from '../src/handlers/sitemap.js';
 import { handleRobots } from '../src/handlers/robots.js';
 import { handleFeed } from '../src/handlers/feed.js';
+import { handleLlms } from '../src/handlers/llms.js';
+import { handleResearchIndex } from '../src/handlers/research-index.js';
 import { resolveSiteId } from '../src/services/site-resolver.js';
 import type { Env } from '../src/types.js';
 
@@ -126,6 +128,12 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   }
   if (pathname === '/feed.xml') {
     return handleFeed(siteEnv);
+  }
+  if (pathname === '/llms.txt') {
+    return handleLlms(siteEnv);
+  }
+  if (pathname === '/research-index.json') {
+    return handleResearchIndex(siteEnv);
   }
 
   // Redirect trailing slash URLs to non-trailing slash (except root '/')

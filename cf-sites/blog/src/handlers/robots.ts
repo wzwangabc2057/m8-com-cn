@@ -8,41 +8,78 @@ export async function handleRobots(env: Env): Promise<Response> {
   const config = await getConfig(env.CONTENT_BUCKET, env.SITE_ID, env.CACHE);
   const base = (env.EFFECTIVE_ORIGIN ?? '').replace(/\/$/, '');
   const sitemapUrl = base ? `${base}/sitemap.xml` : '/sitemap.xml';
+  const llmsUrl = base ? `${base}/llms.txt` : '/llms.txt';
+  const researchIndexUrl = base ? `${base}/research-index.json` : '/research-index.json';
   const lines = [
-    'User-agent: *',
+    '# Public pages and site assets are crawlable.',
+    '# API routes remain blocked.',
+    '',
+    'User-agent: Googlebot',
     'Allow: /',
+    'Allow: /site-assets/',
     'Disallow: /api/',
     '',
+    'User-agent: GoogleOther',
+    'Allow: /',
+    'Allow: /site-assets/',
+    'Disallow: /api/',
+    '',
+    'User-agent: Google-Extended',
+    'Allow: /',
+    'Allow: /site-assets/',
+    'Disallow: /api/',
+    '',
+    'User-agent: OAI-SearchBot',
+    'Allow: /',
+    'Allow: /site-assets/',
+    'Disallow: /api/',
+    '',
+    'User-agent: ChatGPT-User',
+    'Allow: /',
+    'Allow: /site-assets/',
+    'Disallow: /api/',
+    '',
+    'User-agent: GPTBot',
+    'Allow: /',
+    'Allow: /site-assets/',
+    'Disallow: /api/',
+    '',
+    'User-agent: ClaudeBot',
+    'Allow: /',
+    'Allow: /site-assets/',
+    'Disallow: /api/',
+    '',
+    'User-agent: PerplexityBot',
+    'Allow: /',
+    'Allow: /site-assets/',
+    'Disallow: /api/',
+    '',
+    'User-agent: CCBot',
+    'Allow: /',
+    'Allow: /site-assets/',
+    'Disallow: /api/',
+    '',
+    'User-agent: *',
+    'Allow: /',
+    'Allow: /site-assets/',
+    'Disallow: /api/',
+    '',
+    `# llms.txt: ${llmsUrl}`,
+    `# research-index: ${researchIndexUrl}`,
     `Sitemap: ${sitemapUrl}`,
   ];
-  const seen = new Set<string>();
-  const normalized = (line: string) => line.trim().toLowerCase();
-  const pushLine = (line: string) => {
-    if (!line.trim()) {
-      if (lines[lines.length - 1] !== '') lines.push('');
-      return;
-    }
-    const key = normalized(line);
-    if (key === 'disallow: /site-assets/' || key === 'disallow: /site-assets') return;
-    if (key.startsWith('sitemap:')) {
-      const sitemapKey = `sitemap:${sitemapUrl.toLowerCase()}`;
-      if (seen.has(sitemapKey)) return;
-      seen.add(sitemapKey);
-      lines.push(`Sitemap: ${sitemapUrl}`);
-      return;
-    }
-    if (seen.has(key)) return;
-    seen.add(key);
-    lines.push(line);
-  };
-
-  for (const line of lines.splice(0, lines.length)) {
-    pushLine(line);
-  }
 
   if (config.seo?.robotsExtra) {
-    for (const line of config.seo.robotsExtra.split(/\r?\n/)) {
-      pushLine(line.trim());
+    for (const rawLine of config.seo.robotsExtra.split(/\r?\n/)) {
+      const line = rawLine.trim();
+      if (!line) {
+        if (lines[lines.length - 1] !== '') lines.push('');
+        continue;
+      }
+      const normalized = line.toLowerCase();
+      if (normalized === 'disallow: /site-assets/' || normalized === 'disallow: /site-assets') continue;
+      if (normalized.startsWith('sitemap:')) continue;
+      lines.push(line);
     }
   }
 
