@@ -54,6 +54,21 @@
   {{/if}}
 </article>
 
+{{#if postCompanionLinks.length}}
+<section class="archive-directory max-w-6xl mx-auto mt-10">
+  <div class="archive-directory-head">
+    {{#if postCompanionLabel}}<span class="archive-directory-label">{{postCompanionLabel}}</span>{{/if}}
+    {{#if postCompanionTitle}}<h2 class="section-title">{{postCompanionTitle}}</h2>{{/if}}
+    {{#if postCompanionSummary}}<p class="archive-directory-summary">{{postCompanionSummary}}</p>{{/if}}
+  </div>
+  <div class="archive-directory-links">
+    {{#each postCompanionLinks}}
+    <a href="{{this.href}}" class="archive-directory-link">{{this.label}}</a>
+    {{/each}}
+  </div>
+</section>
+{{/if}}
+
 {{#if showRelatedPosts}}
 <section class="post-related max-w-6xl mx-auto">
   <div class="section-head">

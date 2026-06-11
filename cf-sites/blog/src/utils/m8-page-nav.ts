@@ -16,6 +16,13 @@ export interface M8PageNavigation {
   companionLinks: PageCompanionLink[];
 }
 
+export interface M8PostNavigation {
+  companionLabel: string;
+  companionTitle: string;
+  companionSummary: string;
+  companionLinks: PageCompanionLink[];
+}
+
 interface PageNavDefinition {
   parent?: { slug: string; name: string };
   links: PageCompanionLink[];
@@ -186,5 +193,105 @@ export function getM8PageNavigation(slug: string, pageTitle: string): M8PageNavi
       ? '这些链接负责把专题页重新接回研究目录、主栏目与相邻专题，避免页面只剩单向阅读。'
       : '把入口页、目录页和专题页串起来，方便读者与搜索引擎理解站内层级关系。',
     companionLinks: definition.links,
+  };
+}
+
+function dedupeLinks(links: PageCompanionLink[]): PageCompanionLink[] {
+  const seen = new Set<string>();
+  const result: PageCompanionLink[] = [];
+  for (const link of links) {
+    if (seen.has(link.href)) continue;
+    seen.add(link.href);
+    result.push(link);
+  }
+  return result;
+}
+
+function encodeSegment(value: string): string {
+  return encodeURIComponent(value);
+}
+
+function categoryHubLink(category: string): PageCompanionLink | null {
+  switch (category) {
+    case 'a-stocks':
+      return { label: 'A股核心标的', href: '/a-share-core-coverage' };
+    case 'us-stocks':
+      return { label: '美股重点标的', href: '/us-stock-core-coverage' };
+    case 'hk-stocks':
+      return { label: '港股研究中心', href: '/hk-tech-dividend' };
+    case 'crypto':
+      return { label: 'BTC ETF 中心', href: '/btc-etf-watch' };
+    case 'macro':
+      return { label: '宏观利率中心', href: '/macro-rate-watch' };
+    case 'ai-stocks':
+      return { label: 'AI产业链中心', href: '/ai-supply-chain' };
+    case 'industry-research':
+      return { label: '行业研究主线', href: '/glp1-drug-watch' };
+    case 'investing-101':
+      return { label: '投资框架中心', href: '/investing-frameworks' };
+    default:
+      return null;
+  }
+}
+
+function keywordHubLinks(text: string): PageCompanionLink[] {
+  const value = text.toLowerCase();
+  const links: PageCompanionLink[] = [];
+
+  if (/(tesla|fsd|robotaxi|optimus)/.test(value)) {
+    links.push({ label: 'Tesla / FSD 中心', href: '/tesla-fsd' });
+  }
+  if (/(glp-?1|wegovy|eli lilly|oral glp|retatrutide)/.test(value)) {
+    links.push({ label: 'GLP-1 专题', href: '/glp1-drug-watch' });
+  }
+  if (/(openai|agent|gpt|xcode|coding agents)/.test(value)) {
+    links.push({ label: 'AI 软件 / Agent', href: '/ai-agent-platforms' });
+  }
+  if (/(bitcoin|btc|crypto|stablecoin|cme)/.test(value)) {
+    links.push({ label: '区块链 / BTC ETF', href: '/btc-etf-watch' });
+  }
+  if (/(hbm|gpu|nvidia|rubin|micron|packaging|advanced packaging)/.test(value)) {
+    links.push({ label: 'AI产业链中心', href: '/ai-supply-chain' });
+  }
+
+  return links;
+}
+
+export function getM8PostNavigation(args: {
+  slug: string;
+  title: string;
+  categories: string[];
+  tags: string[];
+  authorId?: string;
+}): M8PostNavigation {
+  const primaryCategory = args.categories[0];
+  const links: PageCompanionLink[] = [
+    { label: '研究目录', href: '/research-directory' },
+    { label: '开始阅读', href: '/start-here' },
+  ];
+
+  if (primaryCategory) {
+    links.push({ label: '返回所属栏目', href: `/category/${encodeSegment(primaryCategory)}` });
+    const hubLink = categoryHubLink(primaryCategory);
+    if (hubLink) links.push(hubLink);
+  }
+
+  for (const tag of args.tags.slice(0, 3)) {
+    links.push({ label: `标签：${tag}`, href: `/tag/${encodeSegment(tag)}` });
+  }
+
+  links.push(...keywordHubLinks(`${args.slug} ${args.title} ${args.tags.join(' ')}`));
+
+  if (args.authorId) {
+    links.push({ label: '作者页', href: `/author/${encodeSegment(args.authorId)}` });
+  }
+
+  links.push({ label: '全部归档', href: '/blog' });
+
+  return {
+    companionLabel: '继续延伸',
+    companionTitle: '先回到上层栏目，再进入相邻专题',
+    companionSummary: '把单篇文章重新接回栏目页、专题页、作者页和研究目录，减少孤立文章，增强站内层级与连续阅读。',
+    companionLinks: dedupeLinks(links).slice(0, 8),
   };
 }

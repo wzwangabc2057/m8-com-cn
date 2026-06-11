@@ -13,6 +13,13 @@
 </script>
 {{/if}}
 
+{{#if schema.collectionPage}}
+<!-- CollectionPage schema -->
+<script type="application/ld+json">
+{{{jsonLdSafe schema.collectionPage}}}
+</script>
+{{/if}}
+
 {{#if schema.breadcrumbList}}
 <!-- BreadcrumbList schema -->
 <script type="application/ld+json">
@@ -24,6 +31,13 @@
 <!-- Organization schema -->
 <script type="application/ld+json">
 {{{jsonLdSafe schema.organization}}}
+</script>
+{{/if}}
+
+{{#if schema.person}}
+<!-- Person schema -->
+<script type="application/ld+json">
+{{{jsonLdSafe schema.person}}}
 </script>
 {{/if}}
 {{/if}}

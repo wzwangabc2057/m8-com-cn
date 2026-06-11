@@ -31,3 +31,18 @@
   </footer>
   {{/if}}
 </article>
+
+{{#if postCompanionLinks.length}}
+<section class="max-w-5xl mx-auto px-4 pb-4">
+  <div class="rounded-2xl border border-gray-200 bg-gray-50 px-6 py-6">
+    {{#if postCompanionLabel}}<div class="text-xs font-semibold uppercase tracking-[0.22em] text-gray-500 mb-3">{{postCompanionLabel}}</div>{{/if}}
+    {{#if postCompanionTitle}}<h2 class="text-2xl font-bold text-gray-900 mb-3">{{postCompanionTitle}}</h2>{{/if}}
+    {{#if postCompanionSummary}}<p class="text-sm text-gray-600 mb-4">{{postCompanionSummary}}</p>{{/if}}
+    <div class="flex flex-wrap gap-2">
+      {{#each postCompanionLinks}}
+      <a href="{{this.href}}" class="inline-flex items-center rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:border-indigo-300 hover:text-indigo-600 transition-colors">{{this.label}}</a>
+      {{/each}}
+    </div>
+  </div>
+</section>
+{{/if}}

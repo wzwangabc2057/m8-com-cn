@@ -4,12 +4,14 @@ import { loadCustomPartials } from '../services/partials.js';
 import { getStoreEnabled } from '../services/kv-cache.js';
 import { getPosts } from '../services/d1-content.js';
 import { render, htmlResponse } from '../renderer.js';
+import { getM8PostNavigation } from '../utils/m8-page-nav.js';
 import {
   buildPostSeo,
   buildPostPath,
   buildWebSiteSchema,
   buildBlogPostingSchema,
   buildBreadcrumbSchema,
+  buildPersonSchema,
   getCanonicalBase,
 } from '../utils/seo.js';
 import { enrichPostsWithAuthorIdentity, resolveAuthorIdentity } from '../utils/authors.js';
@@ -270,6 +272,15 @@ export async function handlePost(env: Env, slug: string): Promise<Response | nul
   );
 
   const base = getCanonicalBase(config, env.EFFECTIVE_ORIGIN);
+  const postNavigation = env.SITE_ID === 'm8.com.cn'
+    ? getM8PostNavigation({
+        slug: post.slug,
+        title: post.title,
+        categories: post.categories || [],
+        tags: post.tags || [],
+        authorId: resolvedAuthor.authorCanonicalId || effectiveAuthorId || post.author,
+      })
+    : null;
   const html = render(config.theme || 'default', 'post', {
     site: { ...config, url: env.EFFECTIVE_ORIGIN || config.url },
     storeEnabled,
@@ -281,6 +292,7 @@ export async function handlePost(env: Env, slug: string): Promise<Response | nul
       website: buildWebSiteSchema(config, base),
       blogPosting: buildBlogPostingSchema(config, post, authorObj, base),
       breadcrumbList: buildBreadcrumbSchema(config, breadcrumbs, base),
+      person: authorObj ? buildPersonSchema(authorObj, base) : undefined,
     },
     showHeader: true,
     showFooter: true,
@@ -293,6 +305,10 @@ export async function handlePost(env: Env, slug: string): Promise<Response | nul
     },
     authorName,
     breadcrumbs,
+    postCompanionLabel: postNavigation?.companionLabel || '',
+    postCompanionTitle: postNavigation?.companionTitle || '',
+    postCompanionSummary: postNavigation?.companionSummary || '',
+    postCompanionLinks: postNavigation?.companionLinks || [],
     showRelatedPosts: relatedPosts.length > 0,
     relatedPosts,
     relatedTitle: isZh ? '继续阅读' : 'Continue reading',

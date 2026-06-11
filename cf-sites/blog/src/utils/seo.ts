@@ -321,17 +321,31 @@ export function buildBlogPostingSchema(
 ): Record<string, unknown> {
   const base = baseUrl ?? '';
   const postUrl = buildCanonicalUrl(base, buildPostPath(config.routes, post.slug));
+  const authorUrl = authorObj?.url
+    ? (authorObj.url.startsWith('http') ? authorObj.url : buildCanonicalUrl(base, authorObj.url))
+    : undefined;
+  const coverImageUrl = post.coverImage
+    ? (post.coverImage.startsWith('http') ? post.coverImage : buildCanonicalUrl(base, post.coverImage))
+    : undefined;
 
   const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.excerpt,
+    url: postUrl,
+    inLanguage: config.language || 'zh-CN',
     datePublished: post.publishedAt,
     dateModified: post.updatedAt,
+    isAccessibleForFree: true,
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': postUrl,
+    },
+    isPartOf: {
+      '@type': 'WebSite',
+      name: config.name,
+      url: base,
     },
     publisher: {
       '@type': 'Organization',
@@ -340,10 +354,10 @@ export function buildBlogPostingSchema(
     },
   };
 
-  if (post.coverImage) {
+  if (coverImageUrl) {
     schema.image = {
       '@type': 'ImageObject',
-      url: post.coverImage.startsWith('http') ? post.coverImage : buildCanonicalUrl(base, post.coverImage),
+      url: coverImageUrl,
     };
   }
 
@@ -351,7 +365,7 @@ export function buildBlogPostingSchema(
     schema.author = {
       '@type': 'Person',
       name: authorObj.name,
-      ...(authorObj.url && { url: authorObj.url }),
+      ...(authorUrl && { url: authorUrl }),
     };
   } else {
     schema.author = {
@@ -366,6 +380,35 @@ export function buildBlogPostingSchema(
 
   if (post.tags?.length > 0) {
     schema.keywords = post.tags.join(', ');
+  }
+
+  return schema;
+}
+
+export function buildPersonSchema(author: Author, baseUrl: string): Record<string, unknown> {
+  const authorUrl = author.url
+    ? (author.url.startsWith('http') ? author.url : buildCanonicalUrl(baseUrl, author.url))
+    : buildCanonicalUrl(baseUrl, `/author/${author.id}`);
+
+  const schema: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: author.name || author.id,
+    url: authorUrl,
+  };
+
+  if (author.bio) {
+    schema.description = author.bio;
+  }
+
+  if (author.avatar) {
+    schema.image = author.avatar.startsWith('http')
+      ? author.avatar
+      : buildCanonicalUrl(baseUrl, author.avatar);
+  }
+
+  if (author.social && author.social.length > 0) {
+    schema.sameAs = author.social.map((item) => item.url);
   }
 
   return schema;

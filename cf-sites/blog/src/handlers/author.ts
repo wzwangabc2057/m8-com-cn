@@ -13,6 +13,7 @@ import { buildCategoryLinksFromPosts, buildTagLinksFromPosts } from '../utils/ta
 import {
   buildBreadcrumbSchema,
   buildListSeo,
+  buildPersonSchema,
   buildWebSiteSchema,
   getCanonicalBase,
 } from '../utils/seo.js';
@@ -96,6 +97,7 @@ export async function handleAuthor(env: Env, id: string, page: number): Promise<
     schema: {
       website: buildWebSiteSchema(config, base),
       breadcrumbList: buildBreadcrumbSchema(config, breadcrumbs, base),
+      person: buildPersonSchema(author || { id, name: id, count: total, bio: derivedDescription }, base),
     },
     showHeader: true,
     showFooter: true,
