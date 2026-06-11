@@ -73,6 +73,26 @@
 </section>
 {{/if}}
 
+{{#if showTopicCards}}
+<section class="section home-topics">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{topicsTitle}}</h2>
+      {{#if topicsDescription}}<p class="section-intro">{{topicsDescription}}</p>{{/if}}
+    </div>
+  </div>
+  <div class="topic-grid">
+    {{#each topicCards}}
+    <a href="{{this.href}}" class="topic-card">
+      <span class="topic-card-name">{{this.name}}</span>
+      <p class="topic-card-desc">{{this.description}}</p>
+      <span class="topic-card-meta">{{this.count}} {{t "postsCount"}}</span>
+    </a>
+    {{/each}}
+  </div>
+</section>
+{{/if}}
+
 {{#if showHubCards}}
 <section class="section home-hubs">
   <div class="section-head">
@@ -94,26 +114,6 @@
       </div>
       <a href="{{this.href}}" class="home-panel-cta">{{this.cta}}</a>
     </article>
-    {{/each}}
-  </div>
-</section>
-{{/if}}
-
-{{#if showTopicCards}}
-<section class="section home-topics">
-  <div class="section-head">
-    <div>
-      <h2 class="section-title">{{topicsTitle}}</h2>
-      {{#if topicsDescription}}<p class="section-intro">{{topicsDescription}}</p>{{/if}}
-    </div>
-  </div>
-  <div class="topic-grid">
-    {{#each topicCards}}
-    <a href="{{this.href}}" class="topic-card">
-      <span class="topic-card-name">{{this.name}}</span>
-      <p class="topic-card-desc">{{this.description}}</p>
-      <span class="topic-card-meta">{{this.count}} {{t "postsCount"}}</span>
-    </a>
     {{/each}}
   </div>
 </section>

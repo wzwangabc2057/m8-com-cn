@@ -18,7 +18,7 @@ import { resolveLabels } from '../utils/i18n.js';
 import { isUncategorized, enrichPostsWithCategoryDisplayNames } from '../utils/uncategorized.js';
 import type { Env } from '../types.js';
 
-const M8_FOCUS_CATEGORIES = ['ai-stocks', 'industry-research', 'a-stocks', 'us-stocks'];
+const M8_FOCUS_CATEGORIES = ['a-stocks', 'us-stocks', 'hk-stocks', 'crypto'];
 const M8_HIDDEN_HOME_CATEGORIES = new Set(['investing-101']);
 const M8_LINKS = {
   researchDirectory: '/research-directory',
@@ -43,6 +43,12 @@ const M8_LINKS = {
   nvidiaSystem: '/article/nvidia-fy2026-system-level-deep',
   astockMechanics: '/article/china-astock-market-mechanics-101',
   glp1Supply: '/article/glp1-supply-2026-trending',
+  oralGlp1: '/article/oral-glp1-retatrutide-2026-insight',
+  hkCnooc: '/article/cnooc-0883hk-oil-dividend-q22026-deep',
+  hkXiaomi: '/article/xiaomi-1810hk-su7ultra-aihome-2026-deep',
+  cryptoCme: '/article/cme-crypto-index-futures-20260609-insight',
+  cryptoCoinbaseBase: '/article/coinbase-base-layer2-ecosystem-2026-deep',
+  cryptoMstr: '/article/mstr-btc-treasury-may2026-deep',
 } as const;
 
 type HomeLink = {
@@ -111,35 +117,11 @@ function buildM8ResearchTracks(isZh: boolean): HomeResearchTrack[] {
   if (!isZh) {
     return [
       {
-        kicker: 'AI Supply Chain',
-        title: 'AI infrastructure and compute roadmap',
-        description: 'Track HBM, advanced packaging, GPUs, AI software, and robotics through linked section pages instead of one-off stories.',
-        href: M8_LINKS.aiSupplyChain,
-        cta: 'Open AI supply chain',
-        links: [
-          { label: 'HBM / advanced packaging', href: M8_LINKS.besiHbm4 },
-          { label: 'AI software / agents', href: M8_LINKS.aiAgentPlatforms },
-          { label: 'Tesla / robotics', href: M8_LINKS.teslaFsd },
-        ],
-      },
-      {
-        kicker: 'US Stocks',
-        title: 'Priority US stock coverage',
-        description: 'Turn Tesla, NVIDIA, model platforms, semicap, and GLP-1 into a durable research pool instead of a loose news archive.',
-        href: M8_LINKS.usStockCoreCoverage,
-        cta: 'Open US core coverage',
-        links: [
-          { label: 'Tesla Q1 2026', href: M8_LINKS.teslaQ1 },
-          { label: 'NVIDIA system cycle', href: M8_LINKS.nvidiaSystem },
-          { label: 'GPT-5 enterprise launch', href: M8_LINKS.openaiGpt5 },
-        ],
-      },
-      {
         kicker: 'China A-Shares',
-        title: 'Core A-share coverage pool',
-        description: 'Build deeper company coverage around domestic substitution, semicap, servers, robotics components, and dividend defensives.',
+        title: 'A-share core coverage',
+        description: 'Use the A-share market entrance to organize semicap, servers, domestic substitution, dividends, and market structure work.',
         href: M8_LINKS.aShareCoreCoverage,
-        cta: 'Open A-share core coverage',
+        cta: 'Open A-share coverage',
         links: [
           { label: 'A-share mainlines', href: M8_LINKS.aShareMainlines },
           { label: 'Zhongwei deep dive', href: M8_LINKS.zhongwei },
@@ -147,15 +129,39 @@ function buildM8ResearchTracks(isZh: boolean): HomeResearchTrack[] {
         ],
       },
       {
-        kicker: 'Macro',
-        title: 'Rates and cross-asset transmission',
-        description: 'Organize FOMC, payrolls, USD, gold, BTC ETF, and risk appetite into a separate layer for macro search demand and allocation context.',
-        href: M8_LINKS.macroRateWatch,
-        cta: 'Open macro rate watch',
+        kicker: 'US Stocks',
+        title: 'US priority names',
+        description: 'Group AI leaders, Tesla, semicap, and biotech into one durable US stock research pool.',
+        href: M8_LINKS.usStockCoreCoverage,
+        cta: 'Open US core coverage',
         links: [
-          { label: 'Macro rate watch', href: M8_LINKS.macroRateWatch },
+          { label: 'Tesla Q1 2026', href: M8_LINKS.teslaQ1 },
+          { label: 'NVIDIA system cycle', href: M8_LINKS.nvidiaSystem },
+          { label: 'Oral GLP-1', href: M8_LINKS.oralGlp1 },
+        ],
+      },
+      {
+        kicker: 'Hong Kong',
+        title: 'Hong Kong stock coverage',
+        description: 'Use Hong Kong stocks as a separate market entrance for internet platforms, insurers, exporters, and high-dividend defensives.',
+        href: M8_LINKS.hkTechDividend,
+        cta: 'Open Hong Kong coverage',
+        links: [
+          { label: 'CNOOC deep dive', href: M8_LINKS.hkCnooc },
+          { label: 'Xiaomi deep dive', href: M8_LINKS.hkXiaomi },
+          { label: 'HK research hub', href: M8_LINKS.hkTechDividend },
+        ],
+      },
+      {
+        kicker: 'Blockchain',
+        title: 'Blockchain and crypto assets',
+        description: 'Give BTC ETF, crypto beta, stablecoin regulation, and on-chain ecosystem names their own market-level entrance.',
+        href: M8_LINKS.btcEtfWatch,
+        cta: 'Open blockchain coverage',
+        links: [
           { label: 'BTC ETF center', href: M8_LINKS.btcEtfWatch },
-          { label: 'Investing frameworks', href: M8_LINKS.investingFrameworks },
+          { label: 'CME crypto basket', href: M8_LINKS.cryptoCme },
+          { label: 'Coinbase Base ecosystem', href: M8_LINKS.cryptoCoinbaseBase },
         ],
       },
     ];
@@ -163,35 +169,11 @@ function buildM8ResearchTracks(isZh: boolean): HomeResearchTrack[] {
 
   return [
     {
-      kicker: 'AI Supply Chain',
-      title: 'AI产业链与算力主线',
-      description: '围绕 HBM、先进封装、GPU 路线图、AI 软件入口和机器人链，把产业催化、公司映射和验证节点收成连续阅读入口。',
-      href: M8_LINKS.aiSupplyChain,
-      cta: '进入 AI产业链栏目',
-      links: [
-        { label: 'HBM / 先进封装', href: M8_LINKS.besiHbm4 },
-        { label: 'AI软件 / Agent', href: M8_LINKS.aiAgentPlatforms },
-        { label: 'Tesla / 机器人链', href: M8_LINKS.teslaFsd },
-      ],
-    },
-    {
-      kicker: 'US Stocks',
-      title: '美股重点标的与财报线',
-      description: '把 Tesla、NVIDIA、OpenAI 生态、半导体设备和创新药主题收成长期覆盖池，避免美股内容停留在零散事件稿。',
-      href: M8_LINKS.usStockCoreCoverage,
-      cta: '进入 美股重点标的',
-      links: [
-        { label: 'Tesla Q1 2026', href: M8_LINKS.teslaQ1 },
-        { label: 'NVIDIA 系统级资本开支', href: M8_LINKS.nvidiaSystem },
-        { label: 'GPT-5 企业版', href: M8_LINKS.openaiGpt5 },
-      ],
-    },
-    {
-      kicker: 'China A-Shares',
-      title: 'A股核心覆盖池',
-      description: '围绕国产替代、半导体设备、服务器链、机器人零部件和高股息央企，建立可持续迭代的公司研究池和专题地图。',
+      kicker: 'A Shares',
+      title: 'A股主线与核心标的',
+      description: '把半导体设备、服务器链、国产替代、高股息和市场机制收成统一的 A 股研究入口，先看主线，再进公司与板块。',
       href: M8_LINKS.aShareCoreCoverage,
-      cta: '进入 A股核心标的',
+      cta: '进入 A股研究主线',
       links: [
         { label: 'A股主线中心', href: M8_LINKS.aShareMainlines },
         { label: '中微公司深度', href: M8_LINKS.zhongwei },
@@ -199,15 +181,39 @@ function buildM8ResearchTracks(isZh: boolean): HomeResearchTrack[] {
       ],
     },
     {
-      kicker: 'Macro',
-      title: '宏观利率与跨资产传导',
-      description: '把 FOMC、非农、美元、黄金、BTC ETF 和风险偏好变化组织成独立入口，承接宏观查询词和配置阅读路径。',
-      href: M8_LINKS.macroRateWatch,
-      cta: '进入 宏观利率中心',
+      kicker: 'US Stocks',
+      title: '美股重点标的与财报线',
+      description: '把 AI 龙头、Tesla、半导体设备和创新药主线收成长期覆盖池，让美股入口按市场而不是按零散事件组织。',
+      href: M8_LINKS.usStockCoreCoverage,
+      cta: '进入 美股重点标的',
       links: [
-        { label: '宏观利率中心', href: M8_LINKS.macroRateWatch },
+        { label: 'Tesla Q1 2026', href: M8_LINKS.teslaQ1 },
+        { label: 'NVIDIA 系统级资本开支', href: M8_LINKS.nvidiaSystem },
+        { label: '口服 GLP-1', href: M8_LINKS.oralGlp1 },
+      ],
+    },
+    {
+      kicker: 'Hong Kong',
+      title: '港股平台、红利与制造链',
+      description: '把港股互联网平台、保险、高股息、出海制造和南向资金逻辑单独收口，避免港股内容被并进其他市场栏目。',
+      href: M8_LINKS.hkTechDividend,
+      cta: '进入 港股研究中心',
+      links: [
+        { label: '港股研究中心', href: M8_LINKS.hkTechDividend },
+        { label: '中海油 0883.HK', href: M8_LINKS.hkCnooc },
+        { label: '小米 1810.HK', href: M8_LINKS.hkXiaomi },
+      ],
+    },
+    {
+      kicker: 'Blockchain',
+      title: '区块链与加密资产主线',
+      description: '围绕 BTC ETF、交易所、稳定币监管、链上生态和加密风险偏好，建立独立的区块链研究入口。',
+      href: M8_LINKS.btcEtfWatch,
+      cta: '进入 区块链研究中心',
+      links: [
         { label: 'BTC ETF 中心', href: M8_LINKS.btcEtfWatch },
-        { label: '投资框架中心', href: M8_LINKS.investingFrameworks },
+        { label: 'CME 加密指数期货', href: M8_LINKS.cryptoCme },
+        { label: 'Coinbase Base 生态', href: M8_LINKS.cryptoCoinbaseBase },
       ],
     },
   ];
@@ -217,42 +223,42 @@ function buildM8HubCards(isZh: boolean): HomeHubCard[] {
   if (!isZh) {
     return [
       {
-        kicker: 'Research Map',
-        title: 'Research directory',
-        description: 'Use the directory page as the clean map for sections, topic hubs, and representative articles.',
-        href: M8_LINKS.researchDirectory,
-        cta: 'Open research directory',
+        kicker: 'Sector',
+        title: 'AI supply chain',
+        description: 'Keep HBM, advanced packaging, data center capex, and compute infrastructure in one expandable sector hub.',
+        href: M8_LINKS.aiSupplyChain,
+        cta: 'Open AI sector hub',
         links: [
-          { label: 'Start here', href: M8_LINKS.startHere },
-          { label: 'Research method', href: M8_LINKS.researchMethod },
+          { label: 'HBM / advanced packaging', href: M8_LINKS.besiHbm4 },
+          { label: 'AI software / agents', href: M8_LINKS.aiAgentPlatforms },
         ],
       },
       {
-        kicker: 'Topic Hub',
-        title: 'AI software / agents',
-        description: 'Keep coding agents, enterprise model platforms, and software-layer monetization in one expandable hub.',
-        href: M8_LINKS.aiAgentPlatforms,
-        cta: 'Open AI software hub',
-        links: [
-          { label: 'GPT-5 enterprise', href: M8_LINKS.openaiGpt5 },
-          { label: 'Return to AI supply chain', href: M8_LINKS.aiSupplyChain },
-        ],
-      },
-      {
-        kicker: 'Topic Hub',
-        title: 'Tesla / FSD center',
-        description: 'Keep FSD, Robotaxi, Optimus, and mapped suppliers on one continuous Tesla reading path.',
+        kicker: 'Sector',
+        title: 'Tesla / FSD / robotics',
+        description: 'Keep Tesla, FSD, Robotaxi, Optimus, and supplier mapping in one persistent market-to-industry hub.',
         href: M8_LINKS.teslaFsd,
-        cta: 'Open Tesla / FSD center',
+        cta: 'Open Tesla hub',
         links: [
           { label: 'Tesla Q1 2026', href: M8_LINKS.teslaQ1 },
           { label: 'Optimus supply chain', href: M8_LINKS.teslaOptimus },
         ],
       },
       {
-        kicker: 'Evergreen',
-        title: 'Investing frameworks',
-        description: 'Keep valuation, earnings quality, sizing, and market structure in one evergreen layer for repeat entry.',
+        kicker: 'Sector',
+        title: 'GLP-1 and innovative drugs',
+        description: 'Keep obesity drugs, oral GLP-1, biopharma pipelines, and market leaders in one sector layer.',
+        href: '/glp1-drug-watch',
+        cta: 'Open healthcare hub',
+        links: [
+          { label: 'GLP-1 supply chain', href: M8_LINKS.glp1Supply },
+          { label: 'Oral GLP-1', href: M8_LINKS.oralGlp1 },
+        ],
+      },
+      {
+        kicker: 'Framework',
+        title: 'Research method and market structure',
+        description: 'Use one evergreen layer for valuation, earnings quality, market mechanism, and research process.',
         href: M8_LINKS.investingFrameworks,
         cta: 'Open investing frameworks',
         links: [
@@ -265,44 +271,44 @@ function buildM8HubCards(isZh: boolean): HomeHubCard[] {
 
   return [
     {
-      kicker: 'Research Map',
-      title: '研究目录',
-      description: '把一级栏目、主题中心和代表文章收成一张地图，方便第一次进入站点时快速判断从哪条线开始。',
-      href: M8_LINKS.researchDirectory,
-      cta: '打开 研究目录',
+      kicker: 'Sector',
+      title: 'AI产业链专题',
+      description: '把 HBM、先进封装、数据中心资本开支、GPU 和 AI 软件层落地放到同一个板块专题里持续扩写。',
+      href: M8_LINKS.aiSupplyChain,
+      cta: '打开 AI产业链专题',
       links: [
-        { label: '开始阅读', href: M8_LINKS.startHere },
-        { label: '研究方法', href: M8_LINKS.researchMethod },
+        { label: 'HBM / 先进封装', href: M8_LINKS.besiHbm4 },
+        { label: 'AI软件 / Agent', href: M8_LINKS.aiAgentPlatforms },
       ],
     },
     {
-      kicker: 'Topic Hub',
-      title: 'AI软件 / Agent 中心',
-      description: '把 coding agent、企业级大模型落地和软件层商业化收成一条可以持续扩写的专题线。',
-      href: M8_LINKS.aiAgentPlatforms,
-      cta: '打开 AI软件中心',
-      links: [
-        { label: 'GPT-5 企业版', href: M8_LINKS.openaiGpt5 },
-        { label: '回到 AI产业链', href: M8_LINKS.aiSupplyChain },
-      ],
-    },
-    {
-      kicker: 'Topic Hub',
-      title: 'Tesla / FSD 中心',
-      description: '把 FSD、Robotaxi、Optimus 和零部件映射收成连续阅读路径，不再分散在零碎事件稿里。',
+      kicker: 'Sector',
+      title: 'Tesla / FSD / 机器人链',
+      description: '把 Tesla、FSD、Robotaxi、Optimus 和供应链映射收成持续阅读的一个板块层，而不是碎片事件稿。',
       href: M8_LINKS.teslaFsd,
-      cta: '打开 Tesla / FSD 中心',
+      cta: '打开 Tesla / FSD 专题',
       links: [
         { label: 'Tesla Q1 2026', href: M8_LINKS.teslaQ1 },
         { label: 'Optimus 供应链', href: M8_LINKS.teslaOptimus },
       ],
     },
     {
-      kicker: 'Evergreen',
-      title: '投资框架中心',
-      description: '把估值、财报质量、仓位管理和市场机制收成长期常青层，承担基础阅读入口。',
+      kicker: 'Sector',
+      title: '创新药 / GLP-1 专题',
+      description: '把口服 GLP-1、减重药竞争格局、创新药支付与供应链映射整理成独立的长期专题。',
+      href: '/glp1-drug-watch',
+      cta: '打开 创新药专题',
+      links: [
+        { label: 'GLP-1 供应链', href: M8_LINKS.glp1Supply },
+        { label: '口服 GLP-1', href: M8_LINKS.oralGlp1 },
+      ],
+    },
+    {
+      kicker: 'Framework',
+      title: '研究方法与市场机制',
+      description: '把估值、财报质量、仓位管理、市场机制和研究方法保留为常青层，服务四条市场主线的基础阅读。',
       href: M8_LINKS.investingFrameworks,
-      cta: '打开 投资框架中心',
+      cta: '打开 研究方法层',
       links: [
         { label: '研究方法', href: M8_LINKS.researchMethod },
         { label: 'A股市场机制', href: M8_LINKS.astockMechanics },
@@ -421,7 +427,8 @@ export async function handleHome(env: Env, page: number): Promise<Response> {
   const homeConfig = config.home || {};
   const defaultImages = config.defaults || {};
   const isZh = isZhLanguage(config.language);
-  const useFocusedHome = page === 1 && (env.SITE_ID === 'm8.com.cn' || homeConfig.showTopics === true);
+  const useM8LockedHome = page === 1 && env.SITE_ID === 'm8.com.cn';
+  const useFocusedHome = page === 1 && (useM8LockedHome || homeConfig.showTopics === true);
 
   const labels = resolveLabels(config.language || 'zh-CN', config.labels);
   // Apply default images and localized name for "uncategorized" (未分类 etc.)
@@ -446,22 +453,57 @@ export async function handleHome(env: Env, page: number): Promise<Response> {
   const availableCategories = useFocusedHome
     ? categoriesWithDefaults.filter((category) => !M8_HIDDEN_HOME_CATEGORIES.has(category.slug))
     : categoriesWithDefaults;
-  const focusCategorySlugs = homeConfig.focusCategories?.length
-    ? homeConfig.focusCategories
-    : (useFocusedHome ? M8_FOCUS_CATEGORIES : []);
+  const focusCategorySlugs = useM8LockedHome
+    ? M8_FOCUS_CATEGORIES
+    : (homeConfig.focusCategories?.length
+      ? homeConfig.focusCategories
+      : (useFocusedHome ? M8_FOCUS_CATEGORIES : []));
   const availableCategoryMap = new Map(availableCategories.map((category) => [category.slug, category]));
   const focusCategories = focusCategorySlugs
     .map((slug) => availableCategoryMap.get(slug))
     .filter(Boolean) as typeof availableCategories;
   const fallbackTopicCategories = availableCategories.slice(0, 4);
   const topicCategories = (focusCategories.length > 0 ? focusCategories : fallbackTopicCategories).slice(0, 4);
+  const marketCardOverrides = useFocusedHome
+    ? {
+        'a-stocks': {
+          name: isZh ? 'A股' : 'A-shares',
+          href: M8_LINKS.aShareCoreCoverage,
+          description: isZh
+            ? '围绕半导体设备、服务器链、国产替代、高股息和市场机制组织 A 股核心研究入口。'
+            : 'Organize semicap, servers, domestic substitution, dividends, and market structure under one A-share entrance.',
+        },
+        'us-stocks': {
+          name: isZh ? '美股' : 'US stocks',
+          href: M8_LINKS.usStockCoreCoverage,
+          description: isZh
+            ? '围绕 AI 龙头、Tesla、半导体设备和创新药主线，收成长期跟踪的美股重点标的池。'
+            : 'Use one market entrance for AI leaders, Tesla, semicap, and biotech coverage.',
+        },
+        'hk-stocks': {
+          name: isZh ? '港股' : 'Hong Kong stocks',
+          href: M8_LINKS.hkTechDividend,
+          description: isZh
+            ? '把平台互联网、保险、高股息、出海制造和南向资金逻辑收成独立的港股研究入口。'
+            : 'Create a dedicated Hong Kong market entrance for platforms, insurers, dividends, and exporters.',
+        },
+        crypto: {
+          name: isZh ? '区块链' : 'Blockchain',
+          href: M8_LINKS.btcEtfWatch,
+          description: isZh
+            ? '围绕 BTC ETF、交易所、稳定币监管和链上生态，建立独立的区块链与加密资产入口。'
+            : 'Create a separate blockchain and crypto entrance around BTC ETF, exchanges, stablecoins, and on-chain ecosystems.',
+        },
+      }
+    : {};
   const topicCards = topicCategories.map((category) => {
+    const override = marketCardOverrides[category.slug as keyof typeof marketCardOverrides];
     const seoMeta = buildCategorySeoMeta(config, category.slug, category.name, category.description);
     return {
       slug: category.slug,
-      name: category.name,
-      href: buildCategoryPath(categoryPrefix, category.slug),
-      description: trimDescription(category.description || '', seoMeta.description),
+      name: override?.name || category.name,
+      href: override?.href || buildCategoryPath(categoryPrefix, category.slug),
+      description: trimDescription(override?.description || category.description || '', seoMeta.description),
       count: category.count,
     };
   });
@@ -472,48 +514,50 @@ export async function handleHome(env: Env, page: number): Promise<Response> {
       ].slice(0, 5)
     : [];
   const heroHighlights = useFocusedHome
-    ? (isZh
-        ? [
-            '优先跟踪有产业催化、数据验证和价格反馈的重点主题与公司',
-            '重点覆盖 AI 算力、半导体、美股龙头财报与 A 股核心公司',
-            '从首页专题进入，再延展到栏目页与完整研究归档',
-          ]
-        : [
-            'Prioritize catalyst-driven names with fresh data and market reaction.',
-            'Focus on AI infrastructure, semiconductors, US earnings leaders, and core China A-shares.',
-            'Use the homepage as a topic hub and keep the full archive behind /blog and core sections.',
-          ])
+    ? []
     : [];
-  const derivedHeroTitle = useFocusedHome && isBrandLikeTitle(homeConfig.title || '', config.name)
-    ? (isZh ? '跨市场投资资讯与核心个股研究' : 'Cross-market research and high-signal stock coverage')
-    : (homeConfig.title || config.name);
-  const derivedHeroSubtitle = useFocusedHome
+  const derivedHeroTitle = useM8LockedHome
+    ? (isZh ? 'A股、美股、港股与区块链研究' : 'A-shares, US stocks, Hong Kong, and blockchain research')
+    : (useFocusedHome && isBrandLikeTitle(homeConfig.title || '', config.name)
+    ? (isZh ? 'A股、美股、港股与区块链研究' : 'A-shares, US stocks, Hong Kong, and blockchain research')
+    : (homeConfig.title || config.name));
+  const derivedHeroSubtitle = useM8LockedHome
+    ? (isZh
+      ? '先从四个市场入口进入，再顺着 AI、半导体、创新药、高股息和 BTC ETF 等板块持续往下深挖。'
+      : 'Start from the four market entrances, then drill down into sector hubs such as AI, semiconductors, healthcare, dividends, and BTC ETF.')
+    : (useFocusedHome
     ? (homeConfig.subtitle
       || (isZh
-        ? '重点覆盖 AI 算力、半导体、美股龙头财报与 A 股核心公司，先看最新催化，再顺着专题和栏目持续深挖。'
-        : 'Focused on AI infrastructure, semiconductors, major US earnings, and core China A-shares, starting from fresh catalysts and drilling deeper by theme.'))
-    : (homeConfig.subtitle || config.description);
-  const derivedPageTitle = useFocusedHome && isBrandLikeTitle(homeConfig.title || '', config.name)
+        ? '先从四个市场入口进入，再顺着 AI、半导体、创新药、高股息和 BTC ETF 等板块持续往下深挖。'
+        : 'Start from the four market entrances, then drill down into sector hubs such as AI, semiconductors, healthcare, dividends, and BTC ETF.'))
+    : (homeConfig.subtitle || config.description));
+  const derivedPageTitle = useM8LockedHome
     ? (isZh
-      ? `${config.name} · AI算力、美股财报与A股核心个股研究`
-      : `${config.name} · AI infrastructure, earnings, and core stock research`)
-    : (homeConfig.title || config.name);
-  const derivedPageDescription = useFocusedHome
+      ? `${config.name} · A股、美股、港股与区块链研究`
+      : `${config.name} · A-shares, US stocks, Hong Kong, and blockchain research`)
+    : (useFocusedHome && isBrandLikeTitle(homeConfig.title || '', config.name)
     ? (isZh
-      ? '覆盖 AI 算力、半导体、美股财报、A 股核心公司与跨市场宏观主线的中文投资研究站，优先展示最新重点更新与专题入口。'
-      : 'A cross-market investing site focused on AI infrastructure, semiconductors, earnings, and high-signal stock research with curated topic entry points.')
-    : (homeConfig.subtitle || config.description);
+      ? `${config.name} · A股、美股、港股与区块链研究`
+      : `${config.name} · A-shares, US stocks, Hong Kong, and blockchain research`)
+    : (homeConfig.title || config.name));
+  const derivedPageDescription = useM8LockedHome
+    ? (isZh
+      ? '围绕 A股、美股、港股与区块链四条主线组织中文投资研究，首页先给市场入口，再往下展开板块、专题和重点文章。'
+      : 'A cross-market research site organized around A-shares, US stocks, Hong Kong, and blockchain, starting with market entrances and expanding into sector hubs.')
+    : (useFocusedHome
+    ? (isZh
+      ? '围绕 A股、美股、港股与区块链四条主线组织中文投资研究，首页先给市场入口，再往下展开板块、专题和重点文章。'
+      : 'A cross-market research site organized around A-shares, US stocks, Hong Kong, and blockchain, starting with market entrances and expanding into sector hubs.')
+    : (homeConfig.subtitle || config.description));
   const latestPosts = useFocusedHome
     ? postsWithAuthorAndCategoryDisplay.slice(0, homeConfig.latestCount || 6)
     : postsWithAuthorAndCategoryDisplay;
   const categoriesForRender = useFocusedHome ? topicCategories : categoriesWithDefaults;
-  const researchTracks = useFocusedHome ? buildM8ResearchTracks(isZh) : [];
+  const researchTracks: HomeResearchTrack[] = [];
   const hubCards = useFocusedHome ? buildM8HubCards(isZh) : [];
   const readingSteps = useFocusedHome ? buildM8ReadingSteps(isZh) : [];
   const showTopicCards = useFocusedHome
-    && homeConfig.showTopics !== false
-    && topicCards.length > 0
-    && researchTracks.length === 0;
+    && topicCards.length > 0;
   const schema: Record<string, unknown> = {
     website: buildWebSiteSchema(config, base),
   };
@@ -534,7 +578,9 @@ export async function handleHome(env: Env, page: number): Promise<Response> {
     showFooter: true,
     customPartials,
     // Home config
-    heroEyebrow: homeConfig.eyebrow || (useFocusedHome ? config.name : ''),
+    heroEyebrow: useM8LockedHome
+      ? (isZh ? 'm8 核心入口' : 'm8 focus')
+      : (homeConfig.eyebrow || (useFocusedHome ? config.name : '')),
     heroTitle: derivedHeroTitle,
     heroSubtitle: derivedHeroSubtitle,
     heroImage: homeConfig.heroImage || '',
@@ -542,40 +588,52 @@ export async function handleHome(env: Env, page: number): Promise<Response> {
     heroHighlights,
     showTopicCards,
     topicCards,
-    showResearchTracks: researchTracks.length > 0,
+    showResearchTracks: false,
     researchTracks,
-    researchTracksTitle: isZh ? '先看这四条主线' : 'Start with these four tracks',
+    researchTracksTitle: isZh ? '四大市场主线' : 'Four market tracks',
     researchTracksDescription: isZh
-      ? '首页先把 AI产业链、美股重点、A股核心和宏观利率四条主线讲清，再把更细的问题分发到专题和文章。'
-      : 'Use the homepage to establish four primary tracks first, then push narrower questions into topic hubs and articles.',
+      ? '先从四个市场入口进入，再延展到专题和文章。'
+      : 'Start from the four market entrances, then move into hubs and articles.',
     showHubCards: hubCards.length > 0,
     hubCards,
-    hubCardsTitle: isZh ? '专题中心' : 'Topic hubs',
+    hubCardsTitle: isZh ? '核心板块专题' : 'Core sector hubs',
     hubCardsDescription: isZh
-      ? '这里只保留需要持续扩写的高意图专题，避免首页出现过多平行入口。'
-      : 'Keep only the highest-intent hubs here so the homepage does not splinter into too many parallel entry points.',
+      ? '把 AI、Tesla / FSD、创新药和研究方法放在第二层，作为四条市场主线下面的持续扩写板块。'
+      : 'Keep AI, Tesla / FSD, healthcare, and frameworks on the second layer under the four market entrances.',
     showReadingSteps: false,
     readingSteps,
     readingStepsTitle: isZh ? '怎么使用这个首页' : 'How to use this homepage',
     readingStepsDescription: isZh
       ? '首页负责分流和组织，不负责把所有文章平铺。先主线、再专题、最后归档。'
       : 'The homepage should organize and route readers, not flatten every article into one stream. Start with a track, then a hub, then the archive.',
-    topicsTitle: homeConfig.topicsTitle || (useFocusedHome ? (isZh ? '重点主题入口' : 'Core research tracks') : ''),
-    topicsDescription: homeConfig.topicsDescription || (useFocusedHome
-      ? (isZh ? '先从最重要的专题进入，再延展到栏目页与完整归档。' : 'Start from the highest-signal topic hubs, then expand into the full archive from section pages.')
-      : ''),
-    showCategories: useFocusedHome ? homeConfig.showCategories === true : homeConfig.showCategories !== false,
-    showTags: useFocusedHome ? homeConfig.showTags === true : homeConfig.showTags !== false,
-    showStats: useFocusedHome ? homeConfig.showStats === true : homeConfig.showStats !== false,
+    topicsTitle: useM8LockedHome
+      ? (isZh ? '四大市场主线' : 'Four market entrances')
+      : (homeConfig.topicsTitle || (useFocusedHome ? (isZh ? '四大市场主线' : 'Four market entrances') : '')),
+    topicsDescription: useM8LockedHome
+      ? (isZh ? '首页先给 A股、美股、港股、区块链 四个入口，后面再顺着页面里的板块和文章往下读。' : 'Start from A-shares, US stocks, Hong Kong, and blockchain, then follow the linked sectors and articles.')
+      : (homeConfig.topicsDescription || (useFocusedHome
+        ? (isZh ? '首页先给 A股、美股、港股、区块链 四个入口，后面再顺着页面里的板块和文章往下读。' : 'Start from A-shares, US stocks, Hong Kong, and blockchain, then follow the linked sectors and articles.')
+        : '')),
+    showCategories: useM8LockedHome ? false : (useFocusedHome ? homeConfig.showCategories === true : homeConfig.showCategories !== false),
+    showTags: useM8LockedHome ? false : (useFocusedHome ? homeConfig.showTags === true : homeConfig.showTags !== false),
+    showStats: useM8LockedHome ? false : (useFocusedHome ? homeConfig.showStats === true : homeConfig.showStats !== false),
     showFeatured,
-    featuredTitle: homeConfig.featuredTitle || (useFocusedHome ? (isZh ? '核心专题' : 'Featured deep dives') : ''),
-    featuredDescription: homeConfig.featuredDescription || (useFocusedHome
-      ? (isZh ? '保留最值得反复阅读的深度文，方便从主题到公司持续追踪。' : 'Keep the strongest deep dives on the homepage so readers can follow each theme over time.')
-      : ''),
-    latestTitle: homeConfig.latestTitle || (useFocusedHome ? (isZh ? '最新重点更新' : 'Latest priority updates') : ''),
-    latestDescription: homeConfig.latestDescription || (useFocusedHome
-      ? (isZh ? '最近发布里只保留最关键的一批，完整归档请进入文章列表。' : 'Show only a tighter set of recent posts here; use the blog archive for the full stream.')
-      : ''),
+    featuredTitle: useM8LockedHome
+      ? (isZh ? '重点深度研究' : 'Featured deep dives')
+      : (homeConfig.featuredTitle || (useFocusedHome ? (isZh ? '重点深度研究' : 'Featured deep dives') : '')),
+    featuredDescription: useM8LockedHome
+      ? (isZh ? '保留最值得反复阅读的一批深度文章，方便从市场入口继续往公司与产业链下钻。' : 'Keep the strongest deep dives on the homepage so readers can move from markets into companies and sectors.')
+      : (homeConfig.featuredDescription || (useFocusedHome
+        ? (isZh ? '保留最值得反复阅读的一批深度文章，方便从市场入口继续往公司与产业链下钻。' : 'Keep the strongest deep dives on the homepage so readers can move from markets into companies and sectors.')
+        : '')),
+    latestTitle: useM8LockedHome
+      ? (isZh ? '最新更新' : 'Latest updates')
+      : (homeConfig.latestTitle || (useFocusedHome ? (isZh ? '最新更新' : 'Latest updates') : '')),
+    latestDescription: useM8LockedHome
+      ? (isZh ? '按时间查看最近的更新，完整归档与全部文章请进入文章列表。' : 'Use this section for recent updates and the archive for the full stream.')
+      : (homeConfig.latestDescription || (useFocusedHome
+        ? (isZh ? '按时间查看最近的更新，完整归档与全部文章请进入文章列表。' : 'Use this section for recent updates and the archive for the full stream.')
+        : '')),
     latestCtaHref: useFocusedHome ? blogPath : '',
     latestCtaLabel: useFocusedHome ? (isZh ? '查看全部文章' : 'Browse all posts') : '',
     postsLayout: config.blog?.postsLayout || 'grid',
