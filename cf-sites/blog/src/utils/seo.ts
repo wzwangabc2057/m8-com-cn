@@ -1,4 +1,4 @@
-import type { SiteConfig, Post, Author, SeoMeta, PageEntry, RouteMapping } from '../types.js';
+import type { SiteConfig, Post, PostSummary, Author, SeoMeta, PageEntry, RouteMapping } from '../types.js';
 
 /** Strip HTML tags and entities from a string for clean meta content */
 export function stripHtml(str: string): string {
@@ -415,7 +415,7 @@ export function buildCollectionPageSchema(
   title: string,
   description: string,
   path: string,
-  posts: Post[],
+  posts: Array<Pick<PostSummary, 'slug' | 'title'>>,
   baseUrl: string,
 ): Record<string, unknown> {
   const canonicalUrl = buildCanonicalUrl(baseUrl, path);

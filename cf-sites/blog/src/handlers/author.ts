@@ -6,6 +6,7 @@ import { loadCustomPartials } from '../services/partials.js';
 import { getStoreEnabled } from '../services/kv-cache.js';
 import { buildPagination } from '../utils/pagination.js';
 import { render, htmlResponse } from '../renderer.js';
+import { enrichPostsWithAuthorIdentity, getPublicAuthorCanonicalId, getVisibleAuthors } from '../utils/authors.js';
 import { buildMarketDirectoryEntries, buildSupportDirectoryEntries } from '../utils/category-directory.js';
 import { buildCategoryLinksFromPosts, buildTagLinksFromPosts } from '../utils/taxonomy-nav.js';
 
@@ -28,14 +29,26 @@ export async function handleAuthor(env: Env, id: string, page: number): Promise<
     getStoreEnabled(env.CACHE),
   ]);
 
-  const author = authors.find((a) => a.id === id);
+  const authorPrefix = config.routes?.author || 'author';
+  const publicAuthorId = getPublicAuthorCanonicalId(env.SITE_ID);
+  if (publicAuthorId && id !== publicAuthorId) {
+    const target = page === 1
+      ? `/${authorPrefix}/${publicAuthorId}`
+      : `/${authorPrefix}/${publicAuthorId}/page/${page}`;
+    return new Response(null, {
+      status: 301,
+      headers: { Location: target },
+    });
+  }
+
+  const visibleAuthors = getVisibleAuthors(authors, env.SITE_ID);
+  const author = visibleAuthors.find((a) => a.id === id);
 
   // Load posts from D1
-  const authorPrefix = config.routes?.author || 'author';
-  const baseUrl = `/${authorPrefix}/${id}`;
-  const { posts, total } = await getPosts(
-    env.DB, env.SITE_ID, page, config.postsPerPage, { author: id }
-  );
+  const baseUrl = `/${authorPrefix}/${author?.id || id}`;
+  const { posts, total } = publicAuthorId
+    ? await getPosts(env.DB, env.SITE_ID, page, config.postsPerPage)
+    : await getPosts(env.DB, env.SITE_ID, page, config.postsPerPage, { author: id });
 
   if (total === 0 && !author) return null;
 
@@ -44,7 +57,7 @@ export async function handleAuthor(env: Env, id: string, page: number): Promise<
 
   const labels = resolveLabels(config.language || 'zh-CN', config.labels);
   const postsWithCategoryDisplay = enrichPostsWithCategoryDisplayNames(
-    posts,
+    enrichPostsWithAuthorIdentity(posts, authors, env.SITE_ID),
     categories,
     labels.uncategorized,
   );
@@ -69,8 +82,8 @@ export async function handleAuthor(env: Env, id: string, page: number): Promise<
   ];
 
   const basePath = page === 1
-    ? `/${authorPrefix}/${id}`
-    : `/${authorPrefix}/${id}/page/${page}`;
+    ? `/${authorPrefix}/${author?.id || id}`
+    : `/${authorPrefix}/${author?.id || id}/page/${page}`;
   const seo = buildListSeo(config, basePath, page, pagination, env.EFFECTIVE_ORIGIN);
   const base = getCanonicalBase(config, env.EFFECTIVE_ORIGIN);
 

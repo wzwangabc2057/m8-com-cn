@@ -105,7 +105,7 @@ export function registerHelpers(): void {
   Handlebars.registerHelper('authorUrl', (id: string, options: Handlebars.HelperOptions) => {
     const routes = (options.data?.root as { routes?: { author?: string } })?.routes;
     const authorPrefix = routes?.author || 'author';
-    return `/${authorPrefix}/${id}`;
+    return `/${authorPrefix}/${encodeURIComponent(id)}`;
   });
 
   // SEO helpers

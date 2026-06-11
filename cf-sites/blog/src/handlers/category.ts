@@ -6,6 +6,7 @@ import { loadCustomPartials } from '../services/partials.js';
 import { getStoreEnabled } from '../services/kv-cache.js';
 import { buildPagination } from '../utils/pagination.js';
 import { render, htmlResponse } from '../renderer.js';
+import { enrichPostsWithAuthorIdentity } from '../utils/authors.js';
 import { buildMarketDirectoryEntries, buildSupportDirectoryEntries } from '../utils/category-directory.js';
 
 import {
@@ -16,10 +17,10 @@ import {
 } from '../utils/seo.js';
 import { resolveLabels } from '../utils/i18n.js';
 import { isUncategorized, enrichPostsWithCategoryDisplayNames, safeDecodeForDisplay } from '../utils/uncategorized.js';
-import type { Env } from '../types.js';
+import type { Category, Env } from '../types.js';
 
 /** Find category by slug or name; handles encoded slugs and name fallback. */
-function findCategory(categories: { slug: string; name?: string }[], slug: string) {
+function findCategory(categories: Category[], slug: string) {
   const decoded = safeDecodeForDisplay(slug);
   return (
     categories.find((c) => c.slug === slug || c.slug === decoded) ??
@@ -68,11 +69,7 @@ export async function handleCategory(env: Env, slug: string, page: number): Prom
     { name: listTitle, url: baseUrl },
   ];
 
-  const authorMap = new Map(authors.map((a) => [a.id, a]));
-  const postsWithAuthor = posts.map((p) => ({
-    ...p,
-    authorDisplayName: authorMap.get(p.author)?.name || p.author,
-  }));
+  const postsWithAuthor = enrichPostsWithAuthorIdentity(posts, authors, env.SITE_ID);
   const postsWithAuthorAndCategoryDisplay = enrichPostsWithCategoryDisplayNames(
     postsWithAuthor,
     categories,

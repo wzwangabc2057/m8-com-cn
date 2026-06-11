@@ -12,9 +12,10 @@ import {
   buildBreadcrumbSchema,
   getCanonicalBase,
 } from '../utils/seo.js';
+import { enrichPostsWithAuthorIdentity, resolveAuthorIdentity } from '../utils/authors.js';
 import { resolveLabels } from '../utils/i18n.js';
 import { resolveCategoryDisplayName } from '../utils/uncategorized.js';
-import type { Env } from '../types.js';
+import type { Env, PostSummary } from '../types.js';
 
 function mergeRelatedPostGroups<T extends { slug: string }>(groups: T[][], currentSlug: string, limit: number): T[] {
   const seen = new Set<string>([currentSlug]);
@@ -202,8 +203,9 @@ export async function handlePost(env: Env, slug: string): Promise<Response | nul
   if (!effectiveAuthorId && authors.length > 0) {
     effectiveAuthorId = authors[0].id;
   }
-  const authorObj = authors.find((a) => a.id === effectiveAuthorId);
-  const authorName = authorObj?.name || effectiveAuthorId || '';
+  const resolvedAuthor = resolveAuthorIdentity(authors, effectiveAuthorId, authors[0]?.id, env.SITE_ID);
+  const authorObj = resolvedAuthor.authorObj;
+  const authorName = resolvedAuthor.authorDisplayName || resolvedAuthor.authorCanonicalId || '';
 
   const labels = resolveLabels(config.language || 'zh-CN', config.labels);
   const isZh = (config.language || '').toLowerCase().startsWith('zh');
@@ -234,14 +236,15 @@ export async function handlePost(env: Env, slug: string): Promise<Response | nul
     ? post.excerpt.replace(/<[^>]*>/g, '').replace(/&[a-z]+;/gi, ' ').replace(/\s+/g, ' ').trim()
     : '';
 
-  const authorMap = new Map(authors.map((author) => [author.id, author]));
-  const enrichPostSummary = <T extends { author: string; categories: string[] }>(item: T) => ({
-    ...item,
-    authorDisplayName: authorMap.get(item.author)?.name || item.author,
-    categoryDisplayNames: (item.categories || []).map((categorySlug) =>
-      resolveCategoryDisplayName(categorySlug, categories, labels.uncategorized),
-    ),
-  });
+  const enrichPostSummary = <T extends PostSummary>(item: T) => {
+    const enrichedAuthor = enrichPostsWithAuthorIdentity([item], authors, env.SITE_ID)[0];
+    return {
+      ...enrichedAuthor,
+      categoryDisplayNames: (item.categories || []).map((categorySlug) =>
+        resolveCategoryDisplayName(categorySlug, categories, labels.uncategorized),
+      ),
+    };
+  };
 
   const relatedLimit = 3;
   const relatedCategory = post.categories[0];
@@ -282,7 +285,12 @@ export async function handlePost(env: Env, slug: string): Promise<Response | nul
     showHeader: true,
     showFooter: true,
     customPartials,
-    post: { ...post, author: effectiveAuthorId || post.author, categoryDisplayNames },
+    post: {
+      ...post,
+      author: resolvedAuthor.authorCanonicalId || effectiveAuthorId || post.author,
+      authorCanonicalId: resolvedAuthor.authorCanonicalId || effectiveAuthorId || post.author,
+      categoryDisplayNames,
+    },
     authorName,
     breadcrumbs,
     showRelatedPosts: relatedPosts.length > 0,

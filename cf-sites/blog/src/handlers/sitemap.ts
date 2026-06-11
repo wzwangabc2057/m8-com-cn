@@ -2,6 +2,7 @@
 import { getConfig, getPageRegistry } from '../services/content.js';
 import { getCategories, getTags, getAuthors } from '../services/meta.js';
 import { buildCanonicalUrl, buildPostPath, getCanonicalBase } from '../utils/seo.js';
+import { getVisibleAuthors } from '../utils/authors.js';
 import type { Env, SiteConfig } from '../types.js';
 
 
@@ -232,7 +233,7 @@ async function generateTaxonomiesSitemap(env: Env): Promise<Response> {
   }
 
   const authorPrefix = config.routes?.author || 'author';
-  for (const author of authors) {
+  for (const author of getVisibleAuthors(authors, env.SITE_ID)) {
     urls.push({
       loc: buildCanonicalUrl(base, `/${authorPrefix}/${author.id}`),
       changefreq: 'weekly',

@@ -35,7 +35,7 @@
     <p class="post-card-excerpt">{{this.excerpt}}</p>
     {{/if}}
     <div class="post-card-footer">
-      <a href="{{authorUrl this.author}}" class="post-card-author">
+      <a href="{{authorUrl (fallback this.authorCanonicalId this.author)}}" class="post-card-author">
         <span class="post-card-author-name">{{#if this.authorDisplayName}}{{this.authorDisplayName}}{{else}}{{this.author}}{{/if}}</span>
       </a>
       {{#if this.tags.length}}

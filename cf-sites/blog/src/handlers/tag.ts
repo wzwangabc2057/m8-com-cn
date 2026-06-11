@@ -6,6 +6,7 @@ import { loadCustomPartials } from '../services/partials.js';
 import { getStoreEnabled } from '../services/kv-cache.js';
 import { buildPagination } from '../utils/pagination.js';
 import { render, htmlResponse } from '../renderer.js';
+import { enrichPostsWithAuthorIdentity } from '../utils/authors.js';
 import { buildMarketDirectoryEntries, buildSupportDirectoryEntries } from '../utils/category-directory.js';
 import { buildCategoryLinksFromPosts } from '../utils/taxonomy-nav.js';
 
@@ -42,12 +43,8 @@ export async function handleTag(env: Env, slug: string, page: number): Promise<R
   const customPartials = await loadCustomPartials(env.CONTENT_BUCKET, env.SITE_ID, config, env.CONTENT_SOURCE_ID);
   const pagination = buildPagination(total, page, config.postsPerPage, baseUrl);
 
-  const authorMap = new Map(authors.map((a) => [a.id, a]));
   const labels = resolveLabels(config.language || 'zh-CN', config.labels);
-  const postsWithAuthor = posts.map((p) => ({
-    ...p,
-    authorDisplayName: authorMap.get(p.author)?.name || p.author,
-  }));
+  const postsWithAuthor = enrichPostsWithAuthorIdentity(posts, authors, env.SITE_ID);
   const postsWithAuthorAndCategoryDisplay = enrichPostsWithCategoryDisplayNames(
     postsWithAuthor,
     categories,

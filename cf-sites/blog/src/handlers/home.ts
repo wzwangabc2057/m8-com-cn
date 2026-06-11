@@ -6,6 +6,7 @@ import { loadCustomPartials } from '../services/partials.js';
 import { getStoreEnabled } from '../services/kv-cache.js';
 import { buildPagination } from '../utils/pagination.js';
 import { render, htmlResponse } from '../renderer.js';
+import { enrichPostsWithAuthorIdentity } from '../utils/authors.js';
 
 import {
   buildHomeSeo,
@@ -415,13 +416,10 @@ export async function handleHome(env: Env, page: number): Promise<Response> {
     const p1 = await getPosts(env.DB, env.SITE_ID, 1, featuredCount);
     featuredPosts = p1.posts;
   }
-  const authorMap = new Map(authors.map((a) => [a.id, a]));
-  const enrichAuthor = (p: typeof posts[0]) => ({
-    ...p,
-    authorDisplayName: authorMap.get(p.author)?.name || p.author,
-  });
-  const featured = showFeatured ? featuredPosts.slice(0, featuredCount).map(enrichAuthor) : [];
-  const postsWithAuthor = posts.map(enrichAuthor);
+  const featured = showFeatured
+    ? enrichPostsWithAuthorIdentity(featuredPosts.slice(0, featuredCount), authors, env.SITE_ID)
+    : [];
+  const postsWithAuthor = enrichPostsWithAuthorIdentity(posts, authors, env.SITE_ID);
 
   // Home config
   const homeConfig = config.home || {};

@@ -3,6 +3,7 @@ import { getConfig } from '../services/content.js';
 import { getPosts } from '../services/d1-content.js';
 import { getAuthors } from '../services/meta.js';
 import { buildCanonicalUrl, buildPostPath, getCanonicalBase } from '../utils/seo.js';
+import { resolveAuthorIdentity } from '../utils/authors.js';
 import type { Env } from '../types.js';
 
 /**
@@ -24,8 +25,7 @@ export async function handleFeed(env: Env): Promise<Response> {
 
 
   const items = latestPosts.map((post) => {
-    const authorObj = authors.find((a) => a.id === post.author);
-    const authorName = authorObj?.name || post.author;
+    const authorName = resolveAuthorIdentity(authors, post.author, undefined, env.SITE_ID).authorDisplayName || post.author;
     const postUrl = buildCanonicalUrl(base, buildPostPath(config.routes, post.slug));
     const coverImageUrl = post.coverImage
       ? (post.coverImage.startsWith('http://') || post.coverImage.startsWith('https://')

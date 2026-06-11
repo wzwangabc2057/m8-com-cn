@@ -23,7 +23,7 @@
     <h1 class="post-title">{{post.title}}</h1>
     <div class="post-meta justify-center">
       {{#if authorName}}
-      <a href="{{authorUrl post.author}}" class="post-author">{{authorName}}</a>
+      <a href="{{authorUrl (fallback post.authorCanonicalId post.author)}}" class="post-author">{{authorName}}</a>
       <span class="post-meta-sep">&middot;</span>
       {{/if}}
       <time datetime="{{post.publishedAt}}">{{formatDate post.publishedAt}}</time>

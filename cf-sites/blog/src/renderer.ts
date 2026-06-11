@@ -1,4 +1,5 @@
 import Handlebars from 'handlebars';
+// @ts-ignore -- generated module is rebuilt at bundle time and ships without a .d.ts file
 import * as compiled from './generated/templates-compiled.js';
 import { registerHelpers } from './utils/helpers.js';
 import { resolveLabels } from './utils/i18n.js';
@@ -265,7 +266,7 @@ function registerHelpersOn(env: typeof Handlebars): void {
   env.registerHelper('authorUrl', (id: string, options: Handlebars.HelperOptions) => {
     const routes = (options.data?.root as { routes?: { author?: string } })?.routes;
     const authorPrefix = routes?.author || 'author';
-    return `/${authorPrefix}/${id}`;
+    return `/${authorPrefix}/${encodeURIComponent(id)}`;
   });
 
   // SEO helpers
