@@ -1,4 +1,17 @@
 <section class="author-page">
+  {{#if breadcrumbs.length}}
+  <nav class="page-breadcrumbs" aria-label="Breadcrumb">
+    {{#each breadcrumbs}}
+      {{#if @last}}
+        <span class="page-breadcrumb-current">{{this.name}}</span>
+      {{else}}
+        <a href="{{this.url}}" class="page-breadcrumb-link">{{this.name}}</a>
+        <span class="page-breadcrumb-sep">/</span>
+      {{/if}}
+    {{/each}}
+  </nav>
+  {{/if}}
+
   <header class="author-hero">
     <div class="author-hero-inner">
       {{#if author.avatar}}
@@ -10,7 +23,11 @@
       {{/if}}
       <div class="author-hero-info">
         <h1>{{author.name}}</h1>
-        {{#if author.bio}}<p class="author-bio">{{author.bio}}</p>{{/if}}
+        {{#if authorDescription}}<p class="author-bio">{{authorDescription}}</p>{{/if}}
+        <div class="author-stats">
+          <span class="author-stat">{{authorPostCountLabel}}</span>
+          <a href="{{archiveHref}}" class="author-stat author-stat--link">{{archiveLabel}}</a>
+        </div>
         {{#if author.social}}
         <div class="author-social">
           {{#each author.social}}
@@ -21,6 +38,37 @@
       </div>
     </div>
   </header>
+
+  {{#if (or focusCategories.length focusTags.length marketDirectoryLinks.length)}}
+  <section class="archive-directory">
+    <div class="archive-directory-head">
+      <span class="archive-directory-label">作者导航</span>
+      <p class="archive-directory-summary">先看这位作者主要覆盖哪些栏目和标签，再继续回到对应市场与专题主线。</p>
+    </div>
+    {{#if focusCategories.length}}
+    <div class="archive-directory-grid">
+      {{#each focusCategories}}
+      <article class="archive-directory-card">
+        <div class="archive-directory-kicker">{{this.count}} 篇作者文章</div>
+        <h3 class="archive-directory-title"><a href="{{this.href}}">{{this.name}}</a></h3>
+        {{#if this.description}}<p class="archive-directory-desc">{{this.description}}</p>{{/if}}
+      </article>
+      {{/each}}
+    </div>
+    {{/if}}
+    <div class="archive-directory-links">
+      {{#each focusTags}}
+      <a href="{{this.href}}" class="archive-directory-link">#{{this.name}}</a>
+      {{/each}}
+      {{#each marketDirectoryLinks}}
+      <a href="{{this.href}}" class="archive-directory-link">{{this.name}}</a>
+      {{/each}}
+      {{#each supportDirectoryLinks}}
+      <a href="{{this.href}}" class="archive-directory-link">{{this.name}}</a>
+      {{/each}}
+    </div>
+  </section>
+  {{/if}}
 
   <div class="post-grid">
     {{#each posts}}

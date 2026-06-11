@@ -1230,6 +1230,25 @@
   @apply flex gap-3 mt-3 justify-center sm:justify-start;
 }
 
+.author-stats {
+  @apply flex flex-wrap gap-3 mt-4 justify-center sm:justify-start;
+}
+
+.author-stat {
+  @apply inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.author-stat--link {
+  transition: background-color .2s, color .2s;
+}
+
+.author-stat--link:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+}
+
 /* ═══════════════════════════════════════════════════════════
    Page Layouts
    ═══════════════════════════════════════════════════════════ */

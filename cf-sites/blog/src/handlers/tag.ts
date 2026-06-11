@@ -6,8 +6,11 @@ import { loadCustomPartials } from '../services/partials.js';
 import { getStoreEnabled } from '../services/kv-cache.js';
 import { buildPagination } from '../utils/pagination.js';
 import { render, htmlResponse } from '../renderer.js';
+import { buildMarketDirectoryEntries, buildSupportDirectoryEntries } from '../utils/category-directory.js';
+import { buildCategoryLinksFromPosts } from '../utils/taxonomy-nav.js';
 
 import {
+  buildBreadcrumbSchema,
   buildListSeo,
   buildWebSiteSchema,
   getCanonicalBase,
@@ -50,6 +53,24 @@ export async function handleTag(env: Env, slug: string, page: number): Promise<R
     categories,
     labels.uncategorized,
   );
+  const relatedCategories = buildCategoryLinksFromPosts(config, categories, postsWithAuthorAndCategoryDisplay, 6);
+  const marketDirectoryLinks = buildMarketDirectoryEntries(config, categories)
+    .filter((entry) => !relatedCategories.some((item) => item.slug === entry.slug));
+  const supportDirectoryLinks = buildSupportDirectoryEntries(
+    config,
+    categories,
+    [...relatedCategories, ...marketDirectoryLinks].map((item) => item.slug),
+  );
+  const isZh = (config.language || '').toLowerCase().startsWith('zh');
+  const derivedDescription = tag?.description
+    || (relatedCategories.length > 0
+      ? `${tag?.name || slug} 相关内容主要落在 ${relatedCategories.map((item) => item.name).slice(0, 3).join('、')}，便于顺着标签继续回到主栏目和专题阅读。`
+      : `聚合 ${tag?.name || slug} 相关研究、快评与主题文章，方便从标签回到栏目主线。`);
+  const breadcrumbs = [
+    { name: config.name, url: '/' },
+    { name: config.blog?.title || labels.blog, url: `/${config.routes?.blog || 'blog'}` },
+    { name: `#${tag?.name || slug}`, url: baseUrl },
+  ];
 
   const basePath = page === 1
     ? `/${tagPrefix}/${slug}`
@@ -68,14 +89,28 @@ export async function handleTag(env: Env, slug: string, page: number): Promise<R
     site: { ...config, url: env.EFFECTIVE_ORIGIN || config.url },
     storeEnabled,
     pageTitle: tag?.name || slug,
-    pageDescription: tag?.description,
+    pageDescription: derivedDescription,
     seo,
-    schema: { website: buildWebSiteSchema(config, base) },
+    schema: {
+      website: buildWebSiteSchema(config, base),
+      breadcrumbList: buildBreadcrumbSchema(config, breadcrumbs, base),
+    },
     showHeader: true,
     showFooter: true,
     customPartials,
+    breadcrumbs,
     listTitle: tag?.name || slug,
+    listDescription: derivedDescription,
     listFeaturedImage,
+    relatedCategories,
+    marketDirectoryLinks,
+    supportDirectoryLinks,
+    archiveHref: `/${config.routes?.blog || 'blog'}`,
+    archiveLabel: isZh ? '查看全部归档' : 'Browse the full archive',
+    directoryLabel: isZh ? '标签导航' : 'Tag navigation',
+    directorySummary: isZh
+      ? '先看这个标签覆盖在哪些栏目，再回到对应市场和研究主线。'
+      : 'See which sections this tag belongs to, then return to the core market and research tracks.',
     postsLayout: config.blog?.postsLayout || 'grid',
     defaultPostImage: defaultImages.post || '',
     posts: postsWithAuthorAndCategoryDisplay,
