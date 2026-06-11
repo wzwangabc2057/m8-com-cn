@@ -8,13 +8,49 @@ import { buildPagination } from '../utils/pagination.js';
 import { render, htmlResponse } from '../renderer.js';
 
 import {
+  buildBreadcrumbSchema,
+  buildCollectionPageSchema,
+  buildCollectionSeoMeta,
   buildListSeo,
   buildWebSiteSchema,
   getCanonicalBase,
 } from '../utils/seo.js';
 import { resolveLabels } from '../utils/i18n.js';
 import { enrichPostsWithCategoryDisplayNames } from '../utils/uncategorized.js';
-import type { Env } from '../types.js';
+import type { Category, Env, NavItem } from '../types.js';
+
+interface DirectorySection {
+  slug: string;
+  label: string;
+  href: string;
+  description: string;
+  kicker: string;
+  children: NavItem[];
+}
+
+function parseCategorySlugFromHref(href?: string): string | null {
+  if (!href) return null;
+  const match = href.match(/\/category\/([^/]+)\/?$/);
+  return match?.[1] ? decodeURIComponent(match[1]) : null;
+}
+
+function buildDirectorySections(navItems: NavItem[], categories: Category[]): DirectorySection[] {
+  const categoryBySlug = new Map(categories.map((category) => [category.slug, category]));
+  return navItems.reduce<DirectorySection[]>((sections, item) => {
+    const slug = parseCategorySlugFromHref(item.href);
+    if (!slug) return sections;
+    const category = categoryBySlug.get(slug);
+    sections.push({
+      slug,
+      label: item.label,
+      href: item.href,
+      description: category?.description || '',
+      kicker: (item.children || []).map((child) => child.label).slice(0, 3).join(' · '),
+      children: (item.children || []).slice(0, 4),
+    });
+    return sections;
+  }, []);
+}
 
 export async function handleCollection(env: Env, key: string, page: number): Promise<Response | null> {
   const [config, collections, authors, categories, storeEnabled] = await Promise.all([
@@ -68,11 +104,19 @@ export async function handleCollection(env: Env, key: string, page: number): Pro
     ? (blogConfig.title || collection?.name || labels.blog)
     : (collection?.name || key);
   const listDescription = isBlog
-    ? (blogConfig.description || collection?.description || '')
+    ? (blogConfig.description || collection?.description || config.description)
     : (collection?.description || '');
   const listCoverImage = isBlog
     ? (blogConfig.coverImage || collection?.coverImage || defaultImages.collection || '')
     : (collection?.coverImage || defaultImages.collection || '');
+  const seoMeta = buildCollectionSeoMeta(config, key, listTitle, listDescription, isBlog);
+  const directorySections = isBlog
+    ? buildDirectorySections(config.nav || [], categories)
+    : [];
+  const breadcrumbs = [
+    { name: config.name, url: '/' },
+    { name: listTitle, url: baseUrl },
+  ];
 
   // Use cover image as OG image if available
   if (listCoverImage) seo.ogImage = listCoverImage;
@@ -80,16 +124,21 @@ export async function handleCollection(env: Env, key: string, page: number): Pro
   const html = render(config.theme || 'default', 'collection', {
     site: { ...config, url: env.EFFECTIVE_ORIGIN || config.url },
     storeEnabled,
-    pageTitle: listTitle,
-    pageDescription: listDescription,
+    pageTitle: seoMeta.title,
+    pageDescription: seoMeta.description,
     seo,
-    schema: { website: buildWebSiteSchema(config, base) },
+    schema: {
+      website: buildWebSiteSchema(config, base),
+      breadcrumbList: buildBreadcrumbSchema(config, breadcrumbs, base),
+      collectionPage: buildCollectionPageSchema(config, listTitle, seoMeta.description, basePath, postsWithAuthorAndCategoryDisplay, base),
+    },
     showHeader: true,
     showFooter: true,
     customPartials,
     listTitle,
-    listDescription,
+    listDescription: seoMeta.description,
     listCoverImage,
+    directorySections,
     postsLayout: blogConfig.postsLayout || 'grid',
     defaultPostImage: defaultImages.post || '',
     posts: postsWithAuthorAndCategoryDisplay,

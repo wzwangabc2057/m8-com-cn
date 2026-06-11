@@ -7,9 +7,26 @@
       sizes="100vw"
       alt="" class="hero-bg" width="1920" height="1080" loading="eager" fetchpriority="high">
   {{/if}}
-  <div class="hero-content">
+  <div class="hero-content home-shell">
+    {{#if heroEyebrow}}<p class="hero-eyebrow">{{heroEyebrow}}</p>{{/if}}
     <h1 class="hero-title">{{heroTitle}}</h1>
     <p class="hero-desc">{{heroSubtitle}}</p>
+    {{#if heroActions.length}}
+    <div class="hero-actions">
+      {{#each heroActions}}
+      <a href="{{this.href}}" class="hero-action">{{this.label}}</a>
+      {{/each}}
+    </div>
+    {{/if}}
+    {{#if heroHighlights.length}}
+    <div class="hero-summary">
+      <ul class="hero-highlights">
+        {{#each heroHighlights}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+    {{/if}}
     {{#if showStats}}
     <div class="hero-stats">
       <div class="hero-stat">
@@ -29,11 +46,114 @@
   </div>
 </section>
 
+<div class="home-shell">
+{{#if showResearchTracks}}
+<section class="section home-research-tracks">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{researchTracksTitle}}</h2>
+      {{#if researchTracksDescription}}<p class="section-intro">{{researchTracksDescription}}</p>{{/if}}
+    </div>
+  </div>
+  <div class="home-track-grid">
+    {{#each researchTracks}}
+    <article class="home-panel-card">
+      <p class="home-panel-kicker">{{this.kicker}}</p>
+      <h3 class="home-panel-title"><a href="{{this.href}}">{{this.title}}</a></h3>
+      <p class="home-panel-desc">{{this.description}}</p>
+      <div class="home-panel-links">
+        {{#each this.links}}
+        <a href="{{this.href}}" class="home-panel-link">{{this.label}}</a>
+        {{/each}}
+      </div>
+      <a href="{{this.href}}" class="home-panel-cta">{{this.cta}}</a>
+    </article>
+    {{/each}}
+  </div>
+</section>
+{{/if}}
+
+{{#if showHubCards}}
+<section class="section home-hubs">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{hubCardsTitle}}</h2>
+      {{#if hubCardsDescription}}<p class="section-intro">{{hubCardsDescription}}</p>{{/if}}
+    </div>
+  </div>
+  <div class="home-hub-grid">
+    {{#each hubCards}}
+    <article class="home-panel-card home-panel-card--compact">
+      <p class="home-panel-kicker">{{this.kicker}}</p>
+      <h3 class="home-panel-title"><a href="{{this.href}}">{{this.title}}</a></h3>
+      <p class="home-panel-desc">{{this.description}}</p>
+      <div class="home-panel-links">
+        {{#each this.links}}
+        <a href="{{this.href}}" class="home-panel-link">{{this.label}}</a>
+        {{/each}}
+      </div>
+      <a href="{{this.href}}" class="home-panel-cta">{{this.cta}}</a>
+    </article>
+    {{/each}}
+  </div>
+</section>
+{{/if}}
+
+{{#if showTopicCards}}
+<section class="section home-topics">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{topicsTitle}}</h2>
+      {{#if topicsDescription}}<p class="section-intro">{{topicsDescription}}</p>{{/if}}
+    </div>
+  </div>
+  <div class="topic-grid">
+    {{#each topicCards}}
+    <a href="{{this.href}}" class="topic-card">
+      <span class="topic-card-name">{{this.name}}</span>
+      <p class="topic-card-desc">{{this.description}}</p>
+      <span class="topic-card-meta">{{this.count}} {{t "postsCount"}}</span>
+    </a>
+    {{/each}}
+  </div>
+</section>
+{{/if}}
+
+{{#if showReadingSteps}}
+<section class="section home-reading-steps">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{readingStepsTitle}}</h2>
+      {{#if readingStepsDescription}}<p class="section-intro">{{readingStepsDescription}}</p>{{/if}}
+    </div>
+  </div>
+  <div class="home-step-grid">
+    {{#each readingSteps}}
+    <article class="home-step-card">
+      <span class="home-step-number">{{this.step}}</span>
+      <h3 class="home-step-title">{{this.title}}</h3>
+      <p class="home-step-desc">{{this.description}}</p>
+      <div class="home-step-links">
+        {{#each this.links}}
+        <a href="{{this.href}}" class="home-step-link">{{this.label}}</a>
+        {{/each}}
+      </div>
+    </article>
+    {{/each}}
+  </div>
+</section>
+{{/if}}
+
 <!-- Featured Posts -->
 {{#if showFeatured}}
 {{#if featured.length}}
 <section class="section home-featured">
-  <h2 class="section-title">{{t "featured"}}</h2>
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{#if featuredTitle}}{{featuredTitle}}{{else}}{{t "featured"}}{{/if}}</h2>
+      {{#if featuredDescription}}<p class="section-intro">{{featuredDescription}}</p>{{/if}}
+    </div>
+  </div>
   <div class="featured-grid">
     {{#each featured}}
     <a href="{{postUrl this.slug}}" class="featured-card">
@@ -80,7 +200,11 @@
 {{#if showCategories}}
 {{#if categories.length}}
 <section class="section home-categories">
-  <h2 class="section-title">{{t "browseCategories"}}</h2>
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{t "browseCategories"}}</h2>
+    </div>
+  </div>
   <div class="category-grid">
     {{#each categories}}
     <a href="{{categoryUrl this.slug}}" class="category-card">
@@ -100,7 +224,13 @@
 
 <!-- Latest Posts -->
 <section class="section latest-posts">
-  <h2 class="section-title">{{t "latestPosts"}}</h2>
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{#if latestTitle}}{{latestTitle}}{{else}}{{t "latestPosts"}}{{/if}}</h2>
+      {{#if latestDescription}}<p class="section-intro">{{latestDescription}}</p>{{/if}}
+    </div>
+    {{#if latestCtaHref}}<a href="{{latestCtaHref}}" class="section-cta">{{latestCtaLabel}}</a>{{/if}}
+  </div>
   <div class="{{#if (eq postsLayout 'list')}}post-list{{else}}post-grid{{/if}}">
     {{#each posts}}
       {{> post-card}}
@@ -113,7 +243,11 @@
 {{#if showTags}}
 {{#if tags.length}}
 <section class="section home-tags">
-  <h2 class="section-title">{{t "popularTags"}}</h2>
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{t "popularTags"}}</h2>
+    </div>
+  </div>
   <div class="tag-cloud-home">
     {{#each tags}}
       <a href="{{tagUrl this.slug}}" class="tag">{{this.name}}<span class="tag-count">{{this.count}}</span></a>
@@ -122,3 +256,5 @@
 </section>
 {{/if}}
 {{/if}}
+
+</div>

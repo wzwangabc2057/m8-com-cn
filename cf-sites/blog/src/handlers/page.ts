@@ -2,6 +2,7 @@ import { getConfig, getPage, applyImageResizing } from '../services/content.js';
 import { loadCustomPartials } from '../services/partials.js';
 import { getStoreEnabled } from '../services/kv-cache.js';
 import { render, htmlResponse } from '../renderer.js';
+import { handleHome } from './home.js';
 import {
   buildPageSeo,
   buildWebSiteSchema,
@@ -11,6 +12,10 @@ import {
 import type { Env } from '../types.js';
 
 export async function handlePage(env: Env, slug: string): Promise<Response | null> {
+  if (slug === 'index' && env.SITE_ID === 'm8.com.cn') {
+    return handleHome(env, 1);
+  }
+
   const [config, pageEntry, storeEnabled] = await Promise.all([
     getConfig(env.CONTENT_BUCKET, env.SITE_ID, env.CACHE),
     getPage(env.DB, env.CONTENT_BUCKET, env.SITE_ID, slug, env.CONTENT_SOURCE_ID),

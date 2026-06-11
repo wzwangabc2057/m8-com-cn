@@ -55,10 +55,20 @@ export interface BlogConfig {
 export interface HomeConfig {
   title?: string;                // Custom home page title (default: site.name)
   subtitle?: string;             // Custom subtitle (default: site.description)
+  eyebrow?: string;             // Small brand line above the main hero title
   heroImage?: string;            // Background image for hero section
+  focusCategories?: string[];    // Curated categories to feature on the homepage
+  showTopics?: boolean;          // Show curated topic cards (default: false unless site enables)
   showCategories?: boolean;      // Show categories section (default: true)
   showTags?: boolean;            // Show tags cloud section (default: true)
   showStats?: boolean;           // Show stats in hero (default: true)
+  latestCount?: number;          // Number of latest posts to show on home
+  topicsTitle?: string;          // Custom topic section title
+  topicsDescription?: string;    // Custom topic section description
+  featuredTitle?: string;        // Custom featured section title
+  featuredDescription?: string;  // Custom featured section description
+  latestTitle?: string;          // Custom latest posts section title
+  latestDescription?: string;    // Custom latest posts section description
 }
 
 /** Default fallback images when content has no image set */
@@ -140,9 +150,17 @@ export interface SiteConfig {
     titleSeparator?: string;    // default: ' - '
     defaultOgImage?: string;    // fallback OG image
     twitterHandle?: string;     // e.g. '@mysite'
+    googleAnalyticsId?: string; // GA4 Measurement ID, e.g. G-XXXXXXXXXX
     googleVerification?: string;
     bingVerification?: string;
+    searchUrlTemplate?: string; // Optional SearchAction URL template, e.g. https://example.com/search?q={search_term_string}
     robotsExtra?: string;       // Additional robots.txt rules
+    sitemap?: {
+      includePages?: boolean;         // Include static pages sitemap in the sitemap index
+      includeTaxonomies?: boolean;    // Include taxonomy sitemap in the sitemap index
+      maxPosts?: number;              // Cap how many posts are exposed in sitemap-posts
+      excludeCategories?: string[];   // Exclude posts in these categories from sitemap-posts
+    };
   };
   /** Reverse proxy: pathPrefix -> target. Single object or array for multiple rules. */
   proxy?: { pathPrefix: string; target: string } | Array<{ pathPrefix: string; target: string }>;

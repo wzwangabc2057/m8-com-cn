@@ -27,6 +27,11 @@ export async function handleFeed(env: Env): Promise<Response> {
     const authorObj = authors.find((a) => a.id === post.author);
     const authorName = authorObj?.name || post.author;
     const postUrl = buildCanonicalUrl(base, buildPostPath(config.routes, post.slug));
+    const coverImageUrl = post.coverImage
+      ? (post.coverImage.startsWith('http://') || post.coverImage.startsWith('https://')
+        ? post.coverImage
+        : buildCanonicalUrl(base, post.coverImage))
+      : null;
     const pubDate = new Date(post.publishedAt).toUTCString();
     const escapedTitle = escapeXml(post.title);
     const escapedExcerpt = escapeXml(post.excerpt);
@@ -47,7 +52,7 @@ export async function handleFeed(env: Env): Promise<Response> {
       <author>${escapeXml(authorName)}</author>
 ${categoryTags}
 ${tagTags}
-      ${post.coverImage ? `<enclosure url="${escapeXml(buildCanonicalUrl(base, post.coverImage))}" type="image/jpeg"/>` : ''}
+      ${coverImageUrl ? `<enclosure url="${escapeXml(coverImageUrl)}" type="image/jpeg"/>` : ''}
     </item>`;
   }).join('\n');
 
