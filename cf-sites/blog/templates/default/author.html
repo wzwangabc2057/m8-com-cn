@@ -27,6 +27,9 @@
         <div class="author-stats">
           <span class="author-stat">{{authorPostCountLabel}}</span>
           <a href="{{archiveHref}}" class="author-stat author-stat--link">{{archiveLabel}}</a>
+          {{#if author.url}}
+          <a href="{{author.url}}" class="author-stat author-stat--link">了解作者</a>
+          {{/if}}
         </div>
         {{#if author.social}}
         <div class="author-social">

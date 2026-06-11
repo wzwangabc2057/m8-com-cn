@@ -9,12 +9,16 @@ export interface ResolvedAuthorIdentity {
 interface SitePublicAuthorOverride {
   canonicalId: string;
   displayName: string;
+  bio?: string;
+  url?: string;
 }
 
 const SITE_PUBLIC_AUTHOR_OVERRIDES: Record<string, SitePublicAuthorOverride> = {
   'm8.com.cn': {
     canonicalId: 'm8-kangge',
     displayName: 'm8 康哥',
+    bio: 'm8 康哥专注跨市场投资研究，长期跟踪美股、A股、港股与加密资产的产业趋势、公司变化与宏观周期，重点覆盖 AI 产业链、半导体、创新药、利率路径与核心公司研究。m8.com.cn 负责系统化归档研究专题与长文分析，公众号「中美观察康哥」则侧重把关键结论、财报变化与投资框架用更容易读完的方式讲清楚。',
+    url: 'https://m8.com.cn/about',
   },
 };
 
@@ -39,9 +43,9 @@ function buildPublicAuthor(authors: Author[], override: SitePublicAuthorOverride
   return {
     id: override.canonicalId,
     name: override.displayName,
-    bio: authorObj?.bio,
+    bio: override.bio || authorObj?.bio,
     avatar: authorObj?.avatar,
-    url: authorObj?.url,
+    url: override.url || authorObj?.url,
     email: authorObj?.email,
     social: authorObj?.social,
     count: totalCount,
