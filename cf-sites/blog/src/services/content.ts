@@ -275,10 +275,12 @@ export async function getPageRegistry(bucket: R2Bucket, siteId: string, db: D1Da
     .all<{ slug: string; title: string; excerpt?: string; seo?: string; layout?: string; showTitle?: number; showHeader?: number; showFooter?: number; containerClass?: string }>();
   const registry: PageRegistry = {};
   for (const row of results) {
+    let seoDescription: string | undefined;
     let noindex = false;
     if (row.seo) {
       try {
-        const seo = JSON.parse(row.seo) as { noindex?: boolean };
+        const seo = JSON.parse(row.seo) as { description?: string; noindex?: boolean };
+        seoDescription = seo.description;
         noindex = !!seo.noindex;
       } catch {
         /* ignore */
@@ -286,7 +288,7 @@ export async function getPageRegistry(bucket: R2Bucket, siteId: string, db: D1Da
     }
     registry[row.slug] = {
       title: row.title,
-      description: row.excerpt,
+      description: seoDescription || row.excerpt,
       layout: row.layout as PageLayout | undefined,
       showTitle: row.showTitle !== 0,
       showHeader: row.showHeader !== 0,
@@ -353,8 +355,8 @@ export async function getPage(db: D1Database, bucket: R2Bucket, siteId: string, 
     }
 
     return {
-      title: meta.title, // Use D1 title as source of truth
-      description: meta.excerpt || '',
+      title: post.title || meta.title,
+      description: post.excerpt || meta.excerpt || '',
       content: contentProxyToPublic(content, siteId),
       layout: meta.layout || 'default',
       template: undefined,
