@@ -11,14 +11,14 @@
     {{#if (not (eq site.header.showNav false))}}
     <nav class="site-nav" aria-label="主导航">
       {{#each site.nav}}
-        {{#unless (and (eq ../site.siteId 'm8.com.cn') (or (eq this.href '/research-directory/') (eq this.href '/about/')))}}
+        {{#unless (and (eq ../site.siteId 'm8.com.cn') (or (or (eq this.href '/research-directory/') (eq this.href '/start-here/')) (or (eq this.href '/research-method/') (or (eq this.href '/about/') (eq this.href '/about')))))}}
         <div class="nav-item{{#if (hasItems this.children)}} nav-item--has-children{{/if}}">
-          <a href="{{this.href}}" class="nav-link">{{#if (and (eq ../site.siteId 'm8.com.cn') (eq this.href '/research-directory/'))}}研究目录{{else}}{{this.label}}{{/if}}</a>
+          <a href="{{this.href}}" class="nav-link">{{this.label}}</a>
           {{#if (hasItems this.children)}}
           <div class="nav-dropdown" role="menu" aria-label="{{this.label}} 子导航">
             {{#each this.children}}
-            {{#unless (eq this.href ../href)}}
-            <a href="{{this.href}}" class="nav-dropdown-link" role="menuitem">{{#if (and (eq ../../site.siteId 'm8.com.cn') (eq this.href '/research-directory/'))}}研究目录{{else}}{{this.label}}{{/if}}</a>
+            {{#unless (or (eq this.href ../href) (and (eq ../../site.siteId 'm8.com.cn') (or (or (eq this.href '/research-directory/') (eq this.href '/start-here/')) (or (eq this.href '/research-method/') (or (eq this.href '/about/') (eq this.href '/about'))))))}}
+            <a href="{{this.href}}" class="nav-dropdown-link" role="menuitem">{{this.label}}</a>
             {{/unless}}
             {{/each}}
           </div>

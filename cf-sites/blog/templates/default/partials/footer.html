@@ -12,7 +12,9 @@
       {{#if site.footer.links}}
       <nav class="footer-nav" aria-label="页脚导航">
         {{#each site.footer.links}}
+          {{#unless (and (eq ../site.siteId 'm8.com.cn') (or (or (eq this.href '/research-directory/') (eq this.href '/start-here/')) (or (eq this.href '/research-method/') (or (eq this.href '/about/') (eq this.href '/about')))))}}
           <a href="{{this.href}}" class="footer-link">{{this.label}}</a>
+          {{/unless}}
         {{/each}}
       </nav>
       {{/if}}

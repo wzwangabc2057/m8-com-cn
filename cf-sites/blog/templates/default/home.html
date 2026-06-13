@@ -1,3 +1,139 @@
+{{#if showM8MagazineHome}}
+<div class="m8-mag">
+  <header class="m8-masthead">
+    <div class="m8-w">
+      <h1 class="m8-masthead-title">{{site.name}}</h1>
+      {{#if m8MagazineTagline}}<div class="m8-masthead-tagline">{{m8MagazineTagline}}</div>{{/if}}
+      {{#if m8MagazineNav.length}}
+      <nav class="m8-masthead-nav" aria-label="m8 首页导航">
+        {{#each m8MagazineNav}}
+        <a href="{{this.href}}">{{this.label}}</a>
+        {{/each}}
+      </nav>
+      {{/if}}
+    </div>
+  </header>
+
+  <div class="m8-w">
+    <section class="m8-lead">
+      {{#if m8LeadMain}}
+      <a class="m8-lead-main" href="{{postUrl m8LeadMain.slug}}">
+        {{#if m8LeadMain.coverImage}}
+        <img
+          src="{{cfImg m8LeadMain.coverImage 1200}}"
+          srcset="{{cfImg m8LeadMain.coverImage 400}} 400w, {{cfImg m8LeadMain.coverImage 800}} 800w, {{cfImg m8LeadMain.coverImage 1200}} 1200w"
+          sizes="(max-width: 768px) 100vw, 66vw"
+          alt="{{m8LeadMain.title}}"
+          width="1200"
+          height="675"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async">
+        {{else if defaultPostImage}}
+        <img
+          src="{{cfImg defaultPostImage 1200}}"
+          srcset="{{cfImg defaultPostImage 400}} 400w, {{cfImg defaultPostImage 800}} 800w, {{cfImg defaultPostImage 1200}} 1200w"
+          sizes="(max-width: 768px) 100vw, 66vw"
+          alt="{{m8LeadMain.title}}"
+          width="1200"
+          height="675"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async">
+        {{else}}
+        <div class="m8-image-placeholder"></div>
+        {{/if}}
+        <div class="m8-tag-row">
+          {{#if m8LeadMain.categories.length}}
+          <span class="m8-cat">{{#if m8LeadMain.categoryDisplayNames}}{{first m8LeadMain.categoryDisplayNames}}{{else}}{{first m8LeadMain.categories}}{{/if}}</span>
+          <span>&middot;</span>
+          {{/if}}
+          <span class="m8-time">{{formatDate m8LeadMain.publishedAt}}</span>
+        </div>
+        <h2 class="m8-headline">{{m8LeadMain.title}}</h2>
+        {{#if m8LeadMain.excerpt}}<p class="m8-deck">{{m8LeadMain.excerpt}}</p>{{/if}}
+        <div class="m8-byline">By <strong>{{#if m8LeadMain.authorDisplayName}}{{m8LeadMain.authorDisplayName}}{{else}}{{m8LeadMain.author}}{{/if}}</strong></div>
+      </a>
+      {{/if}}
+
+      {{#if m8LeadSecondary.length}}
+      <div class="m8-lead-side">
+        {{#each m8LeadSecondary}}
+        <a href="{{postUrl this.slug}}">
+          <article>
+            <div class="m8-tag-row">
+              {{#if this.categories.length}}
+              <span class="m8-cat">{{#if this.categoryDisplayNames}}{{first this.categoryDisplayNames}}{{else}}{{first this.categories}}{{/if}}</span>
+              <span>&middot;</span>
+              {{/if}}
+              <span class="m8-time">{{formatDate this.publishedAt}}</span>
+            </div>
+            <h3 class="m8-headline">{{this.title}}</h3>
+            {{#if this.excerpt}}<p class="m8-deck">{{this.excerpt}}</p>{{/if}}
+          </article>
+        </a>
+        {{/each}}
+      </div>
+      {{/if}}
+    </section>
+  </div>
+
+  <div class="m8-w">
+    {{#each m8MagazineSections}}
+    <section class="m8-section">
+      <div class="m8-section-head">
+        <h2 class="m8-section-title">{{this.title}}</h2>
+        <a class="m8-section-link" href="{{this.href}}">{{../m8SectionMoreLabel}}</a>
+      </div>
+      <div class="m8-grid">
+        {{#each this.posts}}
+        <a class="m8-card" href="{{postUrl this.slug}}">
+          {{#if this.coverImage}}
+          <img
+            src="{{cfImg this.coverImage 800}}"
+            srcset="{{cfImg this.coverImage 400}} 400w, {{cfImg this.coverImage 800}} 800w"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            alt="{{this.title}}"
+            width="800"
+            height="450"
+            loading="lazy"
+            decoding="async">
+          {{else if ../../defaultPostImage}}
+          <img
+            src="{{cfImg ../../defaultPostImage 800}}"
+            srcset="{{cfImg ../../defaultPostImage 400}} 400w, {{cfImg ../../defaultPostImage 800}} 800w"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            alt="{{this.title}}"
+            width="800"
+            height="450"
+            loading="lazy"
+            decoding="async">
+          {{else}}
+          <div class="m8-image-placeholder"></div>
+          {{/if}}
+          <div class="m8-tag-row">
+            {{#if this.categories.length}}
+            <span class="m8-cat">{{#if this.categoryDisplayNames}}{{first this.categoryDisplayNames}}{{else}}{{first this.categories}}{{/if}}</span>
+            <span>&middot;</span>
+            {{/if}}
+            <span class="m8-time">{{formatDate this.publishedAt}}</span>
+          </div>
+          <h3 class="m8-headline">{{this.title}}</h3>
+          {{#if this.excerpt}}<p class="m8-deck">{{this.excerpt}}</p>{{/if}}
+        </a>
+        {{/each}}
+      </div>
+    </section>
+    {{/each}}
+  </div>
+
+  <section class="m8-band">
+    <h3>{{m8BandTitle}}</h3>
+    {{#if m8BandDescription}}<p>{{m8BandDescription}}</p>{{/if}}
+    <a href="{{m8BandHref}}">{{m8BandCtaLabel}}</a>
+  </section>
+</div>
+{{else}}
 <!-- Hero -->
 <section class="hero{{#if heroImage}} hero--has-image{{/if}}">
   {{#if heroImage}}
@@ -47,6 +183,26 @@
 </section>
 
 <div class="home-shell">
+{{#if showQuestionCards}}
+<section class="section home-questions">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{questionCardsTitle}}</h2>
+      {{#if questionCardsDescription}}<p class="section-intro">{{questionCardsDescription}}</p>{{/if}}
+    </div>
+  </div>
+  <div class="page-question-grid">
+    {{#each questionCards}}
+    <article class="page-question-card page-question-card--linked">
+      <h3 class="page-question-heading">{{this.question}}</h3>
+      <p class="page-question-answer">{{this.answer}}</p>
+      <a href="{{this.href}}" class="home-panel-cta">{{this.label}}</a>
+    </article>
+    {{/each}}
+  </div>
+</section>
+{{/if}}
+
 {{#if showResearchTracks}}
 <section class="section home-research-tracks">
   <div class="section-head">
@@ -66,7 +222,6 @@
         <a href="{{this.href}}" class="home-panel-link">{{this.label}}</a>
         {{/each}}
       </div>
-      <a href="{{this.href}}" class="home-panel-cta">{{this.cta}}</a>
     </article>
     {{/each}}
   </div>
@@ -112,70 +267,6 @@
         <a href="{{this.href}}" class="home-panel-link">{{this.label}}</a>
         {{/each}}
       </div>
-      <a href="{{this.href}}" class="home-panel-cta">{{this.cta}}</a>
-    </article>
-    {{/each}}
-  </div>
-</section>
-{{/if}}
-
-{{#if showSectorGroups}}
-<section class="section home-sector-groups">
-  <div class="section-head">
-    <div>
-      <h2 class="section-title">{{sectorGroupsTitle}}</h2>
-      {{#if sectorGroupsDescription}}<p class="section-intro">{{sectorGroupsDescription}}</p>{{/if}}
-    </div>
-  </div>
-  <div class="space-y-10">
-    {{#each sectorGroups}}
-    <section class="archive-directory">
-      <div class="archive-directory-head">
-        <span class="archive-directory-label">{{this.market}}</span>
-        <h3 class="section-title">{{this.title}}</h3>
-        {{#if this.description}}<p class="archive-directory-summary">{{this.description}}</p>{{/if}}
-      </div>
-      <div class="archive-directory-grid">
-        {{#each this.items}}
-        <article class="archive-directory-card">
-          <div class="archive-directory-kicker">{{../market}}</div>
-          <h4 class="archive-directory-title"><a href="{{this.href}}">{{this.title}}</a></h4>
-          <p class="archive-directory-desc">{{this.description}}</p>
-          {{#if this.links.length}}
-          <div class="archive-directory-links">
-            {{#each this.links}}
-            <a href="{{this.href}}" class="archive-directory-link">{{this.label}}</a>
-            {{/each}}
-          </div>
-          {{/if}}
-        </article>
-        {{/each}}
-      </div>
-    </section>
-    {{/each}}
-  </div>
-</section>
-{{/if}}
-
-{{#if showReadingSteps}}
-<section class="section home-reading-steps">
-  <div class="section-head">
-    <div>
-      <h2 class="section-title">{{readingStepsTitle}}</h2>
-      {{#if readingStepsDescription}}<p class="section-intro">{{readingStepsDescription}}</p>{{/if}}
-    </div>
-  </div>
-  <div class="home-step-grid">
-    {{#each readingSteps}}
-    <article class="home-step-card">
-      <span class="home-step-number">{{this.step}}</span>
-      <h3 class="home-step-title">{{this.title}}</h3>
-      <p class="home-step-desc">{{this.description}}</p>
-      <div class="home-step-links">
-        {{#each this.links}}
-        <a href="{{this.href}}" class="home-step-link">{{this.label}}</a>
-        {{/each}}
-      </div>
     </article>
     {{/each}}
   </div>
@@ -192,6 +283,22 @@
       {{#if featuredDescription}}<p class="section-intro">{{featuredDescription}}</p>{{/if}}
     </div>
   </div>
+  {{#if showFeaturedTextCards}}
+  <div class="home-track-grid">
+    {{#each featuredCards}}
+    <article class="home-panel-card">
+      <p class="home-panel-kicker">{{this.kicker}}</p>
+      <h3 class="home-panel-title"><a href="{{this.href}}">{{this.title}}</a></h3>
+      <p class="home-panel-desc">{{this.description}}</p>
+      <div class="home-panel-links">
+        {{#each this.links}}
+        <a href="{{this.href}}" class="home-panel-link">{{this.label}}</a>
+        {{/each}}
+      </div>
+    </article>
+    {{/each}}
+  </div>
+  {{else}}
   <div class="featured-grid">
     {{#each featured}}
     <a href="{{postUrl this.slug}}" class="featured-card">
@@ -230,8 +337,96 @@
     </a>
     {{/each}}
   </div>
+  {{/if}}
 </section>
 {{/if}}
+{{/if}}
+
+{{#if showSectorGroups}}
+<section class="section home-sector-groups">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{sectorGroupsTitle}}</h2>
+      {{#if sectorGroupsDescription}}<p class="section-intro">{{sectorGroupsDescription}}</p>{{/if}}
+    </div>
+  </div>
+  <div class="space-y-10">
+    {{#each sectorGroups}}
+    <section class="archive-directory">
+      <div class="archive-directory-head">
+        <span class="archive-directory-label">{{this.market}}</span>
+        <h3 class="section-title">{{this.title}}</h3>
+        {{#if this.description}}<p class="archive-directory-summary">{{this.description}}</p>{{/if}}
+      </div>
+      <div class="archive-directory-grid">
+        {{#each this.items}}
+        <article class="archive-directory-card">
+          <h4 class="archive-directory-title"><a href="{{this.href}}">{{this.title}}</a></h4>
+          <p class="archive-directory-desc">{{this.description}}</p>
+          {{#if this.links.length}}
+          <div class="archive-directory-links">
+            {{#each this.links}}
+            <a href="{{this.href}}" class="archive-directory-link">{{this.label}}</a>
+            {{/each}}
+          </div>
+          {{/if}}
+        </article>
+        {{/each}}
+      </div>
+    </section>
+    {{/each}}
+  </div>
+</section>
+{{/if}}
+
+{{#if showSupportCards}}
+<section class="section home-support-cards">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{supportCardsTitle}}</h2>
+      {{#if supportCardsDescription}}<p class="section-intro">{{supportCardsDescription}}</p>{{/if}}
+    </div>
+  </div>
+  <div class="home-hub-grid">
+    {{#each supportCards}}
+    <article class="home-panel-card home-panel-card--compact">
+      <p class="home-panel-kicker">{{this.kicker}}</p>
+      <h3 class="home-panel-title"><a href="{{this.href}}">{{this.title}}</a></h3>
+      <p class="home-panel-desc">{{this.description}}</p>
+      <div class="home-panel-links">
+        {{#each this.links}}
+        <a href="{{this.href}}" class="home-panel-link">{{this.label}}</a>
+        {{/each}}
+      </div>
+    </article>
+    {{/each}}
+  </div>
+</section>
+{{/if}}
+
+{{#if showReadingSteps}}
+<section class="section home-reading-steps">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">{{readingStepsTitle}}</h2>
+      {{#if readingStepsDescription}}<p class="section-intro">{{readingStepsDescription}}</p>{{/if}}
+    </div>
+  </div>
+  <div class="home-step-grid">
+    {{#each readingSteps}}
+    <article class="home-step-card">
+      <span class="home-step-number">{{this.step}}</span>
+      <h3 class="home-step-title">{{this.title}}</h3>
+      <p class="home-step-desc">{{this.description}}</p>
+      <div class="home-step-links">
+        {{#each this.links}}
+        <a href="{{this.href}}" class="home-step-link">{{this.label}}</a>
+        {{/each}}
+      </div>
+    </article>
+    {{/each}}
+  </div>
+</section>
 {{/if}}
 
 <!-- Categories -->
@@ -296,3 +491,4 @@
 {{/if}}
 
 </div>
+{{/if}}
